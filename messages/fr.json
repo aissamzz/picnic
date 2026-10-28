@@ -1,0 +1,152 @@
+{
+  "meta": {
+    "description": "{app} : le menu QR de votre restaurant, avec commande WhatsApp."
+  },
+  "ui": {
+    "close": "Fermer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "confirm": "Confirmer",
+    "continue": "Continuer",
+    "back": "Retour",
+    "retry": "Réessayer",
+    "undo": "Annuler",
+    "loading": "Chargement…",
+    "language": "Langue",
+    "offline": "Vous êtes hors ligne. Les modifications seront envoyées à la reconnexion.",
+    "stepOf": "Étape {current} sur {total}",
+    "upload": {
+      "wrongType": "Ce type de fichier n'est pas accepté.",
+      "tooBig": "Fichier trop lourd (max {mb} Mo).",
+      "tooMany": "{max, plural, one {Un seul fichier} other {# fichiers maximum}}.",
+      "remove": "Retirer {name}"
+    },
+    "cropper": {
+      "zoom": "Zoom"
+    }
+  },
+  "subscription": {
+    "banner": {
+      "trial": {
+        "text": "Essai gratuit : {days, plural, one {# jour restant} other {# jours restants}}.",
+        "cta": "Voir les offres"
+      },
+      "trial_ending": {
+        "text": "Votre essai se termine dans {days, plural, one {# jour} other {# jours}}.",
+        "cta": "S'abonner"
+      },
+      "grace": {
+        "text": "Abonnement en retard. Modifications bloquées dans {days, plural, one {# jour} other {# jours}}.",
+        "cta": "Payer"
+      },
+      "expired": {
+        "text": "Abonnement expiré. Votre menu reste en ligne, mais l'édition et les commandes sont bloquées.",
+        "cta": "Réactiver"
+      },
+      "renewal_due": {
+        "text": "Renouvellement dans {days, plural, one {# jour} other {# jours}}.",
+        "cta": "Renouveler"
+      }
+    }
+  },
+  "status": {
+    "open": "Ouvert",
+    "closed": "Fermé",
+    "trial": "Essai",
+    "active": "Actif",
+    "grace": "Délai de grâce",
+    "expired": "Expiré",
+    "suspended": "Suspendu",
+    "paused": "En pause"
+  },
+  "dev": {
+    "title": "Système de design",
+    "subtitle": "Tous les composants, en français et en arabe.",
+    "direction": "Sens",
+    "sections": {
+      "colors": "Couleurs",
+      "type": "Typographie",
+      "buttons": "Boutons",
+      "inputs": "Champs",
+      "selection": "Sélection",
+      "feedback": "Retours",
+      "overlays": "Fenêtres",
+      "states": "États",
+      "data": "Données",
+      "upload": "Import",
+      "brand": "Motif"
+    },
+    "sample": {
+      "restaurant": "Pizzeria Roma",
+      "dish": "Pizza 4 Saisons",
+      "dishDesc": "Tomate, mozzarella, champignons, artichauts, olives et jambon de dinde.",
+      "body": "Le menu de votre restaurant, toujours à jour. Changez un prix, il est en ligne en une seconde.",
+      "phoneLabel": "Numéro WhatsApp",
+      "phoneHint": "Les commandes arrivent sur ce numéro.",
+      "nameLabel": "Nom du restaurant",
+      "nameError": "Le nom est obligatoire.",
+      "searchPlaceholder": "Rechercher un plat",
+      "noteLabel": "Note pour la cuisine",
+      "selectLabel": "Wilaya",
+      "soldOut": "Épuisé",
+      "visible": "Visible sur le menu",
+      "primary": "Enregistrer",
+      "secondary": "Aperçu",
+      "soft": "Partager",
+      "ghost": "Plus tard",
+      "danger": "Supprimer",
+      "loadingBtn": "Envoi…",
+      "chips": [
+        "Pizzas",
+        "Sandwichs",
+        "Boissons",
+        "Desserts"
+      ],
+      "badgeNew": "Nouveau",
+      "badgeBest": "Best-seller",
+      "badgeSpicy": "Épicé",
+      "badgeDay": "Plat du jour",
+      "toastSoldOut": "Pizza 4 Saisons marquée épuisée",
+      "toastUndone": "Annulé",
+      "toastShow": "Afficher un toast",
+      "openSheet": "Ouvrir la feuille",
+      "openDialog": "Ouvrir la boîte de dialogue",
+      "sheetTitle": "Pizza 4 Saisons",
+      "addToCart": "Ajouter · {price}",
+      "dialogTitle": "Approuver le paiement ?",
+      "dialogBody": "L'abonnement de Pizzeria Roma sera prolongé de 6 mois.",
+      "emptyTitle": "Aucun plat pour l'instant",
+      "emptyBody": "Importez votre menu papier en photo ou ajoutez vos plats un par un.",
+      "emptyCta": "Ajouter un plat",
+      "errorTitle": "Impossible de charger les statistiques",
+      "errorBody": "Vérifiez votre connexion puis réessayez.",
+      "steps": [
+        "Infos",
+        "Modèle",
+        "Import",
+        "Vérification",
+        "Langues",
+        "Tables",
+        "En ligne"
+      ],
+      "tableCaption": "Restaurants",
+      "tableEmpty": "Aucun restaurant",
+      "colName": "Restaurant",
+      "colWilaya": "Wilaya",
+      "colVisits": "Visites",
+      "colStatus": "Statut",
+      "kanban": {
+        "ordered": "Commandé",
+        "mockup": "Maquette",
+        "printed": "Imprimé"
+      },
+      "move": "Déplacer {name}",
+      "uploadLabel": "Photographier ou importer le menu",
+      "uploadHint": "Jusqu'à 5 photos ou 1 PDF",
+      "cropTitle": "Recadrer le logo",
+      "offlinePreview": "Aperçu de la bannière hors ligne",
+      "priceNote": "Prix en DA",
+      "rtlNote": "Téléphone <phone>0555 12 34 56</phone> · <url>qaima.dz/pizzeria-roma</url>"
+    }
+  }
+}

@@ -1,0 +1,85 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Design tokens. Colors are plain CSS variables so menu templates and the
+   owner's primary_color can override them at runtime. */
+:root {
+  --ink: #1c1b19;
+  --sand: #f6f4ef;
+  --surface: #ffffff;
+  --line: #e7e3da;
+  --muted: #5e5a53;
+  --primary: #1f6b4a;
+  --primary-hover: #185a3d;
+  --primary-soft: #e3f0e8;
+  --accent: #f2b441;
+  --clay: #9c3d24;
+  --success: #1f7a3d;
+  --warning: #a15c00;
+  --warning-soft: #fff2dc;
+  --danger: #b42318;
+  --danger-soft: #fdeaea;
+  --info: #1d4f91;
+  --info-soft: #eaf0fb;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-sand: var(--sand);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
+  --color-accent: var(--accent);
+  --color-clay: var(--clay);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --font-sans: var(--font-inter), var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: var(--font-cairo), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-sheet: 0 -8px 32px rgb(28 27 25 / 0.12);
+  --shadow-card: 0 1px 2px rgb(28 27 25 / 0.06), 0 1px 1px rgb(28 27 25 / 0.04);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  html[lang="ar"] body {
+    font-family: var(--font-arabic);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
