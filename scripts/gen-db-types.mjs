@@ -19,6 +19,8 @@ const scalar = (udt) => {
     default: return "string"; // uuid, text, timestamptz, date, time, citext...
   }
 };
+/** Array types arrive as "_elem" (e.g. _uuid -> string[]). */
+const argType = (udt) => (udt.startsWith("_") ? `${scalar(udt.slice(1))}[]` : scalar(udt));
 const colType = (c) => {
   const base = c.udt.startsWith("_") ? `${scalar(c.elem ?? c.udt.slice(1))}[]` : scalar(c.udt);
   return c.nullable ? `${base} | null` : base;
@@ -70,10 +72,10 @@ w("    Functions: {");
 for (const f of schema.functions ?? []) {
   const args = (f.args ?? []).filter((a) => a.name);
   w(`      ${f.name}: {`);
-  w(args.length ? `        Args: { ${args.map((a) => `${a.name}${a.optional ? "?" : ""}: ${scalar(a.udt)}`).join("; ")} };` : "        Args: never;");
+  w(args.length ? `        Args: { ${args.map((a) => `${a.name}${a.optional ? "?" : ""}: ${argType(a.udt)}`).join("; ")} };` : "        Args: never;");
   let ret;
-  if (f.out_cols?.length) ret = `{ ${f.out_cols.map((c) => `${c.name}: ${scalar(c.udt)}`).join("; ")} }[]`;
-  else ret = scalar(f.returns) + (f.returns_set ? "[]" : "");
+  if (f.out_cols?.length) ret = `{ ${f.out_cols.map((c) => `${c.name}: ${argType(c.udt)}`).join("; ")} }[]`;
+  else ret = argType(f.returns) + (f.returns_set ? "[]" : "");
   w(`        Returns: ${ret};`);
   w("      };");
 }

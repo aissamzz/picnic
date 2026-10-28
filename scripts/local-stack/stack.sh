@@ -5,6 +5,7 @@
 #
 #   scripts/local-stack/stack.sh setup   download binaries, create the database
 #   scripts/local-stack/stack.sh start   start services, write .env.local if missing
+#   scripts/local-stack/stack.sh migrate apply new migrations
 #   scripts/local-stack/stack.sh stop
 #   scripts/local-stack/stack.sh reset   wipe database + storage and set up again
 #   scripts/local-stack/stack.sh status
@@ -97,6 +98,8 @@ gateway_start() {
   echo "gateway did not start, see $L/gateway.log" >&2; exit 1
 }
 
+alive() { [ -f "$L/$1.pid" ] && kill -0 "$(cat "$L/$1.pid")" 2>/dev/null; }
+
 stop_pid() { [ -f "$L/$1.pid" ] && kill "$(cat "$L/$1.pid")" 2>/dev/null || true; rm -f "$L/$1.pid"; }
 
 write_env() {
@@ -124,19 +127,35 @@ cmd_setup() {
     pg_start
     psql_ -f "$ROOT/supabase/tests/local/roles.sql"
     gotrue_start # runs the auth schema migrations
-    for f in "$ROOT"/supabase/migrations/*.sql; do echo "migrate  $(basename "$f")"; psql_ -f "$f"; done
+    psql_ -c "create table if not exists public._local_migrations (name text primary key, applied_at timestamptz default now()); revoke all on public._local_migrations from anon, authenticated;"
+    cmd_migrate
     echo "seed     seed.sql"; psql_ -f "$ROOT/supabase/seed.sql"
     stop_pid gotrue
   fi
   write_env
 }
 
+# Applies migrations not yet recorded in public._local_migrations.
+cmd_migrate() {
+  pg_start
+  psql_ -c "create table if not exists public._local_migrations (name text primary key, applied_at timestamptz default now()); revoke all on public._local_migrations from anon, authenticated;"
+  for f in "$ROOT"/supabase/migrations/*.sql; do
+    name="$(basename "$f")"
+    if [ -z "$(psql_ -tAc "select 1 from public._local_migrations where name = '$name'")" ]; then
+      echo "migrate  $name"
+      psql_ -f "$f"
+      psql_ -c "insert into public._local_migrations (name) values ('$name')"
+    fi
+  done
+  psql_ -c "notify pgrst, 'reload schema'"
+}
+
 cmd_start() {
   [ -d "$PGDATA" ] || cmd_setup
   pg_start
-  [ -f "$L/gotrue.pid" ] || gotrue_start
-  [ -f "$L/postgrest.pid" ] || postgrest_start
-  [ -f "$L/gateway.pid" ] || gateway_start
+  alive gotrue || gotrue_start
+  alive postgrest || postgrest_start
+  alive gateway || gateway_start
   write_env
   echo "stack up: API http://127.0.0.1:54321  db postgres://postgres@127.0.0.1:$PGPORT/postgres"
 }
@@ -159,13 +178,14 @@ cmd_reset() {
 
 cmd_status() {
   for s in gotrue postgrest gateway; do
-    if [ -f "$L/$s.pid" ] && kill -0 "$(cat "$L/$s.pid")" 2>/dev/null; then echo "$s: up"; else echo "$s: down"; fi
+    if alive "$s"; then echo "$s: up"; else echo "$s: down"; fi
   done
   "${AS_PG[@]}" pg_ctl -D "$PGDATA" status >/dev/null 2>&1 && echo "postgres: up" || echo "postgres: down"
 }
 
 case "${1:-}" in
   setup) cmd_setup ;;
+  migrate) cmd_migrate ;;
   start) cmd_start ;;
   stop) cmd_stop ;;
   reset) cmd_reset ;;

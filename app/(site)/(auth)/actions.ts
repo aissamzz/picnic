@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { fail, zodFieldErrors, type ActionResult } from "@/lib/actions/result";
 import { phoneToAuthEmail } from "@/lib/auth/phone-identity";
-import { clientIp } from "@/lib/http/client-ip";
+import { clientIp, isIpLimited } from "@/lib/http/client-ip";
 import { resolveLocale } from "@/lib/i18n/request";
 import { rateLimit } from "@/lib/rate-limit";
 import { createClient, createServiceClient } from "@/lib/supabase/server";
@@ -19,7 +19,8 @@ export async function signUp(input: z.input<typeof signupSchema>, next?: string)
   if (!parsed.success) return fail("errors.generic", zodFieldErrors(parsed.error.issues));
   const { fullName, phone, password } = parsed.data;
 
-  if (!(await rateLimit(`signup:${await clientIp()}`, 10, 3600))) return fail("errors.rateLimited");
+  const ip = await clientIp();
+  if (isIpLimited(ip) && !(await rateLimit(`signup:${ip}`, 30, 3600))) return fail("errors.rateLimited");
 
   const service = createServiceClient();
   const { data: existing } = await service.from("profiles").select("id").eq("phone", phone).maybeSingle();
@@ -54,7 +55,7 @@ export async function signIn(input: z.input<typeof loginSchema>, next?: string):
   const { phone, password } = parsed.data;
 
   const ip = await clientIp();
-  if (!(await rateLimit(`login:${phone}`, 10, 900)) || !(await rateLimit(`login-ip:${ip}`, 50, 900))) {
+  if (!(await rateLimit(`login:${phone}`, 10, 900)) || (isIpLimited(ip) && !(await rateLimit(`login-ip:${ip}`, 100, 900)))) {
     return fail("errors.rateLimited");
   }
 
@@ -77,7 +78,8 @@ export async function signOut() {
 export async function requestPasswordReset(input: { phone: string }): Promise<ActionResult<{ requestId: string; phone: string }>> {
   const parsed = phoneSchema.safeParse(input.phone);
   if (!parsed.success) return fail("errors.phoneInvalid", { phone: parsed.error.issues[0].message });
-  if (!(await rateLimit(`reset-ip:${await clientIp()}`, 10, 3600))) return fail("errors.rateLimited");
+  const ip = await clientIp();
+  if (isIpLimited(ip) && !(await rateLimit(`reset-ip:${ip}`, 20, 3600))) return fail("errors.rateLimited");
 
   const { data, error } = await createServiceClient().rpc("request_password_reset", { p_phone: parsed.data });
   if (error) return fail(error.message.includes("rate_limited") ? "errors.rateLimited" : "errors.generic");

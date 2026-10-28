@@ -34,3 +34,6 @@ export function defaultTemplateFor(type: RestaurantType): TemplateKey {
   };
   return map[type] ?? "cafe";
 }
+
+/** Brand colors an owner can pick. All keep white text at 4.5:1 or better. */
+export const BRAND_PALETTE = ["#1F6B4A", "#A8462F", "#8E1F3A", "#5B2A6E", "#1D3A6B", "#0F6E6E", "#6B3E26", "#2B2B2B"] as const;

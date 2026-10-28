@@ -145,7 +145,8 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
   );
   const SectionHeader = parts.SectionHeader ?? DefaultSectionHeader;
   const DishOfDay = parts.DishOfDay ?? DefaultDishOfDay;
-  const themeStyle = { ...parts.theme, ...(r.primary_color ? { "--m-accent": r.primary_color } : {}) } as React.CSSProperties;
+  // An owner color replaces the accent; palette colors all take white text.
+  const themeStyle = { ...parts.theme, ...(r.primary_color ? { "--m-accent": r.primary_color, "--m-on-accent": "#FFFFFF" } : {}) } as React.CSSProperties;
 
   return (
     <div className={cn("menu-root min-h-dvh pb-10", parts.rootClass)} style={themeStyle} data-template={r.template_key} data-mode={mode}>

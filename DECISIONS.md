@@ -55,3 +55,19 @@ Format: what, why, and how to change it.
 42. **Preview route** `/apercu/{template}/{fr|ar}/{slug}`: any restaurant in any template and language, uncached, no analytics, `noindex`. Used for template QA now and the appearance editor's live preview in phase 4.
 43. **Order mode in phase 3 = browse only** (sizes and extras shown in the item sheet). Cart, checkout and WhatsApp land in phase 5; the waiter-call button with them.
 44. **Photos:** seed items have none, so cards show a themed initial placeholder. Photo-heavy layouts (Grill rows, Traditionnel dish of the day) shrink when there's no photo.
+
+## Phase 4: Owner menu management
+
+45. **Multi-row writes go through `SECURITY INVOKER` RPCs** (`save_item`, `reorder_*`, `set_prices`, `bump_prices`, `save_translations`): one transaction, while RLS and the subscription lock still decide. `save_item` replaces sizes and extras wholesale.
+46. **Staff manage the menu** (categories, items, prices, translations, schedules, sold-out) and can see the share hub. Appearance and tables are owner-only, like other settings.
+47. **Deletes are soft with an Undo toast** (categories, items). Tables are hard-deleted after a confirm sheet (calls and events keep `table_id = null`).
+48. **Sold-out toggles are optimistic** with Undo; a failure (e.g. expired subscription) rolls the switch back and shows why.
+49. **Bulk price change is an amount in DA** (+50 / -20) on the whole menu or one category; sizes follow; never below 0. No percentage: Algerian menus move in round DA steps.
+50. **Brand color is a fixed palette** of 8 colors that all keep white text at 4.5:1 (plus "template color"). Picking one also sets the template's on-accent text to white.
+51. **Live preview** is an iframe of `/apercu/...` with `?accent=` for the unsaved color; it reloads on template/color/language/logo/cover changes.
+52. **Dish photos**: up to 4, cropped 4:3 in the browser, resized to WebP (max 1600 px) on the server, first one is the main photo. Removed photos are deleted from Storage on save; uploads abandoned before saving are left for a purge job (TODO).
+53. **QR images are drawn in the browser** (canvas + `qrcode`, page fonts, so Arabic shapes correctly): QR PNG/SVG, Instagram story 1080×1920, post 1080×1080, per-table cards, ZIP via `jszip` (loaded on demand).
+54. **The table PDF uses `@react-pdf/renderer` on the server** with static Cairo TTFs in `lib/pdf/fonts` (fontkit can't embed variable WOFF2). 6 cards per A4 page with the Kabyle band, QR, table name and the scan line in each enabled language.
+55. **Tracked links**: the share hub lists `?src=ig|fb|tt|wa|poster` variants of the order link; visits per source over 7 days come from `channel_stats()`.
+56. **Rate limits per IP are loose** (signup 30/h, login 100/15 min, reset 20/h) and skipped for loopback/unknown IPs: Algerian mobile carriers put many users behind one IP (CGNAT). Per-phone limits do the real work.
+57. **Dev stack tracks applied migrations** (`pnpm stack:migrate`).

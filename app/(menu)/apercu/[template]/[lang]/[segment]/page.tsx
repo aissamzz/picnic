@@ -15,8 +15,16 @@ import { TEMPLATE_KEYS } from "@/lib/templates/meta";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
-export default async function PreviewPage({ params }: { params: Promise<{ template: string; lang: string; segment: string }> }) {
+export default async function PreviewPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ template: string; lang: string; segment: string }>;
+  searchParams: Promise<{ accent?: string }>;
+}) {
   const { template, lang, segment } = await params;
+  // Unsaved color from the appearance editor ("none" = template color).
+  const { accent } = await searchParams;
   if (!(TEMPLATE_KEYS as readonly string[]).includes(template) || !isLocale(lang)) notFound();
   const { slug, mode } = parseMenuSegment(decodeURIComponent(segment).toLowerCase());
   const menu = await getPublicMenu(slug);
@@ -29,7 +37,15 @@ export default async function PreviewPage({ params }: { params: Promise<{ templa
   return (
     <RenderMenu
       templateKey={template}
-      menu={{ ...menu, restaurant: { ...menu.restaurant, template_key: template, enabled_locales: ["fr", "ar"] } }}
+      menu={{
+        ...menu,
+        restaurant: {
+          ...menu.restaurant,
+          template_key: template,
+          enabled_locales: ["fr", "ar"],
+          ...(accent === "none" ? { primary_color: null } : accent && /^[0-9a-fA-F]{6}$/.test(accent) ? { primary_color: `#${accent}` } : {}),
+        },
+      }}
       lang={lang}
       mode={mode}
       preview={{ langHref: preview }}

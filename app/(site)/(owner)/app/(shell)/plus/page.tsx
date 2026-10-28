@@ -1,4 +1,4 @@
-import { ChevronRight, LogOut, Shield, Store, UserRound } from "lucide-react";
+import { ChevronRight, LogOut, Palette, QrCode, Shield, Store, UserRound } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { Card } from "@/components/ui/card";
@@ -10,9 +10,16 @@ export default async function MorePage() {
   const restaurant = await requireRestaurant();
   const t = await getTranslations("more");
   const ta = await getTranslations("auth");
+  const tl = await getTranslations("owner.plusLinks");
   const rows = [
     { href: "/app/compte", label: t("account"), icon: UserRound },
-    ...(restaurant.role === "owner" ? [{ href: "/app/onboarding/1", label: t("restaurant"), icon: Store }] : []),
+    ...(restaurant.role === "owner"
+      ? [
+          { href: "/app/apparence", label: tl("appearance"), icon: Palette },
+          { href: "/app/tables", label: tl("tables"), icon: QrCode },
+          { href: "/app/onboarding/1", label: t("restaurant"), icon: Store },
+        ]
+      : []),
     ...(profile.is_super_admin ? [{ href: "/admin", label: t("admin"), icon: Shield }] : []),
   ];
   return (

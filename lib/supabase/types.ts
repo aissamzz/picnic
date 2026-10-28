@@ -1484,6 +1484,14 @@ export type Database = {
         Args: { p_request_id: string };
         Returns: { code: string; expires_at: string }[];
       };
+      assert_can_edit_menu: {
+        Args: { p_restaurant_id: string };
+        Returns: undefined;
+      };
+      bump_prices: {
+        Args: { p_restaurant_id: string; p_delta: number; p_category_id?: string };
+        Returns: number;
+      };
       can_edit_menu: {
         Args: { rid: string };
         Returns: boolean;
@@ -1495,6 +1503,10 @@ export type Database = {
       change_slug: {
         Args: { p_restaurant_id: string; p_new_slug: string };
         Returns: undefined;
+      };
+      channel_stats: {
+        Args: { p_restaurant_id: string; p_days?: number };
+        Returns: { kind: Database["public"]["Enums"]["menu_event_kind"]; source: Database["public"]["Enums"]["traffic_source"]; visits: number }[];
       };
       check_code: {
         Args: { p_request: string; p_code: string };
@@ -1592,6 +1604,14 @@ export type Database = {
         Args: never;
         Returns: string;
       };
+      reorder_categories: {
+        Args: { p_restaurant_id: string; p_ids: string[] };
+        Returns: undefined;
+      };
+      reorder_items: {
+        Args: { p_restaurant_id: string; p_ids: string[] };
+        Returns: undefined;
+      };
       request_password_reset: {
         Args: { p_phone: string };
         Returns: string;
@@ -1603,6 +1623,18 @@ export type Database = {
       resolve_public_slug: {
         Args: { p_slug: string };
         Returns: { slug: string; redirect: boolean }[];
+      };
+      save_item: {
+        Args: { p_restaurant_id: string; p_item: Json };
+        Returns: string;
+      };
+      save_translations: {
+        Args: { p_restaurant_id: string; p_rows: Json };
+        Returns: number;
+      };
+      set_prices: {
+        Args: { p_restaurant_id: string; p_rows: Json };
+        Returns: number;
       };
       slug_is_well_formed: {
         Args: { p_slug: string };
