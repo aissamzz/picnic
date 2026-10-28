@@ -1,18 +1,30 @@
-# Qaima
+# Liinky
 
 Multi-tenant QR menu SaaS for restaurants and cafés in Algeria. Next.js 15 (App Router) + Supabase.
-"Qaima" is a placeholder: rename via `APP_NAME` in `lib/config.ts` and `NEXT_PUBLIC_APP_DOMAIN`.
+The name lives in one place: rename via `APP_NAME` in `lib/config.ts` and `NEXT_PUBLIC_APP_DOMAIN`.
 
 ## Setup
 
 ```bash
 pnpm install
-cp .env.example .env.local   # fill in Supabase URL / keys
+pnpm stack:start             # local Postgres + Auth + REST + Storage, writes .env.local
+node --env-file=.env.local scripts/create-admin.mjs 0555000009 'admin-pass-123' "Admin"
 pnpm dev
 ```
 
-With the Supabase CLI and Docker: `supabase start`, then `supabase db reset` applies
-`supabase/migrations` and `supabase/seed.sql`.
+`pnpm stack:start` needs the Postgres binaries (no Docker). With the Supabase CLI and
+Docker you can use `supabase start` + `supabase db reset` instead and copy the keys
+into `.env.local` (see `.env.example`).
+
+Hosted Supabase: apply `supabase/migrations`, then in Auth settings **disable public
+signups** (accounts are created by the server) and keep the email provider enabled
+(phone numbers map to internal `@phone.invalid` emails, no mail is ever sent).
+
+### Phone verification and password reset
+
+There is no SMS. Owners request a code from their account page (or "Mot de passe
+oublié"); an admin calls them from `/admin/codes`, generates a 6-digit code and reads
+it out. Codes expire after 2 minutes.
 
 ## Scripts
 
@@ -23,6 +35,8 @@ With the Supabase CLI and Docker: `supabase start`, then `supabase db reset` app
 | `pnpm typecheck` / `pnpm lint` | TypeScript / ESLint |
 | `pnpm db:test` | Migrations + seed + RLS tests on a throwaway local Postgres (no Docker needed) |
 | `pnpm db:types` | Same, then regenerates `lib/supabase/types.ts` |
+| `pnpm stack:start` / `stack:stop` / `stack:reset` | Local Supabase-compatible stack in `.local/` |
+| `pnpm test:e2e` | Playwright against the stack + `next dev` (needs the admin above) |
 
 `/dev/ui` shows every design-system component; switch FR/AR with the language picker
 (or `?lang=ar`). Hidden in production unless `ENABLE_DEV_UI=true`.

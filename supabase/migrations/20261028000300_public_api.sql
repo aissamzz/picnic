@@ -22,7 +22,7 @@ insert into public.reserved_slugs (slug) values
   ('auth'), ('login'), ('signup'), ('register'), ('logout'), ('support'), ('help'), ('contact'),
   ('about'), ('blog'), ('pricing'), ('terms'), ('privacy'), ('legal'), ('static'), ('assets'),
   ('images'), ('icons'), ('fonts'), ('manifest'), ('sw'), ('robots'), ('sitemap'), ('favicon'),
-  ('offline'), ('menu'), ('menus'), ('qr'), ('www'), ('mail'), ('status'), ('qaima'), ('test');
+  ('offline'), ('menu'), ('menus'), ('qr'), ('www'), ('mail'), ('status'), ('liinky'), ('test');
 
 -- ---------------------------------------------------------------------------
 -- Slugs

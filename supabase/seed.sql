@@ -110,4 +110,4 @@ update public.platform_settings set
   baridimob_rip = '00799999000000000000',
   ccp_number = '0000000000',
   ccp_key = '00',
-  ccp_holder = 'QAIMA SARL';
+  ccp_holder = 'LIINKY SARL';

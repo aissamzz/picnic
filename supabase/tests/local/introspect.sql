@@ -4,6 +4,21 @@ select json_build_object(
     select json_agg(json_build_object(
       'name', c.relname,
       'kind', case c.relkind when 'v' then 'view' else 'table' end,
+      'relationships', (
+        select json_agg(json_build_object(
+          'name', con.conname,
+          'columns', (select json_agg(a.attname order by k.ord) from unnest(con.conkey) with ordinality k(attnum, ord) join pg_attribute a on a.attrelid = con.conrelid and a.attnum = k.attnum),
+          'ref_table', rc.relname,
+          'ref_columns', (select json_agg(a.attname order by k.ord) from unnest(con.confkey) with ordinality k(attnum, ord) join pg_attribute a on a.attrelid = con.confrelid and a.attnum = k.attnum),
+          'one_to_one', exists (
+            select 1 from pg_index i where i.indrelid = con.conrelid and i.indisunique and i.indkey::int2[] @> con.conkey and array_length(i.indkey::int2[], 1) = array_length(con.conkey, 1)
+          )
+        ) order by con.conname)
+        from pg_constraint con
+        join pg_class rc on rc.oid = con.confrelid
+        join pg_namespace rn on rn.oid = rc.relnamespace and rn.nspname = 'public'
+        where con.conrelid = c.oid and con.contype = 'f'
+      ),
       'columns', (
         select json_agg(json_build_object(
           'name', a.attname,
@@ -49,7 +64,7 @@ select json_build_object(
     ) order by p.proname)
     from pg_proc p join pg_namespace n on n.oid = p.pronamespace
     where n.nspname = 'public'
-      and has_function_privilege('authenticated', p.oid, 'execute')
+      and has_function_privilege('service_role', p.oid, 'execute')
       and p.prorettype <> 'trigger'::regtype
       and p.proname not in ('plan', 'ok', 'is', 'throws_ok', 'lives_ok', 'finish')
   )

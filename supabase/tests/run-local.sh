@@ -23,7 +23,7 @@ trap cleanup EXIT
 
 PSQL=("${RUN_AS[@]}" psql -h "$DATA" -p "$PORT" -U postgres -d postgres -v ON_ERROR_STOP=1 -q -X)
 
-"${PSQL[@]}" -f "$ROOT/supabase/tests/local/supabase_shim.sql"
+for f in roles auth_stub pgtap_stub; do "${PSQL[@]}" -f "$ROOT/supabase/tests/local/$f.sql"; done
 for f in "$ROOT"/supabase/migrations/*.sql; do
   echo "migrate  $(basename "$f")"
   "${PSQL[@]}" -f "$f"

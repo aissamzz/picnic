@@ -23,7 +23,9 @@
     },
     "cropper": {
       "zoom": "Zoom"
-    }
+    },
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe"
   },
   "subscription": {
     "banner": {
@@ -146,7 +148,347 @@
       "cropTitle": "Recadrer le logo",
       "offlinePreview": "Aperçu de la bannière hors ligne",
       "priceNote": "Prix en DA",
-      "rtlNote": "Téléphone <phone>0555 12 34 56</phone> · <url>qaima.dz/pizzeria-roma</url>"
+      "rtlNote": "Téléphone <phone>0555 12 34 56</phone> · <url>liinky.app/pizzeria-roma</url>"
     }
+  },
+  "errors": {
+    "required": "Champ obligatoire.",
+    "phoneInvalid": "Numéro invalide. Exemple : 0555 12 34 56.",
+    "passwordTooShort": "8 caractères minimum.",
+    "passwordTooLong": "72 caractères maximum.",
+    "passwordMismatch": "Les deux mots de passe ne correspondent pas.",
+    "codeFormat": "Le code contient 6 chiffres.",
+    "phoneTaken": "Ce numéro a déjà un compte. Connectez-vous.",
+    "invalidCredentials": "Numéro ou mot de passe incorrect.",
+    "rateLimited": "Trop de tentatives. Réessayez dans quelques minutes.",
+    "generic": "Une erreur est survenue. Réessayez.",
+    "slugUnavailable": "Ce lien est déjà pris.",
+    "slugInvalid": "3 à 40 caractères : lettres minuscules, chiffres et tirets.",
+    "noAccount": "Aucun compte avec ce numéro.",
+    "codeInvalid": "Code incorrect.",
+    "codeExpired": "Le code a expiré. Demandez-en un nouveau.",
+    "codeTooMany": "Trop d'essais. Demandez un nouveau code.",
+    "codeNone": "Aucun code actif. Attendez l'appel de l'équipe.",
+    "alreadyVerified": "Votre numéro est déjà vérifié.",
+    "alreadyOwner": "Vous avez déjà un restaurant.",
+    "inviteInvalid": "Cette invitation n'est plus valable.",
+    "alreadyMember": "Vous faites déjà partie de cette équipe.",
+    "imageInvalid": "Image non valide (JPG, PNG ou WebP, 5 Mo max).",
+    "forbidden": "Action non autorisée.",
+    "locked": "Abonnement expiré : la modification est bloquée.",
+    "nameOneLanguage": "Indiquez le nom en français ou en arabe.",
+    "priceInvalid": "Prix invalide."
+  },
+  "auth": {
+    "tagline": "Votre menu QR, et vos commandes sur WhatsApp.",
+    "signup": {
+      "title": "Créer un compte",
+      "subtitle": "14 jours d'essai gratuit, sans engagement.",
+      "fullName": "Votre nom",
+      "phone": "Numéro de téléphone",
+      "phoneHint": "Il servira à vous connecter.",
+      "password": "Mot de passe",
+      "passwordHint": "8 caractères minimum.",
+      "passwordConfirm": "Confirmez le mot de passe",
+      "submit": "Créer mon compte",
+      "haveAccount": "Déjà un compte ?",
+      "login": "Se connecter",
+      "terms": "En créant un compte, vous acceptez les <terms>conditions d'utilisation</terms> et la <privacy>politique de confidentialité</privacy>."
+    },
+    "login": {
+      "title": "Se connecter",
+      "subtitle": "Content de vous revoir.",
+      "submit": "Se connecter",
+      "forgot": "Mot de passe oublié ?",
+      "noAccount": "Pas encore de compte ?",
+      "signup": "Créer un compte"
+    },
+    "forgot": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Entrez votre numéro. Un membre de notre équipe vous appelle et vous donne un code.",
+      "submit": "Demander un code",
+      "newPassword": "Nouveau mot de passe",
+      "newPasswordConfirm": "Confirmez le nouveau mot de passe",
+      "save": "Changer le mot de passe",
+      "backToLogin": "Retour à la connexion",
+      "changeNumber": "Changer de numéro"
+    },
+    "invite": {
+      "title": "Rejoindre l'équipe",
+      "body": "{restaurant} vous invite à gérer son menu sur {app}.",
+      "accept": "Rejoindre l'équipe",
+      "needAccount": "Connectez-vous ou créez un compte pour accepter.",
+      "invalid": "Cette invitation n'existe pas ou a déjà été utilisée."
+    },
+    "logout": "Se déconnecter"
+  },
+  "code": {
+    "waitingTitle": "Nous allons vous appeler",
+    "waitingBody": "Un membre de l'équipe {app} va appeler le <phone></phone> pour vous donner un code à 6 chiffres. Gardez cette page ouverte.",
+    "readyTitle": "Saisissez le code",
+    "readyBody": "Entrez le code donné au téléphone.",
+    "timeLeft": "Temps restant",
+    "code": "Code à 6 chiffres",
+    "verify": "Valider",
+    "expiredTitle": "Code expiré",
+    "expiredBody": "Le code n'est valable que 2 minutes.",
+    "requestAgain": "Demander un nouvel appel",
+    "cancelledBody": "Cette demande a été annulée.",
+    "usedTitle": "C'est fait"
+  },
+  "account": {
+    "title": "Mon compte",
+    "name": "Nom",
+    "phone": "Téléphone",
+    "verified": "Vérifié",
+    "notVerified": "Non vérifié",
+    "verifyCta": "Vérifier mon numéro",
+    "verifyHint": "Un numéro vérifié protège votre compte et vous permet de récupérer votre mot de passe plus vite.",
+    "passwordTitle": "Changer le mot de passe",
+    "passwordSaved": "Mot de passe modifié.",
+    "nameSaved": "Nom enregistré.",
+    "verification": {
+      "title": "Vérifier mon numéro",
+      "intro": "Pas de SMS : notre équipe vous appelle au <phone></phone> et vous donne un code valable 2 minutes.",
+      "request": "Demander l'appel",
+      "success": "Votre numéro est vérifié.",
+      "back": "Retour au compte"
+    }
+  },
+  "nav": {
+    "home": "Accueil",
+    "menu": "Menu",
+    "share": "Partager",
+    "stats": "Stats",
+    "more": "Plus",
+    "main": "Navigation principale"
+  },
+  "home": {
+    "hello": "Bonjour {name}",
+    "helloNoName": "Bonjour",
+    "setupTitle": "Terminez la configuration",
+    "setupProgress": "{done} sur {total} étapes",
+    "resume": "Continuer",
+    "linksTitle": "Vos liens",
+    "orderLink": "Lien de commande",
+    "tableLink": "Menu des tables",
+    "verifyTitle": "Vérifiez votre numéro",
+    "verifyBody": "Ça prend 2 minutes, par téléphone.",
+    "stepsDone": "Configuration terminée"
+  },
+  "comingSoon": {
+    "title": "Bientôt disponible",
+    "body": "Cette section arrive dans une prochaine mise à jour."
+  },
+  "more": {
+    "title": "Plus",
+    "account": "Mon compte",
+    "admin": "Administration",
+    "restaurant": "Infos du restaurant"
+  },
+  "onboarding": {
+    "steps": [
+      "Infos",
+      "Modèle",
+      "Menu",
+      "Vérification",
+      "Langues",
+      "Tables",
+      "En ligne"
+    ],
+    "skip": "Passer",
+    "next": "Continuer",
+    "back": "Retour",
+    "saved": "Enregistré",
+    "info": {
+      "title": "Votre restaurant",
+      "subtitle": "Ces infos apparaissent sur votre menu.",
+      "name": "Nom du restaurant",
+      "slug": "Votre lien",
+      "slugAvailable": "Disponible",
+      "slugChecking": "Vérification…",
+      "type": "Type d'établissement",
+      "wilaya": "Wilaya",
+      "wilayaPlaceholder": "Choisir la wilaya",
+      "commune": "Commune",
+      "address": "Adresse",
+      "addressHint": "Facultatif. Affichée dans les infos du menu.",
+      "logo": "Logo",
+      "logoHint": "Carré, JPG ou PNG.",
+      "logoAdd": "Ajouter un logo",
+      "logoChange": "Changer",
+      "logoRemove": "Retirer",
+      "cropTitle": "Recadrer le logo",
+      "cropSave": "Utiliser ce logo",
+      "whatsapp": "WhatsApp pour les commandes",
+      "whatsappHint": "Les commandes en ligne arrivent sur ce numéro. Laissez vide pour ne pas prendre de commandes."
+    },
+    "template": {
+      "title": "Choisissez un modèle",
+      "subtitle": "Vous pourrez en changer à tout moment.",
+      "suggested": "Suggéré"
+    },
+    "import": {
+      "title": "Ajoutez votre menu",
+      "subtitle": "Commencez par quelques plats, vous compléterez plus tard.",
+      "tipsTitle": "Pour une bonne photo",
+      "tips": [
+        "Menu à plat, bien éclairé, sans reflet.",
+        "Une page par photo, cadrée en entier.",
+        "Prix lisibles : approchez-vous si besoin."
+      ],
+      "photo": "Prendre en photo",
+      "pdf": "Importer un PDF",
+      "manual": "Saisir à la main",
+      "soon": "Bientôt",
+      "categories": "Catégories",
+      "addCategory": "Ajouter une catégorie",
+      "categoryName": "Nom en français",
+      "categoryNameAr": "Nom en arabe",
+      "addItem": "Ajouter un plat",
+      "itemName": "Nom en français",
+      "itemNameAr": "Nom en arabe",
+      "itemPrice": "Prix (DA)",
+      "emptyTitle": "Votre menu est vide",
+      "emptyBody": "Créez une première catégorie, par exemple « Pizzas » ou « Boissons ».",
+      "itemsCount": "{count, plural, =0 {Aucun plat} one {# plat} other {# plats}}",
+      "delete": "Supprimer {name}",
+      "examples": "Exemples : Pizzas, Sandwichs, Boissons",
+      "nameHint": "En français, en arabe ou les deux."
+    },
+    "languages": {
+      "title": "Langues du menu",
+      "subtitle": "Vos clients choisissent la langue sur le menu.",
+      "fr": "Français",
+      "ar": "Arabe",
+      "default": "Langue par défaut",
+      "missingTitle": "Traductions manquantes",
+      "missingNone": "Tout est traduit.",
+      "missingHint": "Remplissez les noms manquants. La traduction automatique arrive bientôt.",
+      "atLeastOne": "Gardez au moins une langue."
+    },
+    "tables": {
+      "title": "Vos tables",
+      "subtitle": "Chaque table aura son QR code. Le serveur saura d'où vient l'appel.",
+      "count": "Nombre de tables",
+      "decrease": "Une table de moins",
+      "increase": "Une table de plus",
+      "none": "Pas de service à table",
+      "hint": "Vous pourrez renommer les tables et ajouter des zones plus tard.",
+      "label": "Table {n}"
+    },
+    "live": {
+      "title": "Vous êtes en ligne !",
+      "subtitle": "Votre menu est accessible dès maintenant.",
+      "orderLink": "Lien de commande",
+      "orderLinkHint": "À partager sur Instagram, Facebook, TikTok, affiches…",
+      "tableLink": "Menu des tables",
+      "tableLinkHint": "Pour les QR codes posés sur les tables.",
+      "copy": "Copier",
+      "copied": "Lien copié",
+      "share": "Partager",
+      "open": "Ouvrir",
+      "qrAlt": "QR code vers {url}",
+      "install": "Installer l'application",
+      "installHint": "Gardez {app} sur votre écran d'accueil.",
+      "dashboard": "Aller au tableau de bord"
+    }
+  },
+  "restaurantTypes": {
+    "restaurant": "Restaurant",
+    "pizzeria": "Pizzeria",
+    "fast_food": "Fast food",
+    "cafe": "Café",
+    "coffee_shop": "Coffee shop",
+    "traditional": "Cuisine traditionnelle",
+    "grill": "Grill",
+    "seafood": "Fruits de mer",
+    "patisserie": "Pâtisserie",
+    "glacier": "Glacier",
+    "juice_bar": "Bar à jus",
+    "gastronomic": "Gastronomique",
+    "other": "Autre"
+  },
+  "templates": {
+    "pizzeria": {
+      "name": "Pizzeria",
+      "desc": "Sombre, photos en grand, prix safran."
+    },
+    "cafe": {
+      "name": "Café",
+      "desc": "Crème, typographie à empattement, photos rondes."
+    },
+    "traditionnel": {
+      "name": "Traditionnel",
+      "desc": "Terracotta, motif kabyle, grille de photos."
+    },
+    "gastro": {
+      "name": "Gastronomique",
+      "desc": "Épuré, centré, filets dorés."
+    },
+    "patisserie": {
+      "name": "Pâtisserie",
+      "desc": "Pastel, tuiles arrondies."
+    },
+    "grill": {
+      "name": "Grill",
+      "desc": "Charbon et rouge flamme, photos pleine largeur."
+    },
+    "jus": {
+      "name": "Bar à jus",
+      "desc": "Tuiles colorées comme des fruits."
+    },
+    "mer": {
+      "name": "Fruits de mer",
+      "desc": "Marine et sable, arrivage du jour."
+    },
+    "coffee": {
+      "name": "Coffee shop",
+      "desc": "Monochrome, tuiles numérotées."
+    }
+  },
+  "admin": {
+    "title": "Administration",
+    "nav": {
+      "codes": "Codes de vérification",
+      "backToApp": "Retour à l'app"
+    },
+    "codes": {
+      "title": "Codes de vérification",
+      "subtitle": "Appelez la personne, générez le code et dictez-le. Il expire après 2 minutes.",
+      "empty": "Aucune demande en attente.",
+      "purpose": {
+        "verify_phone": "Vérification du numéro",
+        "reset_password": "Mot de passe oublié"
+      },
+      "status": {
+        "requested": "En attente",
+        "issued": "Code actif",
+        "expired": "Expiré"
+      },
+      "call": "Appeler",
+      "generate": "Générer le code",
+      "regenerate": "Nouveau code",
+      "cancel": "Annuler la demande",
+      "codeLabel": "Code à dicter",
+      "expiresIn": "Expire dans",
+      "requestedAt": "Demandé à {time}",
+      "byAdmin": "Créé par l'admin",
+      "noRestaurant": "Pas encore de restaurant",
+      "verified": "Numéro vérifié",
+      "manualTitle": "Générer un code sans demande",
+      "manualHint": "Pendant un appel, pour un compte existant.",
+      "manualPhone": "Numéro du compte",
+      "manualPurpose": "Motif",
+      "manualSubmit": "Générer",
+      "autoRefresh": "Mise à jour automatique"
+    }
+  },
+  "public": {
+    "notFound": "Ce menu n'existe pas.",
+    "didYouMean": "Vouliez-vous dire :",
+    "paused": "Menu en pause",
+    "pausedBody": "Ce menu n'est pas disponible pour le moment.",
+    "poweredBy": "Menu propulsé par {app}"
   }
 }

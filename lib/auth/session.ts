@@ -1,0 +1,82 @@
+import "server-only";
+import { redirect } from "next/navigation";
+import { cache } from "react";
+import { createClient } from "@/lib/supabase/server";
+
+export type MyRestaurant = {
+  id: string;
+  slug: string;
+  name: string;
+  role: "owner" | "staff";
+  status: "trial" | "active" | "grace" | "expired" | "suspended" | "paused";
+  trial_ends_at: string;
+  onboarding_step: number;
+  went_live_at: string | null;
+  default_locale: string;
+  enabled_locales: string[];
+  template_key: string;
+};
+
+/** Signed-in user + profile, once per request. */
+export const getSession = cache(async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return null;
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("id, full_name, phone, locale, is_super_admin, phone_verified_at")
+    .eq("id", user.id)
+    .single();
+  return profile ? { user, profile } : null;
+});
+
+export async function requireSession(next = "/app") {
+  const session = await getSession();
+  if (!session) redirect(`/connexion?next=${encodeURIComponent(next)}`);
+  return session;
+}
+
+/** The restaurant the user works on (owners first). Null before onboarding step 1. */
+export const getMyRestaurant = cache(async (): Promise<MyRestaurant | null> => {
+  const session = await getSession();
+  if (!session) return null;
+  const supabase = await createClient();
+  const { data: memberships } = await supabase
+    .from("restaurant_members")
+    .select("role, restaurant_id")
+    .eq("user_id", session.user.id)
+    .eq("invite_status", "accepted");
+  if (!memberships?.length) return null;
+  const sorted = [...memberships].sort((a, b) => (a.role === b.role ? 0 : a.role === "owner" ? -1 : 1));
+  for (const m of sorted) {
+    const { data: r } = await supabase
+      .from("restaurants")
+      .select("id, slug, name, status, trial_ends_at, onboarding_step, went_live_at, default_locale, enabled_locales, template_key, deleted_at")
+      .eq("id", m.restaurant_id)
+      .maybeSingle();
+    if (r && !r.deleted_at) return { ...r, role: m.role } as MyRestaurant;
+  }
+  return null;
+});
+
+export async function requireRestaurant(): Promise<MyRestaurant> {
+  await requireSession();
+  const r = await getMyRestaurant();
+  if (!r) redirect("/app/onboarding/1");
+  return r;
+}
+
+export async function requireOwnerRestaurant(): Promise<MyRestaurant> {
+  const r = await requireRestaurant();
+  if (r.role !== "owner") redirect("/app");
+  return r;
+}
+
+export async function requireSuperAdmin() {
+  const session = await requireSession("/admin");
+  if (!session.profile.is_super_admin) redirect("/app");
+  // TODO(phase 8): require AAL2 (TOTP) here and in middleware.
+  return session;
+}

@@ -38,7 +38,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "admin_calls_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       admin_notes: {
         Row: {
@@ -65,7 +73,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "admin_notes_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       ai_imports: {
         Row: {
@@ -101,7 +117,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "ai_imports_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       audit_log: {
         Row: {
@@ -128,7 +152,15 @@ export type Database = {
           payload?: Json;
           created_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "audit_log_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       blocked_phones: {
         Row: {
@@ -194,7 +226,22 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "categories_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "categories_schedule_id_fkey";
+            columns: ["schedule_id"];
+            isOneToOne: false;
+            referencedRelation: "menu_schedules";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       delivery_zones: {
         Row: {
@@ -224,7 +271,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "delivery_zones_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       item_extras: {
         Row: {
@@ -257,7 +312,22 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "item_extras_item_id_fkey";
+            columns: ["item_id"];
+            isOneToOne: false;
+            referencedRelation: "items";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "item_extras_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       item_variants: {
         Row: {
@@ -290,7 +360,22 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "item_variants_item_id_fkey";
+            columns: ["item_id"];
+            isOneToOne: false;
+            referencedRelation: "items";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "item_variants_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       items: {
         Row: {
@@ -344,7 +429,22 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "items_category_id_fkey";
+            columns: ["category_id"];
+            isOneToOne: false;
+            referencedRelation: "categories";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "items_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       kit_orders: {
         Row: {
@@ -401,7 +501,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "kit_orders_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       menu_events: {
         Row: {
@@ -434,7 +542,29 @@ export type Database = {
           session_id?: string | null;
           created_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "menu_events_item_id_fkey";
+            columns: ["item_id"];
+            isOneToOne: false;
+            referencedRelation: "items";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "menu_events_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "menu_events_table_id_fkey";
+            columns: ["table_id"];
+            isOneToOne: false;
+            referencedRelation: "tables";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       menu_schedules: {
         Row: {
@@ -470,7 +600,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "menu_schedules_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       notifications: {
         Row: {
@@ -503,7 +641,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "notifications_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       opening_exceptions: {
         Row: {
@@ -533,7 +679,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "opening_exceptions_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       opening_hours: {
         Row: {
@@ -563,7 +717,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "opening_hours_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       orders: {
         Row: {
@@ -623,7 +785,22 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "orders_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "orders_zone_id_fkey";
+            columns: ["zone_id"];
+            isOneToOne: false;
+            referencedRelation: "delivery_zones";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       payments: {
         Row: {
@@ -674,6 +851,68 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "payments_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      phone_codes: {
+        Row: {
+          id: string;
+          user_id: string;
+          phone: string;
+          purpose: Database["public"]["Enums"]["code_purpose"];
+          status: Database["public"]["Enums"]["code_status"];
+          code_hash: string | null;
+          attempts: number;
+          requested_by_admin: boolean;
+          requested_at: string;
+          issued_at: string | null;
+          expires_at: string | null;
+          issued_by: string | null;
+          used_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          phone: string;
+          purpose: Database["public"]["Enums"]["code_purpose"];
+          status?: Database["public"]["Enums"]["code_status"];
+          code_hash?: string | null;
+          attempts?: number;
+          requested_by_admin?: boolean;
+          requested_at?: string;
+          issued_at?: string | null;
+          expires_at?: string | null;
+          issued_by?: string | null;
+          used_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          phone?: string;
+          purpose?: Database["public"]["Enums"]["code_purpose"];
+          status?: Database["public"]["Enums"]["code_status"];
+          code_hash?: string | null;
+          attempts?: number;
+          requested_by_admin?: boolean;
+          requested_at?: string;
+          issued_at?: string | null;
+          expires_at?: string | null;
+          issued_by?: string | null;
+          used_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
         Relationships: [];
       };
       platform_settings: {
@@ -688,8 +927,6 @@ export type Database = {
           ccp_number: string | null;
           ccp_key: string | null;
           ccp_holder: string | null;
-          sms_provider: string;
-          otp_max_per_hour: number;
           waiter_call_cooldown_sec: number;
           first_order_otp: boolean;
           block_after_reports: number;
@@ -697,6 +934,9 @@ export type Database = {
           kit_price: number;
           created_at: string;
           updated_at: string;
+          code_ttl_seconds: number;
+          code_max_attempts: number;
+          code_requests_per_hour: number;
         };
         Insert: {
           id?: boolean;
@@ -709,8 +949,6 @@ export type Database = {
           ccp_number?: string | null;
           ccp_key?: string | null;
           ccp_holder?: string | null;
-          sms_provider?: string;
-          otp_max_per_hour?: number;
           waiter_call_cooldown_sec?: number;
           first_order_otp?: boolean;
           block_after_reports?: number;
@@ -718,6 +956,9 @@ export type Database = {
           kit_price?: number;
           created_at?: string;
           updated_at?: string;
+          code_ttl_seconds?: number;
+          code_max_attempts?: number;
+          code_requests_per_hour?: number;
         };
         Update: {
           id?: boolean;
@@ -730,8 +971,6 @@ export type Database = {
           ccp_number?: string | null;
           ccp_key?: string | null;
           ccp_holder?: string | null;
-          sms_provider?: string;
-          otp_max_per_hour?: number;
           waiter_call_cooldown_sec?: number;
           first_order_otp?: boolean;
           block_after_reports?: number;
@@ -739,6 +978,9 @@ export type Database = {
           kit_price?: number;
           created_at?: string;
           updated_at?: string;
+          code_ttl_seconds?: number;
+          code_max_attempts?: number;
+          code_requests_per_hour?: number;
         };
         Relationships: [];
       };
@@ -751,6 +993,7 @@ export type Database = {
           is_super_admin: boolean;
           created_at: string;
           updated_at: string;
+          phone_verified_at: string | null;
         };
         Insert: {
           id: string;
@@ -760,6 +1003,7 @@ export type Database = {
           is_super_admin?: boolean;
           created_at?: string;
           updated_at?: string;
+          phone_verified_at?: string | null;
         };
         Update: {
           id?: string;
@@ -769,6 +1013,7 @@ export type Database = {
           is_super_admin?: boolean;
           created_at?: string;
           updated_at?: string;
+          phone_verified_at?: string | null;
         };
         Relationships: [];
       };
@@ -839,7 +1084,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "restaurant_members_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       restaurants: {
         Row: {
@@ -944,7 +1197,22 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "restaurants_referred_by_fkey";
+            columns: ["referred_by"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "restaurants_template_key_fkey";
+            columns: ["template_key"];
+            isOneToOne: false;
+            referencedRelation: "templates";
+            referencedColumns: ["key"];
+          },
+        ];
       };
       slug_history: {
         Row: {
@@ -968,7 +1236,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "slug_history_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       social_links: {
         Row: {
@@ -1001,7 +1277,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "social_links_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: true;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       tables: {
         Row: {
@@ -1037,7 +1321,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "tables_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       templates: {
         Row: {
@@ -1094,7 +1386,15 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "verified_customers_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       waiter_calls: {
         Row: {
@@ -1130,7 +1430,22 @@ export type Database = {
           handled_at?: string | null;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "waiter_calls_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "waiter_calls_table_id_fkey";
+            columns: ["table_id"];
+            isOneToOne: false;
+            referencedRelation: "tables";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: {
@@ -1149,6 +1464,26 @@ export type Database = {
       };
     };
     Functions: {
+      accept_invite: {
+        Args: { p_token: string };
+        Returns: string;
+      };
+      admin_cancel_code: {
+        Args: { p_request_id: string };
+        Returns: undefined;
+      };
+      admin_code_requests: {
+        Args: never;
+        Returns: { id: string; purpose: Database["public"]["Enums"]["code_purpose"]; status: Database["public"]["Enums"]["code_status"]; phone: string; full_name: string; restaurants: string; requested_at: string; requested_by_admin: boolean; seconds_left: number; phone_verified: boolean }[];
+      };
+      admin_create_code: {
+        Args: { p_phone: string; p_purpose: Database["public"]["Enums"]["code_purpose"] };
+        Returns: { request_id: string; code: string; expires_at: string }[];
+      };
+      admin_issue_code: {
+        Args: { p_request_id: string };
+        Returns: { code: string; expires_at: string }[];
+      };
       can_edit_menu: {
         Args: { rid: string };
         Returns: boolean;
@@ -1161,13 +1496,49 @@ export type Database = {
         Args: { p_restaurant_id: string; p_new_slug: string };
         Returns: undefined;
       };
+      check_code: {
+        Args: { p_request: string; p_code: string };
+        Returns: string;
+      };
+      code_effective_status: {
+        Args: { c: string };
+        Returns: Database["public"]["Enums"]["code_status"];
+      };
+      code_hash: {
+        Args: { p_request_id: string; p_code: string };
+        Returns: string;
+      };
+      consume_reset_code: {
+        Args: { p_request_id: string; p_code: string };
+        Returns: { result: string; user_id: string }[];
+      };
+      create_restaurant: {
+        Args: { p_name: string; p_slug: string; p_type: Database["public"]["Enums"]["restaurant_type"]; p_wilaya_code: number; p_commune?: string; p_address?: string; p_whatsapp_order_phone?: string };
+        Returns: string;
+      };
+      default_template_for: {
+        Args: { p_type: Database["public"]["Enums"]["restaurant_type"] };
+        Returns: string;
+      };
       get_billing_settings: {
         Args: never;
         Returns: Json;
       };
+      get_code_request: {
+        Args: { p_request_id: string };
+        Returns: { status: Database["public"]["Enums"]["code_status"]; purpose: Database["public"]["Enums"]["code_purpose"]; seconds_left: number; phone: string }[];
+      };
+      get_invite: {
+        Args: { p_token: string };
+        Returns: { restaurant_name: string; invited_phone: string; status: Database["public"]["Enums"]["invite_status"] }[];
+      };
       get_public_menu: {
         Args: { p_slug: string };
         Returns: Json;
+      };
+      hit_rate_limit: {
+        Args: { p_key: string; p_max: number; p_window_seconds: number };
+        Returns: boolean;
       };
       is_i18n_text: {
         Args: { v: Json };
@@ -1197,6 +1568,10 @@ export type Database = {
         Args: { rid: string };
         Returns: Database["public"]["Enums"]["member_role"];
       };
+      my_open_verification: {
+        Args: never;
+        Returns: string;
+      };
       my_restaurant_ids: {
         Args: never;
         Returns: string[];
@@ -1205,8 +1580,24 @@ export type Database = {
         Args: never;
         Returns: string;
       };
+      open_code_request: {
+        Args: { p_user_id: string; p_purpose: Database["public"]["Enums"]["code_purpose"]; p_by_admin: boolean };
+        Returns: string;
+      };
       random_code: {
         Args: { len?: number };
+        Returns: string;
+      };
+      random_digits6: {
+        Args: never;
+        Returns: string;
+      };
+      request_password_reset: {
+        Args: { p_phone: string };
+        Returns: string;
+      };
+      request_phone_verification: {
+        Args: never;
         Returns: string;
       };
       resolve_public_slug: {
@@ -1224,6 +1615,14 @@ export type Database = {
       suggest_restaurants: {
         Args: { p_query: string };
         Returns: { slug: string; name: string; commune: string }[];
+      };
+      verify_phone_code: {
+        Args: { p_code: string };
+        Returns: string;
+      };
+      write_audit: {
+        Args: { p_action: string; p_restaurant_id: string; p_payload?: Json };
+        Returns: undefined;
       };
     };
     Enums: {
@@ -1244,6 +1643,8 @@ export type Database = {
       kit_stage: "ordered" | "mockup" | "approved" | "printed" | "shipped" | "delivered" | "paid";
       admin_call_outcome: "interested" | "call_back" | "not_interested" | "no_answer";
       ai_import_status: "processing" | "done" | "failed";
+      code_purpose: "verify_phone" | "reset_password";
+      code_status: "requested" | "issued" | "used" | "expired" | "cancelled";
     };
     CompositeTypes: Record<string, never>;
   };

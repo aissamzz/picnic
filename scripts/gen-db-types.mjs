@@ -47,7 +47,21 @@ for (const [section, kind] of [["Tables", "table"], ["Views", "view"]]) {
       for (const c of t.columns.filter((c) => !c.generated)) w(`          ${c.name}?: ${colType(c)};`);
       w("        };");
     }
-    w("        Relationships: [];");
+    const rels = t.relationships ?? [];
+    if (!rels.length) w("        Relationships: [];");
+    else {
+      w("        Relationships: [");
+      for (const r of rels) {
+        w("          {");
+        w(`            foreignKeyName: ${JSON.stringify(r.name)};`);
+        w(`            columns: ${JSON.stringify(r.columns)};`);
+        w(`            isOneToOne: ${r.one_to_one};`);
+        w(`            referencedRelation: ${JSON.stringify(r.ref_table)};`);
+        w(`            referencedColumns: ${JSON.stringify(r.ref_columns)};`);
+        w("          },");
+      }
+      w("        ];");
+    }
     w("      };");
   }
   w("    };");

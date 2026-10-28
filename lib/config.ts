@@ -1,7 +1,7 @@
 /** Single place to rename the product. */
-export const APP_NAME = "Qaima";
+export const APP_NAME = "Liinky";
 
-/** Public domain, e.g. "qaima.dz". Used to build menu links. */
+/** Public domain, e.g. "liinky.app". Used to build menu links. */
 export const APP_DOMAIN = process.env.NEXT_PUBLIC_APP_DOMAIN ?? "localhost:3000";
 
 export const APP_URL =
