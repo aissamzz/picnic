@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils/cn";
+import { cx as cn } from "@/lib/utils/cx";
 
 /**
  * Thin Kabyle-style band: a row of triangles over a checkerboard strip,

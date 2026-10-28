@@ -18,8 +18,10 @@ export async function resolveLocale(): Promise<Locale> {
   return negotiateLocale(h.get("accept-language")) ?? defaultLocale;
 }
 
-export default getRequestConfig(async () => {
-  const locale = await resolveLocale();
+export default getRequestConfig(async ({ requestLocale }) => {
+  // Static (ISR) public menus call setRequestLocale(); everything else resolves per request.
+  const requested = await requestLocale;
+  const locale = isLocale(requested) ? requested : await resolveLocale();
   return {
     locale,
     messages: (await import(`../../messages/${locale}.json`)).default,

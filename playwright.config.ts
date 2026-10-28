@@ -1,4 +1,8 @@
+import { existsSync } from "node:fs";
 import { defineConfig, devices } from "@playwright/test";
+
+// Service key etc. for tests that seed data directly (local stack writes .env.local).
+if (existsSync(".env.local")) process.loadEnvFile(".env.local");
 
 /**
  * E2E against the running app + Supabase stack.

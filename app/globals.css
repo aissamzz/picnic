@@ -49,6 +49,17 @@
   --font-sans: var(--font-inter), var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
   --font-arabic: var(--font-cairo), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
+  /* Public menu theme: each template sets the --m-* variables. */
+  --color-m-bg: var(--m-bg);
+  --color-m-surface: var(--m-surface);
+  --color-m-fg: var(--m-fg);
+  --color-m-muted: var(--m-muted);
+  --color-m-line: var(--m-line);
+  --color-m-accent: var(--m-accent);
+  --color-m-on-accent: var(--m-on-accent);
+  --color-m-price: var(--m-price);
+  --radius-m: var(--m-radius);
+
   --shadow-sheet: 0 -8px 32px rgb(28 27 25 / 0.12);
   --shadow-card: 0 1px 2px rgb(28 27 25 / 0.06), 0 1px 1px rgb(28 27 25 / 0.04);
 }
@@ -82,4 +93,163 @@
 
 @utility tabular {
   font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------------------
+   Public menus
+   --------------------------------------------------------------------------- */
+.menu-root {
+  --m-bg: #ffffff;
+  --m-surface: #ffffff;
+  --m-fg: #1c1b19;
+  --m-muted: #5e5a53;
+  --m-line: #e7e3da;
+  --m-accent: #1f6b4a;
+  --m-on-accent: #ffffff;
+  --m-price: var(--m-fg);
+  --m-radius: 16px;
+  --m-display: inherit;
+  background: var(--m-bg);
+  color: var(--m-fg);
+}
+
+/* Template display faces (self-hosted, see scripts/fetch-menu-fonts.mjs).
+   Only the face a page uses is downloaded; the active one is preloaded. */
+@font-face {
+  font-family: "Menu pizzeria";
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/menu/pizzeria.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Menu cafe";
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/menu/cafe.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Menu traditionnel";
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/menu/traditionnel.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Menu gastro";
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/menu/gastro.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Menu patisserie";
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/menu/patisserie.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Menu grill";
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/menu/grill.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Menu jus";
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/menu/jus.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Menu mer";
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/menu/mer.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Menu coffee";
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/menu/coffee.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Menu traditionnel";
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/menu/traditionnel-arabic.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+}
+@font-face {
+  font-family: "Menu Cairo";
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/menu/cairo.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+}
+/* Menus don't load Inter: Latin text uses the system UI font, Arabic uses
+   the self-hosted Cairo (preloaded on Arabic pages only). */
+.menu-doc {
+  --font-inter: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-cairo: "Menu Cairo";
+}
+.font-display {
+  font-family: var(--m-display), var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
+}
+html[lang="ar"] .font-display {
+  /* Latin display faces don't cover Arabic: Cairo takes over glyph by glyph. */
+  letter-spacing: 0;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Bottom sheet built on <dialog>: native focus trap, Esc, inert background. */
+.m-sheet {
+  margin: auto auto 0;
+  width: 100%;
+  max-width: 32rem;
+  max-height: 92dvh;
+  padding: 0;
+  border: 0;
+  border-radius: 24px 24px 0 0;
+  background: var(--m-surface);
+  color: var(--m-fg);
+  overflow: hidden;
+}
+.m-sheet::backdrop {
+  background: rgb(0 0 0 / 0.5);
+}
+.m-sheet[open] {
+  display: flex;
+  flex-direction: column;
+  animation: m-sheet-in 0.22s ease-out;
+}
+@media (min-width: 640px) {
+  .m-sheet {
+    margin: auto;
+    border-radius: 24px;
+  }
+}
+@keyframes m-sheet-in {
+  from {
+    transform: translateY(32px);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .m-sheet[open] {
+    animation: none;
+  }
+  html:focus-within {
+    scroll-behavior: auto !important;
+  }
 }

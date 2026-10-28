@@ -1,14 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Cairo, Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Toaster } from "@/components/ui/toast";
 import { APP_NAME, APP_URL } from "@/lib/config";
+import { cairo, inter } from "@/lib/fonts";
 import { localeDir, type Locale } from "@/lib/i18n/config";
-import "./globals.css";
+import "../globals.css";
 
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
-const cairo = Cairo({ variable: "--font-cairo", subsets: ["arabic", "latin"], display: "swap" });
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta");

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { Card } from "@/components/ui/card";
 import { requireRestaurant, requireSession } from "@/lib/auth/session";
-import { signOut } from "@/app/(auth)/actions";
+import { signOut } from "@/app/(site)/(auth)/actions";
 
 export default async function MorePage() {
   const { profile } = await requireSession();

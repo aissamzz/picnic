@@ -6,6 +6,7 @@ import type { z } from "zod";
 import { fail, zodFieldErrors, type ActionResult } from "@/lib/actions/result";
 import { getMyRestaurant, requireOwnerRestaurant, requireSession } from "@/lib/auth/session";
 import { resolveLocale } from "@/lib/i18n/request";
+import { revalidateMenu } from "@/lib/menu/revalidate";
 import { slugCandidates } from "@/lib/slug";
 import { toWebp } from "@/lib/storage/images";
 import { PUBLIC_BUCKET } from "@/lib/storage";
@@ -89,6 +90,7 @@ export async function saveInfo(input: z.input<typeof infoSchema>): Promise<Actio
     }
     // The menu's default language follows the language the owner set up in.
     await supabase.from("restaurants").update({ default_locale: await resolveLocale() }).eq("id", data);
+    revalidateMenu(v.slug);
     return { ok: true, data: { restaurantId: data } };
   }
 
@@ -110,6 +112,7 @@ export async function saveInfo(input: z.input<typeof infoSchema>): Promise<Actio
     })
     .eq("id", existing.id);
   if (error) return fail(error.code === "42501" ? "errors.locked" : "errors.generic");
+  revalidateMenu(existing.slug, v.slug);
   return { ok: true, data: { restaurantId: existing.id } };
 }
 
@@ -137,6 +140,7 @@ export async function uploadLogo(form: FormData): Promise<ActionResult<{ path: s
   if (error) return fail("errors.locked");
   if (before?.logo_path) await service.storage.from(PUBLIC_BUCKET).remove([before.logo_path]);
   revalidatePath("/app", "layout");
+  revalidateMenu(r.slug);
   return { ok: true, data: { path } };
 }
 
@@ -148,6 +152,7 @@ export async function removeLogo(): Promise<ActionResult> {
   if (error) return fail("errors.locked");
   if (before?.logo_path) await createServiceClient().storage.from(PUBLIC_BUCKET).remove([before.logo_path]);
   revalidatePath("/app", "layout");
+  revalidateMenu(r.slug);
   return { ok: true };
 }
 
@@ -168,6 +173,7 @@ export async function saveTemplate(input: z.input<typeof templateSchema>): Promi
   const supabase = await createClient();
   const { error } = await supabase.from("restaurants").update({ template_key: parsed.data.templateKey }).eq("id", r.id);
   if (error) return fail("errors.locked");
+  revalidateMenu(r.slug);
   await advance(r.id, r.onboarding_step, 2);
   return { ok: true };
 }
@@ -185,6 +191,7 @@ export async function addCategory(input: z.input<typeof categoryInputSchema>): P
   const { error } = await supabase.from("categories").insert({ restaurant_id: r.id, name: parsed.data.name, position: (count ?? 0) + 1 });
   if (error) return fail(error.code === "42501" ? "errors.locked" : "errors.generic");
   revalidatePath("/app/onboarding/3");
+  revalidateMenu(r.slug);
   return { ok: true };
 }
 
@@ -198,6 +205,7 @@ export async function deleteCategory(categoryId: string): Promise<ActionResult> 
     .eq("restaurant_id", r.id);
   if (error) return fail("errors.generic");
   revalidatePath("/app/onboarding/3");
+  revalidateMenu(r.slug);
   return { ok: true };
 }
 
@@ -220,6 +228,7 @@ export async function addItem(input: z.input<typeof itemInputSchema>): Promise<A
   });
   if (error) return fail(error.code === "42501" ? "errors.locked" : "errors.generic");
   revalidatePath("/app/onboarding/3");
+  revalidateMenu(r.slug);
   return { ok: true };
 }
 
@@ -233,6 +242,7 @@ export async function deleteItem(itemId: string): Promise<ActionResult> {
     .eq("restaurant_id", r.id);
   if (error) return fail("errors.generic");
   revalidatePath("/app/onboarding/3");
+  revalidateMenu(r.slug);
   return { ok: true };
 }
 
@@ -260,6 +270,7 @@ export async function saveLanguages(input: z.input<typeof languagesSchema>): Pro
     const name = { ...(row.name as Record<string, string>), [tr.locale]: tr.value };
     await supabase.from(table).update({ name }).eq("id", tr.id).eq("restaurant_id", r.id);
   }
+  revalidateMenu(r.slug);
   await advance(r.id, r.onboarding_step, 5);
   return { ok: true };
 }
@@ -290,6 +301,7 @@ export async function saveTables(input: z.input<typeof tablesSchema>, labelTempl
   await supabase.from("tables").update({ is_active: true }).eq("restaurant_id", r.id).in("code", codes.length ? codes : ["-"]);
   const extras = (existing ?? []).filter((t) => /^T\d+$/.test(t.code) && Number(t.code.slice(1)) > n).map((t) => t.id);
   if (extras.length) await supabase.from("tables").update({ is_active: false }).in("id", extras);
+  revalidateMenu(r.slug);
   await advance(r.id, r.onboarding_step, 6);
   return { ok: true };
 }

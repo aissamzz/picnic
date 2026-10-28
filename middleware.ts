@@ -1,6 +1,35 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { isLocale, LOCALE_COOKIE } from "@/lib/i18n/config";
+import { TABLE_SLUG_SUFFIX } from "@/lib/config";
+import { isLocale, LOCALE_COOKIE, negotiateLocale } from "@/lib/i18n/config";
+import { MENU_ROUTE_PREFIX, menuSegment } from "@/lib/routes";
+import { parseMenuSegment } from "@/lib/slug";
 import { refreshSession } from "@/lib/supabase/middleware";
+
+// Old slug -> current slug, cached per instance for a minute.
+const slugCache = new Map<string, { to: string | null; exp: number }>();
+
+/** Current slug when `slug` is a renamed restaurant's old slug, else null. */
+async function renamedTo(slug: string): Promise<string | null> {
+  const hit = slugCache.get(slug);
+  if (hit && hit.exp > Date.now()) return hit.to;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  try {
+    const res = await fetch(`${url}/rest/v1/rpc/resolve_public_slug`, {
+      method: "POST",
+      headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ p_slug: slug }),
+    });
+    const rows = (await res.json()) as { slug: string; redirect: boolean }[];
+    const to = Array.isArray(rows) && rows[0]?.redirect ? rows[0].slug : null;
+    if (slugCache.size > 5000) slugCache.clear();
+    slugCache.set(slug, { to, exp: Date.now() + 60_000 });
+    return to;
+  } catch {
+    return null; // the page falls back to a query-less redirect
+  }
+}
 
 /** Paths that need a fresh Supabase session. Public menus stay cookie-free and cacheable. */
 const SESSION_PATHS = /^\/(app|admin|connexion|inscription|mot-de-passe-oublie|invitation)(\/|$)/;
@@ -12,6 +41,27 @@ export async function middleware(request: NextRequest) {
 
   // `?lang=fr|ar` forces a locale (shareable links, SEO alternates) and persists it.
   const lang = searchParams.get("lang");
+
+  // Restaurant links: rewrite to the cookie-free, cacheable menu route.
+  // Language: ?lang > diner's choice (cookie) > browser > restaurant default.
+  const segment = menuSegment(pathname);
+  if (segment) {
+    // Renamed restaurant: 301 to the new link, keeping ?t= (table QR codes) and ?src=.
+    const { slug, mode } = parseMenuSegment(segment);
+    const to = await renamedTo(slug);
+    if (to) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/${to}${mode === "table" ? TABLE_SLUG_SUFFIX : ""}`;
+      return NextResponse.redirect(url, 301);
+    }
+    const cookie = request.cookies.get(LOCALE_COOKIE)?.value;
+    const chosen = isLocale(lang) ? lang : isLocale(cookie) ? cookie : (negotiateLocale(request.headers.get("accept-language")) ?? "default");
+    const url = request.nextUrl.clone();
+    url.pathname = `${MENU_ROUTE_PREFIX}/${chosen}/${encodeURIComponent(segment)}`;
+    const res = NextResponse.rewrite(url);
+    if (isLocale(lang)) res.cookies.set(LOCALE_COOKIE, lang, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
+    return res;
+  }
   const requestHeaders = new Headers(request.headers);
   if (isLocale(lang)) requestHeaders.set("x-locale", lang);
 

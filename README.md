@@ -38,6 +38,10 @@ it out. Codes expire after 2 minutes.
 | `pnpm stack:start` / `stack:stop` / `stack:reset` | Local Supabase-compatible stack in `.local/` |
 | `pnpm test:e2e` | Playwright against the stack + `next dev` (needs the admin above) |
 
+Public menus: `/{slug}` (order link) and `/{slug}-menu?t={table}` (table QR). Preview any
+restaurant in any template: `/apercu/{template}/{fr|ar}/{slug}`. Template display fonts are
+self-hosted in `public/fonts/menu` (`node scripts/fetch-menu-fonts.mjs` re-downloads them).
+
 `/dev/ui` shows every design-system component; switch FR/AR with the language picker
 (or `?lang=ar`). Hidden in production unless `ENABLE_DEV_UI=true`.
 

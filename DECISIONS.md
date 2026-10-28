@@ -36,6 +36,22 @@ Format: what, why, and how to change it.
 26. **Onboarding step 4 (AI review) is skipped** until phase 6: step 3 goes straight to 5. Photo/PDF import buttons show "Bientôt".
 27. **Restaurant default language = the language the owner used during setup.** Generated table labels ("Table 3" / "طاولة 3") follow it.
 28. **Slugs:** generated from the name and kept in sync until edited; Arabic-only names fall back to `restaurant-<commune>`. Availability is checked live with a free alternative suggested.
-29. **Diner first-order OTP is off by default** (`first_order_otp = false`): it needed SMS. See TODO.
+29. **No first-order check for diners** (confirmed). `first_order_otp` stays false; abuse is handled by fake-order flagging and platform-wide blocked phones (phase 5).
 30. **Temporary public menu page** at `/[slug]` proves links work (slug history 301s, table vs order mode, paused state). Phase 3 replaces the rendering with the 9 templates.
 31. **Docker-free dev stack** (`pnpm stack:start`): Postgres + GoTrue + PostgREST binaries + a small Node gateway that also serves Storage from disk (no storage RLS there). Prefer `supabase start` when Docker exists.
+
+## Phase 3: Public menus
+
+32. **Two root layouts.** `app/(site)` (marketing, auth, owner app, admin) and `app/(menu)` (public menus). Menus get a cookie-free `<html>` with no i18n runtime, toaster or app fonts, so they can be statically cached and stay light.
+33. **Menu URLs are rewritten, not routed.** The middleware turns `/{slug}` and `/{slug}-menu` into `/r/{lang}/{segment}`, an ISR route (`revalidate = 3600` + on-demand `revalidateTag("menu:{slug}")` from every owner edit). Language order: `?lang=` > diner's cookie > browser `Accept-Language` > restaurant default (`default` variant). Every first path segment owned by the app is listed in `lib/routes.ts` and must be a reserved slug (unit-tested). Note: Next marks rewritten responses `Cache-Control: private`; the server-side ISR cache still serves them (~20 ms). Only matters behind a CDN.
+34. **Old slugs 301 in the middleware**, which can keep `?t=` (printed table QR codes) and `?src=`. It asks `resolve_public_slug` and caches the answer per instance for 60 s. The page keeps a query-less fallback redirect.
+35. **Device-side state.** The cached HTML is shared, so time- and visitor-dependent things are computed in the browser: open/closed (restaurant time zone), menu schedules, the table label from `?t=`, favorites (localStorage per restaurant), analytics beacon.
+36. **Templates = one shared `MenuApp`** (search, scrollspy tabs, item and info sheets, favorites, analytics) + per-template `Header`, `CategoryTabs`, `ItemCard`, `ItemSheet` (+ optional `SectionHeader`, `DishOfDay`) and a `--m-*` theme. The template is picked in a client component with `next/dynamic`: a server-side import of all nine put every template into the page's chunks.
+37. **Sheets use native `<dialog>`** (focus trap, Esc, inert background) instead of a dialog library, to keep diners' JS small.
+38. **Fonts on menus are self-hosted** (`public/fonts/menu`, fetched by `scripts/fetch-menu-fonts.mjs`, all OFL). Each page preloads only its template's display face (+ Cairo Arabic on Arabic pages); Latin body text uses the system UI font. `next/font` remains for the site/app, with `preload: false` because Next attached those preloads to menu routes through the shared stylesheet. Result: LCP 1.7–2.3 s, Lighthouse mobile performance 97–99.
+39. **JS budget.** Table mode loads ~148 KB gzipped: ~125 KB is the React 19 + Next 15 App Router runtime (present on every App Router page), ~15 KB shared menu code (incl. `next/image`), ~8 KB for the chosen template. The spec's < 100 KB isn't reachable with the App Router runtime alone; the Lighthouse target (≥ 90) is met with margin. Going lower would mean serving table mode outside React (static HTML + a small script).
+40. **Public menu code avoids `tailwind-merge`** (`cx()` instead of `cn()`), saving ~8 KB.
+41. **Table links are `noindex`** (duplicates of the order link) and canonical to `/{slug}`. Lighthouse SEO on table links is 90 because of that, by design.
+42. **Preview route** `/apercu/{template}/{fr|ar}/{slug}`: any restaurant in any template and language, uncached, no analytics, `noindex`. Used for template QA now and the appearance editor's live preview in phase 4.
+43. **Order mode in phase 3 = browse only** (sizes and extras shown in the item sheet). Cart, checkout and WhatsApp land in phase 5; the waiter-call button with them.
+44. **Photos:** seed items have none, so cards show a themed initial placeholder. Photo-heavy layouts (Grill rows, Traditionnel dish of the day) shrink when there's no photo.
