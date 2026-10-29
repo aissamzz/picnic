@@ -29,16 +29,6 @@ export async function LegalPage({ kind }: { kind: "terms" | "privacy" }) {
         <h1 className="text-4xl font-extrabold tracking-tight">{kind === "terms" ? t("terms") : t("privacy")}</h1>
         <p className="mt-1 text-sm text-muted">{t("updated")}</p>
       </div>
-      <nav aria-labelledby="toc" className="flex flex-col gap-1 rounded-2xl bg-white p-4">
-        <p id="toc" className="text-xs font-extrabold tracking-wider text-muted uppercase">
-          {t("contents")}
-        </p>
-        {sections.map((s) => (
-          <a key={s.id} href={`#${s.id}`} className="inline-flex min-h-9 items-center font-semibold text-primary">
-            {s.title}
-          </a>
-        ))}
-      </nav>
       {sections.map((s) => (
         <section key={s.id} id={s.id} className="scroll-mt-20">
           <h2 className="mb-1 text-xl font-extrabold">{s.title}</h2>

@@ -1,4 +1,3 @@
-import { BarChart3, BellRing, MessageCircle, WifiOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -7,9 +6,9 @@ import { PricingCards } from "@/components/marketing/pricing-cards";
 import { TemplateCards } from "@/components/marketing/template-cards";
 import type { Locale } from "@/lib/i18n/config";
 import { getPublicPricing } from "@/lib/marketing/pricing";
+import { APP_URL } from "@/lib/config";
 import { formatPrice } from "@/lib/price";
-
-const FEATURE_ICONS = [MessageCircle, BellRing, WifiOff, BarChart3];
+import { brandedQrSvg } from "@/lib/qr/branded";
 
 export default async function Home() {
   const t = await getTranslations("marketing");
@@ -23,9 +22,6 @@ export default async function Home() {
     <>
       <section className="mx-auto grid max-w-6xl gap-10 px-4 pt-8 pb-14 md:grid-cols-[1.1fr_0.9fr] md:items-center md:pt-14">
         <div className="flex flex-col gap-5">
-          <span className="self-start rounded-full bg-primary-soft px-3 py-1.5 text-sm font-bold text-[#A3123F]">
-            {t("hero.badge", { days: pricing?.trial_days ?? 14 })}
-          </span>
           <h1 className="text-4xl leading-[1.08] font-extrabold tracking-tight text-balance md:text-6xl">{t("hero.title")}</h1>
           <p className="max-w-xl text-lg leading-relaxed text-muted">{t("hero.body")}</p>
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -36,6 +32,7 @@ export default async function Home() {
               {t("hero.demo")}
             </Link>
           </div>
+          <p className="text-sm text-muted">{t("hero.note", { days: pricing?.trial_days ?? 14 })}</p>
         </div>
         <div className="relative mx-auto w-full max-w-sm">
           <div className="absolute inset-x-6 top-10 bottom-0 rounded-[40px] bg-primary" aria-hidden />
@@ -59,7 +56,9 @@ export default async function Home() {
           <ol className="grid gap-6 md:grid-cols-3">
             {steps.map((s, i) => (
               <li key={s.title} className="flex gap-4">
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-primary-soft text-lg font-extrabold text-[#A3123F]">{i + 1}</span>
+                <span className="w-6 shrink-0 text-2xl leading-7 font-extrabold text-primary" aria-hidden>
+                  {i + 1}
+                </span>
                 <span className="flex flex-col gap-1">
                   <span className="text-lg font-bold">{s.title}</span>
                   <span className="leading-relaxed text-muted">{s.body}</span>
@@ -85,24 +84,19 @@ export default async function Home() {
 
       <section className="mx-auto max-w-6xl px-4 pb-14">
         <h2 className="mb-6 text-3xl font-extrabold tracking-tight">{t("features.title")}</h2>
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((f, i) => {
-            const Icon = FEATURE_ICONS[i];
-            return (
-              <li key={f.title} className="flex flex-col gap-2 rounded-3xl bg-white p-5">
-                <Icon className="size-6 text-primary" aria-hidden />
-                <span className="font-bold">{f.title}</span>
-                <span className="text-sm leading-relaxed text-muted">{f.body}</span>
-              </li>
-            );
-          })}
-        </ul>
+        <dl className="grid gap-x-10 border-t border-line sm:grid-cols-2">
+          {features.map((f) => (
+            <div key={f.title} className="flex flex-col gap-1 border-b border-line py-5">
+              <dt className="font-bold">{f.title}</dt>
+              <dd className="leading-relaxed text-muted">{f.body}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       <section className="bg-ink text-white">
         <div className="mx-auto grid max-w-6xl gap-6 px-4 py-14 md:grid-cols-2 md:items-center">
           <div className="flex flex-col gap-3">
-            <span className="text-sm font-extrabold tracking-wider text-accent">{t("kit.eyebrow")}</span>
             <h2 className="text-3xl font-extrabold tracking-tight">{t("kit.title")}</h2>
             <p className="leading-relaxed text-white/80">{t("kit.body")}</p>
             {pricing && (
@@ -111,11 +105,13 @@ export default async function Home() {
               </p>
             )}
           </div>
-          <div className="flex h-44 items-center justify-center gap-4 rounded-3xl bg-white/5" aria-hidden>
-            {[0, 1, 2].map((i) => (
-              <div key={i} className="flex h-32 w-20 flex-col items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10">
-                <Image src="/brand/liinky-symbol-white.svg" alt="" width={32} height={32} />
-                <span className="text-xs font-bold text-white/80">T{i + 1}</span>
+          {/* Table stands with real (branded) QR codes. */}
+          <div className="flex items-end justify-center gap-4 py-4" aria-hidden>
+            {[1, 2, 3].map((n) => (
+              <div key={n} className="flex w-28 flex-col items-center gap-2 rounded-t-2xl rounded-b-md border border-white/25 bg-white/10 px-3 pt-3 pb-2 backdrop-blur-sm">
+                <Image src="/brand/liinky-horizontal-reversed.svg" alt="" width={96} height={34} className="h-auto w-20" />
+                <span className="block w-full rounded-lg bg-white p-1.5 [&_svg]:h-auto [&_svg]:w-full" dangerouslySetInnerHTML={{ __html: brandedQrSvg(`${APP_URL}/template-${n}`, { margin: 1 }) }} />
+                <span className="text-sm font-bold">Table {n}</span>
               </div>
             ))}
           </div>

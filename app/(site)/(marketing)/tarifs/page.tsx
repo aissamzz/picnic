@@ -34,7 +34,7 @@ export default async function PricingPage() {
           </li>
         ))}
       </ul>
-      <p className="rounded-2xl bg-primary-soft p-4 text-[#A3123F]">{t("noOnline")}</p>
+      <p className="rounded-2xl bg-primary-soft p-4 text-primary-ink">{t("noOnline")}</p>
 
       <h2 className="mt-4 text-2xl font-extrabold tracking-tight">{t("includedTitle")}</h2>
       <ul className="divide-y divide-line rounded-2xl bg-white px-4">

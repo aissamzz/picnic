@@ -172,7 +172,7 @@ export function CombosManager({ combos, categories, editable, locale }: { combos
               <p className="text-sm text-muted">{t("containsHint")}</p>
               {categories.map((c) => (
                 <div key={c.id} className="flex flex-col">
-                  <p className="pt-2 text-xs font-bold tracking-wide text-muted uppercase">{tx(c.name, locale)}</p>
+                  <p className="pt-3 text-sm font-semibold text-muted">{tx(c.name, locale)}</p>
                   {c.items.map((i) => {
                     const checked = editing.itemIds.includes(i.id);
                     return (

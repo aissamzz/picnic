@@ -1,6 +1,5 @@
 import { AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
-import { KabyleBand } from "./kabyle-band";
 
 type StateProps = {
   icon?: React.ReactNode;
@@ -10,14 +9,13 @@ type StateProps = {
   className?: string;
 };
 
-/** Empty list / first-run state. Carries the brand band. */
+/** Empty list / first-run state. */
 export function EmptyState({ icon, title, description, action, className }: StateProps) {
   return (
-    <div className={cn("flex flex-col items-center overflow-hidden rounded-lg border border-line bg-surface text-center", className)}>
-      <KabyleBand />
+    <div className={cn("flex flex-col items-center rounded-lg border border-line bg-surface text-center", className)}>
       <div className="flex flex-col items-center gap-3 px-6 py-8">
         {icon && (
-          <div className="flex size-14 items-center justify-center rounded-full bg-sand text-clay [&_svg]:size-7">{icon}</div>
+          <div className="flex size-12 items-center justify-center rounded-full bg-cream text-primary [&_svg]:size-6">{icon}</div>
         )}
         <h3 className="text-base font-semibold">{title}</h3>
         {description && <p className="max-w-xs text-sm text-muted">{description}</p>}

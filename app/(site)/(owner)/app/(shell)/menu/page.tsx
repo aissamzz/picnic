@@ -24,10 +24,10 @@ export default async function MenuPage() {
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">{t("title")}</h1>
       {!editable && <LockedNotice />}
-      <nav aria-label={t("title")} className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+      <nav aria-label={t("title")} className="flex flex-wrap gap-2">
         {tools.map(({ href, label, icon: Icon }) => (
-          <Link key={href} href={href} className="flex min-h-16 flex-col items-center justify-center gap-1 rounded-lg border border-line bg-surface px-2 text-center text-sm font-medium hover:bg-sand">
-            <Icon className="size-5 text-primary" aria-hidden />
+          <Link key={href} href={href} className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-surface px-4 text-sm font-semibold hover:border-ink/30">
+            <Icon className="size-4 text-muted" aria-hidden />
             {label}
           </Link>
         ))}

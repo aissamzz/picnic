@@ -3,7 +3,6 @@ import { getTranslations } from "next-intl/server";
 import { LinkRow } from "@/components/owner/link-row";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { KabyleBand } from "@/components/ui/kabyle-band";
 import { APP_NAME } from "@/lib/config";
 import { menuLinks } from "@/lib/links";
 import { qrSvg } from "@/lib/qr";
@@ -24,7 +23,6 @@ export async function LiveStep({ slug }: { slug: string }) {
   return (
     <div className="flex flex-col gap-5">
       <Card className="overflow-hidden text-center">
-        <KabyleBand />
         <div className="flex flex-col items-center gap-1 px-4 py-6">
           <h1 className="text-2xl font-bold">{t("title")}</h1>
           <p className="text-muted">{t("subtitle")}</p>

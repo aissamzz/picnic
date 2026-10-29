@@ -1543,12 +1543,12 @@
       "home": "Accueil"
     },
     "hero": {
-      "badge": "{days} jours gratuits · sans carte bancaire",
       "title": "Votre menu papier en menu QR, en 5 minutes.",
       "body": "Prenez une photo de votre carte, l'IA la recopie en français et en arabe. Vos clients consultent à table, et commandent sur WhatsApp depuis vos réseaux sociaux.",
       "cta": "Commencer l'essai gratuit",
       "demo": "Voir un menu démo",
-      "imageAlt": "Un menu Liinky sur téléphone : bannière, meilleures ventes et combos"
+      "imageAlt": "Un menu Liinky sur téléphone : bannière, meilleures ventes et combos",
+      "note": "{days} jours gratuits, sans carte bancaire."
     },
     "steps": {
       "title": "Comment ça marche",
@@ -1573,7 +1573,7 @@
       "all": "Voir tous les modèles"
     },
     "features": {
-      "title": "Tout ce qu'il faut, rien de compliqué",
+      "title": "Au quotidien",
       "items": [
         {
           "title": "Commandes WhatsApp",
@@ -1594,9 +1594,8 @@
       ]
     },
     "kit": {
-      "eyebrow": "AVEC L'ABONNEMENT ANNUEL",
       "title": "Le kit QR en plexiglas, livré chez vous",
-      "body": "Un présentoir par table, numéroté, à votre logo, et des affiches pour la vitrine. Livraison dans les 58 wilayas, paiement à la livraison.",
+      "body": "Avec l'abonnement annuel : un présentoir par table, numéroté, à votre logo, et des affiches pour la vitrine. Livraison dans les 58 wilayas, paiement à la livraison.",
       "price": "Kit + 12 mois d'abonnement : {price}"
     },
     "pricing": {
@@ -1607,10 +1606,10 @@
       "perYear": "/ an",
       "perSix": "/ 6 mois",
       "perMonth": "/ mois",
-      "best": "LE PLUS CHOISI",
       "offline": "Paiement hors ligne uniquement : BaridiMob, versement CCP, espèces, ou à la livraison du kit.",
       "details": "Voir le détail des tarifs",
-      "unavailable": "Tarifs bientôt affichés."
+      "unavailable": "Tarifs bientôt affichés.",
+      "monthlyEquiv": "soit {price} par mois"
     },
     "faq": {
       "title": "Questions fréquentes",
@@ -1645,7 +1644,7 @@
     },
     "pricingPage": {
       "metaTitle": "Tarifs",
-      "title": "Un prix clair. Tout inclus.",
+      "title": "Tarifs",
       "body": "Menu de table, lien de commande, 2 langues, import par IA, statistiques et équipe. Seule la durée change.",
       "annualNote": "Le kit QR plexiglas est proposé avec l'abonnement annuel, livré et payé à la livraison.",
       "semiNote": "Engagement 6 mois",

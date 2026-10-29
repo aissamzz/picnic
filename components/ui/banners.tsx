@@ -9,11 +9,11 @@ import { cn } from "@/lib/utils/cn";
 export type SubscriptionBannerState = "trial" | "trial_ending" | "grace" | "expired" | "renewal_due";
 
 const styles: Record<SubscriptionBannerState, { box: string; icon: React.ReactNode }> = {
-  trial: { box: "bg-info-soft text-info", icon: <Clock /> },
+  trial: { box: "border border-line bg-surface text-ink [&_svg]:text-muted", icon: <Clock /> },
   trial_ending: { box: "bg-warning-soft text-warning", icon: <Clock /> },
   grace: { box: "bg-warning-soft text-warning", icon: <AlertTriangle /> },
   expired: { box: "bg-danger-soft text-danger", icon: <Lock /> },
-  renewal_due: { box: "bg-primary-soft text-primary", icon: <RefreshCw /> },
+  renewal_due: { box: "bg-primary-soft text-primary-ink", icon: <RefreshCw /> },
 };
 
 /** Subscription status strip on top of the owner app. */

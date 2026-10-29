@@ -21,7 +21,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <div className="flex items-center justify-between">
           <Link href="/admin" className="flex items-center gap-2">
             <Logo />
-            <span className="rounded-sm bg-ink px-1.5 py-0.5 text-[11px] font-bold tracking-wide text-white uppercase">{t("title")}</span>
+            <span className="rounded-md bg-ink px-2 py-0.5 text-xs font-semibold text-white">{t("title")}</span>
           </Link>
           <LanguagePicker className="lg:hidden" />
         </div>

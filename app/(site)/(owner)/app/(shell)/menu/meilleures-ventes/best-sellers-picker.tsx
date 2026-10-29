@@ -50,7 +50,7 @@ export function BestSellersPicker({ categories, editable, locale }: { categories
         .filter((c) => c.items.length > 0)
         .map((c) => (
           <Card key={c.id} className="flex flex-col p-2">
-            <h2 className="px-2 pt-1 pb-2 text-sm font-bold tracking-wide text-muted uppercase">{tx(c.name, locale)}</h2>
+            <h2 className="px-2 pt-1 pb-2 font-semibold">{tx(c.name, locale)}</h2>
             <ul className="divide-y divide-line">
               {c.items.map((i) => {
                 const name = tx(i.name, locale);
