@@ -1,7 +1,7 @@
 -- Phase 9: team invites and the hours/links settings.
 begin;
 
-select plan(14);
+select plan(18);
 
 create function pg_temp.as_user(p_sub uuid) returns void language plpgsql as $f$
 begin
@@ -60,6 +60,23 @@ select lives_ok($$select public.save_hours_and_links('00000000-0000-4000-a000-00
 select is((select count(*)::text || '/' || (select instagram from public.social_links where restaurant_id = '00000000-0000-4000-a000-000000000001')
   from public.opening_hours where restaurant_id = '00000000-0000-4000-a000-000000000001'), '2/@roma', 'replaced in one go');
 reset role;
+
+-- ---------------------------------------------------------------------------
+-- Nightly maintenance
+-- ---------------------------------------------------------------------------
+insert into public.ai_imports (restaurant_id, source_paths, status, created_at) values
+  ('00000000-0000-4000-a000-000000000001', '{r/old/1.jpg,r/old/2.jpg}', 'done', now() - interval '31 days'),
+  ('00000000-0000-4000-a000-000000000001', '{r/new/1.jpg}', 'done', now() - interval '2 days');
+update public.items set deleted_at = now() - interval '40 days', photos = '{r/dish.webp}'
+where id = (select id from public.items where restaurant_id = '00000000-0000-4000-a000-000000000001' order by id limit 1);
+insert into public.phone_codes (user_id, phone, purpose, status, code_hash, issued_at, expires_at) values
+  ('99999999-0000-4000-8000-00000000000b', '+213555900102', 'reset_password', 'issued', 'x', now() - interval '10 minutes', now() - interval '8 minutes');
+
+create temp table m as select public.run_maintenance() as r;
+select is((select r -> 'import_paths' from m), '["r/old/1.jpg", "r/old/2.jpg"]'::jsonb, 'old import sources returned for deletion');
+select is((select r -> 'photo_paths' from m), '["r/dish.webp"]'::jsonb, 'photos of long-deleted dishes returned');
+select is((select status::text from public.phone_codes where user_id = '99999999-0000-4000-8000-00000000000b'), 'expired', 'stale codes expire');
+select is((select public.run_maintenance() -> 'import_paths'), '[]'::jsonb, 'second run finds nothing (idempotent)');
 
 select * from finish();
 rollback;

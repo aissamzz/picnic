@@ -16,6 +16,8 @@ import { publicImageUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils/cn";
 import { reorderItems, setSoldOut } from "../../../actions";
 import { enqueue, isNetworkError, isOffline } from "@/lib/offline/queue";
+import { UtensilsCrossed } from "lucide-react";
+import { EmptyState } from "@/components/ui/states";
 
 /** "800 DA" or "1 100 DA – 1 500 DA"; each price isolated so ranges read right in Arabic. */
 function PriceLabel({ item, locale, none }: { item: AdminItemRow; locale: Locale; none: string }) {
@@ -66,7 +68,7 @@ export function ItemsBoard({ items, editable, locale }: { items: AdminItemRow[];
     });
   }
 
-  if (items.length === 0) return null;
+  if (items.length === 0) return <EmptyState icon={<UtensilsCrossed />} title={t("noItemsTitle")} description={t("noItemsBody")} />;
   return (
     <SortableList
       items={items}

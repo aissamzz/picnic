@@ -37,10 +37,22 @@ it out. Codes expire after 2 minutes.
 | `pnpm db:types` | Same, then regenerates `lib/supabase/types.ts` |
 | `pnpm stack:start` / `stack:stop` / `stack:reset` | Local Supabase-compatible stack in `.local/` |
 | `pnpm test:e2e` | Playwright against the stack + `next dev` (needs the admin above) |
+| `E2E_BASE_URL=http://localhost:3100 E2E_SW=1 pnpm test:e2e e2e/offline.spec.ts` | Service-worker test against `pnpm build && PORT=3100 pnpm start` |
 
 Public menus: `/{slug}` (order link) and `/{slug}-menu?t={table}` (table QR). Preview any
 restaurant in any template: `/apercu/{template}/{fr|ar}/{slug}`. Template display fonts are
 self-hosted in `public/fonts/menu` (`node scripts/fetch-menu-fonts.mjs` re-downloads them).
+
+### Offline and install
+
+`pnpm build` also builds the service worker (`sw/sw.ts` → `public/sw.js`, Serwist). Menus a
+phone has opened stay readable offline; the owner app queues sold-out toggles and price edits
+made offline and sends them on reconnect. The worker only registers in production builds
+(`NEXT_PUBLIC_SW_DEV=1` forces it in dev).
+
+### Deploying
+
+Docker + Coolify, environment variables, the nightly job and the first admin: see `DEPLOY.md`.
 
 `/dev/ui` shows every design-system component; switch FR/AR with the language picker
 (or `?lang=ar`). Hidden in production unless `ENABLE_DEV_UI=true`.
@@ -55,6 +67,8 @@ messages/{fr,ar}.json     all UI strings
 supabase/migrations       schema, RLS, public RPCs, storage
 supabase/seed.sql         Pizzeria Roma (Jijel) + Café El Bahia (Béjaïa)
 supabase/tests            RLS tests (pgTAP format) + local runner
+sw/                       service worker source (Serwist)
+e2e/                      Playwright specs
 ```
 
 See `DECISIONS.md` for choices made along the way and `TODO.md` for open items.

@@ -983,7 +983,9 @@
         "Ven",
         "Sam"
       ]
-    }
+    },
+    "noItemsTitle": "Pas encore de plat ici",
+    "noItemsBody": "Ajoutez le premier plat de cette catégorie."
   },
   "owner": {
     "appearance": {

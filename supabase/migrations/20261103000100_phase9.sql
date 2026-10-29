@@ -77,3 +77,50 @@ revoke execute on function public.invite_staff(uuid, text), public.remove_member
   public.save_hours_and_links(uuid, jsonb, jsonb, jsonb) from public, anon;
 grant execute on function public.invite_staff(uuid, text), public.remove_member(uuid), public.team_members(uuid),
   public.save_hours_and_links(uuid, jsonb, jsonb, jsonb) to authenticated;
+
+-- ---------------------------------------------------------------------------
+-- Nightly maintenance (service role, from POST /api/cron/nightly).
+-- Returns the storage paths the caller must delete: Storage files can only be
+-- removed through the Storage API, so the rows are cleared here first.
+-- ---------------------------------------------------------------------------
+create or replace function public.run_maintenance()
+returns jsonb language plpgsql volatile security definer set search_path = '' as $$
+declare
+  v_codes int;
+  v_limits int;
+  v_imports text[];
+  v_photos text[];
+begin
+  -- Codes: issued ones past their timer expire; requests nobody answered in a day are dropped.
+  with x as (
+    update public.phone_codes set
+      status = case when status = 'issued' then 'expired'::public.code_status else 'cancelled'::public.code_status end,
+      code_hash = null
+    where (status = 'issued' and expires_at < now()) or (status = 'requested' and requested_at < now() - interval '1 day')
+    returning 1
+  ) select count(*) into v_codes from x;
+
+  with x as (delete from public.rate_limits where window_start < now() - interval '2 days' returning 1)
+  select count(*) into v_limits from x;
+
+  -- AI import sources (photos/PDF of the paper menu) are kept 30 days for support.
+  with old as (
+    select id, source_paths from public.ai_imports
+    where created_at < now() - interval '30 days' and cardinality(source_paths) > 0 for update
+  ), cleared as (
+    update public.ai_imports a set source_paths = '{}' from old where a.id = old.id
+  ) select coalesce(array_agg(p order by p), '{}') into v_imports from old, unnest(old.source_paths) p;
+
+  -- Photos of dishes deleted more than 30 days ago (the undo window is long gone).
+  with old as (
+    select id, photos from public.items
+    where deleted_at < now() - interval '30 days' and cardinality(photos) > 0 for update
+  ), cleared as (
+    update public.items i set photos = '{}' from old where i.id = old.id
+  ) select coalesce(array_agg(p order by p), '{}') into v_photos from old, unnest(old.photos) p;
+
+  return jsonb_build_object('codes', v_codes, 'rate_limits', v_limits, 'import_paths', to_jsonb(v_imports), 'photo_paths', to_jsonb(v_photos));
+end $$;
+
+revoke execute on function public.run_maintenance() from public, anon, authenticated;
+grant execute on function public.run_maintenance() to service_role;

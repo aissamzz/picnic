@@ -1,0 +1,11 @@
+.git
+.next
+.local
+node_modules
+test-results
+playwright-report
+.env*
+!.env.example
+public/sw.js
+public/sw.js.map
+tsconfig.tsbuildinfo

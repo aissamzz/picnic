@@ -1802,6 +1802,10 @@ export type Database = {
         Args: { p_kit_id: string; p_approve: boolean; p_feedback?: string };
         Returns: undefined;
       };
+      run_maintenance: {
+        Args: never;
+        Returns: Json;
+      };
       run_subscription_tick: {
         Args: never;
         Returns: number;

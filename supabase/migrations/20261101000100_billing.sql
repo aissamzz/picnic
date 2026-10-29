@@ -113,7 +113,7 @@ end $$;
 revoke execute on function public.run_subscription_tick() from public, anon, authenticated;
 
 -- Hosted Supabase: pg_cron runs the tick at 02:15 Algiers time (01:15 UTC).
--- Elsewhere, call POST /api/cron/subscriptions with CRON_SECRET (DEPLOY.md).
+-- Elsewhere, call POST /api/cron/nightly with CRON_SECRET (DEPLOY.md).
 do $$
 begin
   if exists (select 1 from pg_available_extensions where name = 'pg_cron') then
