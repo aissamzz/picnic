@@ -158,7 +158,7 @@ test("kit board: mockup upload, drag to the next stage, tracking number", async 
   await drag("Expédié");
   await page.getByRole("dialog").getByLabel("N° de suivi").fill("YAL-4455");
   await page.getByRole("dialog").getByRole("button", { name: "Valider" }).click();
-  await expect(page.getByRole("region", { name: "Expédié" }).getByText("N° de suivi : YAL-4455")).toBeVisible();
+  await expect(page.getByRole("region", { name: "Expédié" }).getByRole("article").filter({ hasText: o.name }).getByText("N° de suivi : YAL-4455")).toBeVisible();
 });
 
 test("settings, reserved slugs, audit log and CSV export", async ({ browser }) => {

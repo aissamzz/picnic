@@ -323,7 +323,7 @@ export function InfoStep({
       </BottomSheet>
 
       {mode === "settings" ? (
-        <div className="sticky bottom-0 -mx-4 mt-2 border-t border-line bg-sand/95 px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur">
+        <div className="sticky bottom-16 z-20 -mx-4 mt-2 border-t border-line bg-sand/95 px-4 py-3 backdrop-blur">
           <Button type="submit" size="lg" block loading={pending}>
             {ts("save")}
           </Button>
