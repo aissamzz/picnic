@@ -326,7 +326,9 @@
     "template": {
       "title": "Choisissez un modèle",
       "subtitle": "Vous pourrez en changer à tout moment.",
-      "suggested": "Suggéré"
+      "suggested": "Suggéré",
+      "position": "{n} sur {total}",
+      "open": "Voir en grand"
     },
     "import": {
       "title": "Ajoutez votre menu",
@@ -1029,23 +1031,24 @@
   "owner": {
     "appearance": {
       "title": "Apparence",
-      "subtitle": "Modèle, couleur, logo et couverture. L'aperçu se met à jour en direct.",
+      "subtitle": "Modèle, couleur, logo et bannière. L'aperçu se met à jour en direct.",
       "template": "Modèle",
       "color": "Couleur principale",
       "colorTemplate": "Couleur du modèle",
       "colorName": "Couleur {hex}",
       "logo": "Logo",
-      "cover": "Photo de couverture",
-      "coverHint": "Format paysage, utilisée par certains modèles.",
-      "coverAdd": "Ajouter une couverture",
-      "coverCrop": "Recadrer la couverture",
+      "cover": "Bannière",
+      "coverHint": "Photo en haut de votre menu, format paysage (votre salle, votre plat phare…).",
+      "coverAdd": "Ajouter une bannière",
+      "coverCrop": "Recadrer la bannière",
       "change": "Changer",
       "remove": "Retirer",
       "preview": "Aperçu",
       "previewTitle": "Aperçu du menu",
       "previewLang": "Langue de l'aperçu",
       "save": "Enregistrer l'apparence",
-      "saved": "Apparence enregistrée"
+      "saved": "Apparence enregistrée",
+      "logoHint": "Il remplace le nom de votre restaurant en haut du menu. PNG transparent idéal."
     },
     "tables": {
       "title": "Tables",

@@ -7,7 +7,7 @@ import * as React from "react";
 import { removeLogo, uploadLogo } from "@/app/(site)/(owner)/app/onboarding/actions";
 import { FormAlert } from "@/components/forms/form-alert";
 import { ImageField } from "@/components/owner/image-field";
-import { TemplatePicker } from "@/components/owner/template-picker";
+import { TemplateGallery } from "@/components/owner/template-gallery";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Chip } from "@/components/ui/chip";
@@ -20,7 +20,19 @@ import { removeCover, saveAppearance, uploadCover } from "./actions";
 type Initial = { templateKey: TemplateKey; primaryColor: string | null; logoUrl: string | null; coverUrl: string | null };
 type PaletteColor = (typeof BRAND_PALETTE)[number];
 
-export function AppearanceEditor({ slug, initial, defaultLang, editable }: { slug: string; initial: Initial; defaultLang: Locale; editable: boolean }) {
+export function AppearanceEditor({
+  slug,
+  restaurantName,
+  initial,
+  defaultLang,
+  editable,
+}: {
+  slug: string;
+  restaurantName: string;
+  initial: Initial;
+  defaultLang: Locale;
+  editable: boolean;
+}) {
   const t = useTranslations("owner.appearance");
   const tr = useTranslations();
   const router = useRouter();
@@ -40,11 +52,12 @@ export function AppearanceEditor({ slug, initial, defaultLang, editable }: { slu
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:items-start">
-      <div className="flex flex-col gap-4">
+      {/* min-w-0: the template gallery must scroll inside the column, not widen it. */}
+      <div className="flex min-w-0 flex-col gap-4">
         <FormAlert>{error && tr(error as never)}</FormAlert>
         <Card className="flex flex-col gap-3 p-4">
           <h2 className="font-semibold">{t("template")}</h2>
-          <TemplatePicker value={templateKey} onChange={setTemplateKey} legend={t("template")} compact />
+          <TemplateGallery value={templateKey} onChange={setTemplateKey} legend={t("template")} previewName={restaurantName} />
         </Card>
 
         <Card className="flex flex-col gap-3 p-4">
@@ -83,10 +96,9 @@ export function AppearanceEditor({ slug, initial, defaultLang, editable }: { slu
         <Card className="flex flex-col gap-4 p-4">
           <ImageField
             label={t("logo")}
+            hint={t("logoHint")}
             url={initial.logoUrl}
-            aspect={1}
-            round
-            labels={{ ...imageLabels, crop: tr("onboarding.info.cropTitle") }}
+            labels={imageLabels}
             disabled={!editable}
             upload={(file) => {
               const fd = new FormData();

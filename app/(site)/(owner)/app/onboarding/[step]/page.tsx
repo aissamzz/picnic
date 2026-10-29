@@ -42,8 +42,8 @@ export default async function OnboardingStepPage({ params, searchParams }: { par
       break;
     }
     case 2: {
-      const { data } = await supabase.from("restaurants").select("type, template_key").eq("id", restaurant!.id).single();
-      body = <TemplateStep current={data!.template_key} type={data!.type} />;
+      const { data } = await supabase.from("restaurants").select("name, type, template_key").eq("id", restaurant!.id).single();
+      body = <TemplateStep current={data!.template_key} type={data!.type} name={data!.name} />;
       break;
     }
     case 3: {

@@ -127,7 +127,8 @@ export async function uploadLogo(form: FormData): Promise<ActionResult<{ path: s
   if (!(file instanceof File)) return fail("errors.imageInvalid");
   let webp: Buffer;
   try {
-    webp = await toWebp(file, { width: 512, height: 512 });
+    // Any shape (wide logos too): the menu shows it whole on a white tile.
+    webp = await toWebp(file, { width: 800, height: 400, fit: "inside" });
   } catch {
     return fail("errors.imageInvalid");
   }

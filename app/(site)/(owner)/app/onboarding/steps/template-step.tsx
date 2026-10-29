@@ -2,14 +2,14 @@
 
 import { useTranslations } from "next-intl";
 import * as React from "react";
-import { TemplatePicker } from "@/components/owner/template-picker";
+import { TemplateGallery } from "@/components/owner/template-gallery";
 import type { RestaurantType } from "@/lib/dz/restaurant-types";
 import { defaultTemplateFor, type TemplateKey } from "@/lib/templates/meta";
 import { saveTemplate } from "../actions";
 import { StepFooter } from "./step-footer";
 import { StepHeader } from "./step-header";
 
-export function TemplateStep({ current, type }: { current: string; type: RestaurantType }) {
+export function TemplateStep({ current, type, name }: { current: string; type: RestaurantType; name: string }) {
   const t = useTranslations("onboarding.template");
   const [value, setValue] = React.useState<TemplateKey>(current as TemplateKey);
   const [pending, start] = React.useTransition();
@@ -26,7 +26,7 @@ export function TemplateStep({ current, type }: { current: string; type: Restaur
       }}
     >
       <StepHeader title={t("title")} subtitle={t("subtitle")} />
-      <TemplatePicker value={value} onChange={setValue} suggested={defaultTemplateFor(type)} legend={t("title")} />
+      <TemplateGallery value={value} onChange={setValue} suggested={defaultTemplateFor(type)} legend={t("title")} previewName={name} />
       <StepFooter step={2} form="template-form" pending={pending} />
     </form>
   );

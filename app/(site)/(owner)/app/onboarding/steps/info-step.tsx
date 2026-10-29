@@ -10,10 +10,8 @@ import { toast } from "sonner";
 import type { z } from "zod";
 import { FormAlert } from "@/components/forms/form-alert";
 import { applyServerErrors } from "@/components/forms/server-errors";
-import { BottomSheet } from "@/components/ui/bottom-sheet";
 import { Button } from "@/components/ui/button";
 import { describedBy, Field } from "@/components/ui/field";
-import { cropToBlob, ImageCropper, type Area } from "@/components/ui/image-cropper";
 import { Input, inputClass, Select } from "@/components/ui/input";
 import { PhoneInput, toNationalNumber } from "@/components/ui/phone-input";
 import { APP_DOMAIN } from "@/lib/config";
@@ -102,9 +100,7 @@ export function InfoStep({
     return () => window.clearTimeout(id);
   }, [slug, name, commune, initial, form]);
 
-  // Logo: pick -> crop in a sheet -> keep the blob until submit.
-  const [logoSrc, setLogoSrc] = React.useState<string | null>(null);
-  const [crop, setCrop] = React.useState<Area | null>(null);
+  // Logo: pick -> keep the file until submit (no crop: any shape works).
   const [logoBlob, setLogoBlob] = React.useState<Blob | null>(null);
   const [logoPreview, setLogoPreview] = React.useState<string | null>(publicImageUrl(initial?.logo_path));
   const [logoRemoved, setLogoRemoved] = React.useState(false);
@@ -250,10 +246,10 @@ export function InfoStep({
           {t("logo")}
         </span>
         <div className="flex items-center gap-3">
-          <div className="flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-line bg-surface">
+          <div className="flex h-20 w-32 shrink-0 items-center justify-center overflow-hidden rounded-md border border-line bg-white p-2">
             {logoPreview ? (
               // eslint-disable-next-line @next/next/no-img-element -- local blob/preview URL
-              <img src={logoPreview} alt="" className="size-full object-cover" />
+              <img src={logoPreview} alt="" className="size-full object-contain" />
             ) : (
               <ImagePlus className="size-7 text-muted" aria-hidden />
             )}
@@ -287,40 +283,17 @@ export function InfoStep({
           tabIndex={-1}
           aria-hidden
           onChange={(e) => {
+            // Logos keep their shape (no crop): the menu shows them whole.
             const f = e.target.files?.[0];
             e.target.value = "";
             if (!f) return;
-            const reader = new FileReader();
-            reader.onload = () => setLogoSrc(String(reader.result));
-            reader.readAsDataURL(f);
+            setLogoBlob(f);
+            setLogoPreview(URL.createObjectURL(f));
+            setLogoRemoved(false);
           }}
         />
       </div>
 
-      <BottomSheet
-        open={!!logoSrc}
-        onOpenChange={(o) => !o && setLogoSrc(null)}
-        title={t("cropTitle")}
-        footer={
-          <Button
-            type="button"
-            block
-            size="lg"
-            onClick={async () => {
-              if (!logoSrc || !crop) return;
-              const blob = await cropToBlob(logoSrc, crop, "image/webp", 0.9);
-              setLogoBlob(blob);
-              setLogoPreview(URL.createObjectURL(blob));
-              setLogoRemoved(false);
-              setLogoSrc(null);
-            }}
-          >
-            {t("cropSave")}
-          </Button>
-        }
-      >
-        {logoSrc && <ImageCropper src={logoSrc} aspect={1} round onCropComplete={setCrop} />}
-      </BottomSheet>
 
       {mode === "settings" ? (
         <div className="sticky bottom-16 z-20 -mx-4 mt-2 border-t border-line bg-sand/95 px-4 py-3 backdrop-blur">

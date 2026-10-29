@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils/cn";
 
 type Labels = { add: string; change: string; remove: string; crop: string; use: string };
 
-/** Pick -> crop -> upload an image; shows the current one. */
+/** Pick -> crop -> upload an image; shows the current one. Without `aspect` the image is uploaded as is (logos). */
 export function ImageField({
   label,
   hint,
@@ -26,7 +26,7 @@ export function ImageField({
   label: string;
   hint?: string;
   url: string | null;
-  aspect: number;
+  aspect?: number;
   round?: boolean;
   labels: Labels;
   upload: (file: File) => Promise<{ ok: boolean; error?: string }>;
@@ -41,6 +41,18 @@ export function ImageField({
   const [busy, setBusy] = React.useState(false);
   const [preview, setPreview] = React.useState(url);
   React.useEffect(() => setPreview(url), [url]);
+
+  async function send(file: File, previewUrl: string) {
+    setBusy(true);
+    try {
+      const r = await upload(file);
+      if (!r.ok) return onError(r.error ?? "errors.generic");
+      setPreview(previewUrl);
+      onChanged();
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function applyCrop() {
     if (!src || !crop) return;
@@ -62,14 +74,17 @@ export function ImageField({
       <span className="text-sm font-medium">{label}</span>
       <div className="flex items-center gap-3">
         <div
-          className={cn("flex shrink-0 items-center justify-center overflow-hidden border border-line bg-sand", round ? "size-20 rounded-full" : "h-20 rounded-md")}
-          style={round ? undefined : { aspectRatio: String(aspect) }}
+          className={cn(
+            "flex shrink-0 items-center justify-center overflow-hidden border border-line bg-sand",
+            round ? "size-20 rounded-full" : aspect ? "h-20 rounded-md" : "h-20 w-40 rounded-md bg-white p-2",
+          )}
+          style={round || !aspect ? undefined : { aspectRatio: String(aspect) }}
         >
           {busy ? (
             <Loader2 className="size-6 animate-spin text-muted" aria-hidden />
           ) : preview ? (
             // eslint-disable-next-line @next/next/no-img-element -- owner-side preview
-            <img src={preview} alt="" className="size-full object-cover" />
+            <img src={preview} alt="" className={cn("size-full", aspect ? "object-cover" : "object-contain")} />
           ) : (
             <ImagePlus className="size-6 text-muted" aria-hidden />
           )}
@@ -111,6 +126,7 @@ export function ImageField({
           const f = e.target.files?.[0];
           e.target.value = "";
           if (!f) return;
+          if (!aspect) return void send(f, URL.createObjectURL(f));
           const reader = new FileReader();
           reader.onload = () => setSrc(String(reader.result));
           reader.readAsDataURL(f);
@@ -126,7 +142,7 @@ export function ImageField({
           </Button>
         }
       >
-        {src && <ImageCropper src={src} aspect={aspect} round={round} onCropComplete={setCrop} />}
+        {src && aspect && <ImageCropper src={src} aspect={aspect} round={round} onCropComplete={setCrop} />}
       </BottomSheet>
     </div>
   );

@@ -22,6 +22,7 @@ export default async function AppearancePage() {
       {!editable && <LockedNotice />}
       <AppearanceEditor
         slug={restaurant.slug}
+        restaurantName={restaurant.name}
         initial={{
           templateKey: data!.template_key as TemplateKey,
           primaryColor: data!.primary_color,
