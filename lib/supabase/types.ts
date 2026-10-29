@@ -1814,6 +1814,10 @@ export type Database = {
         Args: { p_plan: Database["public"]["Enums"]["subscription_plan"] };
         Returns: number;
       };
+      public_pricing: {
+        Args: never;
+        Returns: Json;
+      };
       random_code: {
         Args: { len?: number };
         Returns: string;

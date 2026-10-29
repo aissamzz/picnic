@@ -349,3 +349,16 @@ end $$;
 
 revoke execute on function public.run_maintenance() from public, anon, authenticated;
 grant execute on function public.run_maintenance() to service_role;
+
+-- Public prices for the marketing pages (no payment details).
+create or replace function public.public_pricing()
+returns jsonb language sql stable security definer set search_path = '' as $$
+  select jsonb_build_object(
+    'price_monthly', s.price_monthly,
+    'price_semiannual', s.price_semiannual,
+    'price_annual', s.price_annual,
+    'kit_price', s.kit_price,
+    'trial_days', s.trial_days
+  ) from public.platform_settings s limit 1
+$$;
+grant execute on function public.public_pricing() to anon, authenticated;

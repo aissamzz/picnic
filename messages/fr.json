@@ -1516,5 +1516,203 @@
       "later": "Plus tard",
       "ios": "Sur iPhone : touchez Partager puis « Sur l'écran d'accueil »."
     }
+  },
+  "marketing": {
+    "nav": {
+      "pricing": "Tarifs",
+      "help": "Aide",
+      "demo": "Démo",
+      "login": "Connexion",
+      "trial": "Essai gratuit",
+      "home": "Accueil"
+    },
+    "hero": {
+      "badge": "{days} jours gratuits · sans carte bancaire",
+      "title": "Votre menu papier en menu QR, en 5 minutes.",
+      "body": "Prenez une photo de votre carte, l'IA la recopie en français et en arabe. Vos clients consultent à table, et commandent sur WhatsApp depuis vos réseaux sociaux.",
+      "cta": "Commencer l'essai gratuit",
+      "demo": "Voir un menu démo",
+      "imageAlt": "Un menu Liinky sur téléphone : bannière, meilleures ventes et combos"
+    },
+    "steps": {
+      "title": "Comment ça marche",
+      "items": [
+        {
+          "title": "Photographiez votre menu",
+          "body": "Photo ou PDF. L'IA extrait catégories, plats et prix en DA, en français et en arabe."
+        },
+        {
+          "title": "Choisissez un modèle",
+          "body": "9 styles, du café au grill, avec votre logo, votre bannière, vos meilleures ventes et vos combos."
+        },
+        {
+          "title": "Un QR pour les tables, un lien pour commander",
+          "body": "Le menu de table pour consulter et appeler le serveur. Le lien de commande pour Instagram, Facebook, TikTok, vos affiches et vos sacs de livraison."
+        }
+      ]
+    },
+    "templates": {
+      "title": "9 modèles, prêts à l'emploi",
+      "body": "Touchez un modèle pour l'ouvrir comme vos clients le verront.",
+      "all": "Voir tous les modèles"
+    },
+    "features": {
+      "title": "Tout ce qu'il faut, rien de compliqué",
+      "items": [
+        {
+          "title": "Commandes WhatsApp",
+          "body": "Le client choisit, le récapitulatif arrive sur votre WhatsApp. Pas de paiement en ligne."
+        },
+        {
+          "title": "Appel serveur et addition",
+          "body": "Depuis la table, un bouton prévient l'équipe."
+        },
+        {
+          "title": "Plat épuisé en un geste",
+          "body": "Même hors connexion : la modification part au retour du réseau."
+        },
+        {
+          "title": "Statistiques simples",
+          "body": "Visites par table et par réseau social, plats les plus vus."
+        }
+      ]
+    },
+    "kit": {
+      "eyebrow": "AVEC L'ABONNEMENT ANNUEL",
+      "title": "Le kit QR en plexiglas, livré chez vous",
+      "body": "Un présentoir par table, numéroté, à votre logo, et des affiches pour la vitrine. Livraison dans les 58 wilayas, paiement à la livraison.",
+      "price": "Kit + 12 mois d'abonnement : {price}"
+    },
+    "pricing": {
+      "title": "Un seul produit, trois durées",
+      "annual": "Annuel",
+      "semiannual": "6 mois",
+      "monthly": "Mensuel",
+      "perYear": "/ an",
+      "perSix": "/ 6 mois",
+      "perMonth": "/ mois",
+      "best": "LE PLUS CHOISI",
+      "offline": "Paiement hors ligne uniquement : BaridiMob, versement CCP, espèces, ou à la livraison du kit.",
+      "details": "Voir le détail des tarifs",
+      "unavailable": "Tarifs bientôt affichés."
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "items": [
+        {
+          "q": "Mes clients doivent installer une application ?",
+          "a": "Non. Ils scannent le QR ou ouvrent le lien : le menu s'affiche dans le navigateur, en français ou en arabe."
+        },
+        {
+          "q": "Que se passe-t-il après l'essai ?",
+          "a": "Vous choisissez une durée et payez par BaridiMob, CCP ou en espèces. Sans paiement, votre menu reste visible quelques jours puis passe en lecture seule ; rien n'est effacé."
+        },
+        {
+          "q": "Je peux changer mes prix moi-même ?",
+          "a": "Oui, depuis votre téléphone, à tout moment. Le menu se met à jour tout de suite, sans réimprimer les QR."
+        },
+        {
+          "q": "Comment je reçois les commandes ?",
+          "a": "Sur votre WhatsApp, avec le détail des plats, le total et le numéro du client. Vous confirmez directement avec lui."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Votre menu en ligne aujourd'hui",
+      "button": "Créer mon menu gratuitement"
+    },
+    "footer": {
+      "tagline": "Le menu QR des restaurants et cafés d'Algérie.",
+      "terms": "Conditions",
+      "privacy": "Confidentialité",
+      "rights": "© {year} {app}"
+    },
+    "pricingPage": {
+      "metaTitle": "Tarifs",
+      "title": "Un prix clair. Tout inclus.",
+      "body": "Menu de table, lien de commande, 2 langues, import par IA, statistiques et équipe. Seule la durée change.",
+      "annualNote": "Le kit QR plexiglas est proposé avec l'abonnement annuel, livré et payé à la livraison.",
+      "semiNote": "Engagement 6 mois",
+      "monthlyNote": "Sans engagement",
+      "start": "Commencer gratuitement",
+      "howTitle": "Comment payer",
+      "how": [
+        {
+          "title": "BaridiMob",
+          "body": "Virement avec votre référence, puis photo du reçu dans l'application."
+        },
+        {
+          "title": "CCP",
+          "body": "Versement en bureau de poste, reçu en photo."
+        },
+        {
+          "title": "Espèces",
+          "body": "Remises à notre agent lors de sa visite."
+        },
+        {
+          "title": "À la livraison",
+          "body": "Pour le kit : vous payez le livreur en le recevant."
+        }
+      ],
+      "noOnline": "Aucun paiement en ligne, aucune carte bancaire. Activation après vérification du reçu.",
+      "includedTitle": "Inclus dans toutes les durées",
+      "included": [
+        "Menu de table et QR par table",
+        "Lien de commande : livraison et à emporter, sur WhatsApp",
+        "Import du menu par IA et traduction arabe",
+        "9 modèles, logo, bannière, meilleures ventes et combos",
+        "Statistiques, équipe et appels serveur"
+      ]
+    },
+    "help": {
+      "metaTitle": "Aide",
+      "title": "Aide et contact",
+      "whatsapp": "WhatsApp",
+      "whatsappHint": "Réponse rapide",
+      "call": "Appeler",
+      "callHint": "Sam. à jeu., 9h à 18h",
+      "noContact": "Le support répond depuis votre espace : Plus › Compte.",
+      "faqTitle": "Questions fréquentes",
+      "items": [
+        {
+          "q": "Comment changer un prix ?",
+          "a": "Menu › Prix : modifiez les montants et enregistrez. Le menu se met à jour immédiatement."
+        },
+        {
+          "q": "Comment marquer un plat épuisé ?",
+          "a": "Menu › la catégorie › l'interrupteur « Disponible » du plat. Ça marche même sans réseau."
+        },
+        {
+          "q": "Mon lien ou mon QR ne marche plus après un changement de nom",
+          "a": "L'ancien lien redirige toujours vers le nouveau, et les QR de table restent valables. Si un QR ne s'ouvre pas, réimprimez-le depuis Plus › Tables."
+        },
+        {
+          "q": "Je ne reçois pas les commandes sur WhatsApp",
+          "a": "Vérifiez le numéro dans Plus › Commandes en ligne : c'est lui qui reçoit les messages. Le client doit avoir WhatsApp sur son téléphone."
+        },
+        {
+          "q": "Signaler une fausse commande",
+          "a": "Dans Stats › Commandes, marquez la commande comme fausse. Après plusieurs signalements, le numéro est bloqué."
+        },
+        {
+          "q": "Combien de temps pour l'activation ?",
+          "a": "Dès que notre équipe a vérifié votre reçu, en général le jour même aux heures ouvrables."
+        }
+      ]
+    },
+    "legal": {
+      "terms": "Conditions d'utilisation",
+      "privacy": "Politique de confidentialité",
+      "updated": "Mise à jour : 1er novembre 2026",
+      "draft": "Texte indicatif, à faire relire par un juriste avant publication.",
+      "contents": "Sommaire"
+    },
+    "demo": {
+      "metaTitle": "Menus démo",
+      "title": "Essayez les 9 modèles",
+      "body": "De vrais menus de démonstration, avec photos, meilleures ventes et combos. Ouvrez-les sur votre téléphone.",
+      "open": "Ouvrir le menu {name}",
+      "cta": "Créer le mien"
+    }
   }
 }

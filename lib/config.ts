@@ -10,6 +10,9 @@ export const APP_URL =
 
 export const TABLE_SLUG_SUFFIX = "-menu";
 
+/** Support line shown on /aide (E.164, e.g. +213555123456). Hidden when unset. */
+export const SUPPORT_PHONE = process.env.NEXT_PUBLIC_SUPPORT_PHONE ?? "";
+
 /** Referral code from a /inscription?ref= link (httpOnly, 30 days). */
 export const REFERRAL_COOKIE = "liinky_ref";
 
