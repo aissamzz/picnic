@@ -2,7 +2,7 @@
 
 import { BaseItemSheet } from "@/components/menu/base-item-sheet";
 import { DefaultTabs } from "@/components/menu/default-tabs";
-import { InfoButton, LogoMark, OpenStatus, TableChip } from "@/components/menu/header-bits";
+import { BannerHeader } from "@/components/menu/header-bits";
 import { ItemPhoto } from "@/components/menu/item-photo";
 import { MenuApp, type MenuAppProps } from "@/components/menu/menu-app";
 import { CardPrice } from "@/components/menu/menu-price";
@@ -13,29 +13,15 @@ import { cx } from "@/lib/utils/cx";
 // Fruit colors, all dark-text safe.
 const FRUITS = ["#FFD23F", "#FF9F5A", "#9BE564", "#FF8FB1", "#7FD8F5", "#C9A7FF"];
 
-function Header({ restaurant, labels, open, tableLabel, logoUrl, onInfo, langSwitch }: HeaderProps) {
+function Header(p: HeaderProps) {
   return (
-    <header className="relative overflow-hidden px-4 pt-3 pb-6">
-      <div className="absolute -end-10 -top-16 size-48 rounded-full bg-[#FFD23F]" aria-hidden />
-      <div className="absolute -start-12 top-24 size-32 rounded-full bg-[#9BE564]" aria-hidden />
-      <div className="relative flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <TableChip label={tableLabel} className="bg-m-fg text-m-bg" />
-          <div className="ms-auto flex items-center gap-1">
-            {langSwitch}
-            <InfoButton onClick={onInfo} labels={labels} className="bg-white/80" />
-          </div>
-        </div>
-        <div className="flex items-center gap-3 pt-4">
-          <LogoMark url={logoUrl} name={restaurant.name} className="size-16 ring-4 ring-white" />
-          <div className="min-w-0">
-            <h1 className="font-display text-3xl leading-tight">{restaurant.name}</h1>
-            {restaurant.commune && <p className="text-sm text-m-muted">{restaurant.commune}</p>}
-          </div>
-        </div>
-        <OpenStatus open={open} labels={labels} className="self-start bg-white/80" />
-      </div>
-    </header>
+    <BannerHeader
+      {...p}
+      fallbackClass="bg-[#FFD23F] bg-[radial-gradient(circle_at_85%_20%,#9BE564_0_18%,transparent_19%),radial-gradient(circle_at_10%_90%,#FF8C42_0_14%,transparent_15%)]"
+      fallbackNameClass="text-m-fg"
+      statusClass="bg-white shadow-sm"
+      chipClass="bg-m-fg text-m-bg"
+    />
   );
 }
 

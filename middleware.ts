@@ -43,6 +43,18 @@ export async function middleware(request: NextRequest) {
   // `?lang=fr|ar` forces a locale (shareable links, SEO alternates) and persists it.
   const lang = searchParams.get("lang");
 
+  // Demo menus: /template-N -> /modele/N/{lang}.
+  const demo = /^\/template-([1-9])\/?$/.exec(pathname);
+  if (demo) {
+    const cookie = request.cookies.get(LOCALE_COOKIE)?.value;
+    const chosen = isLocale(lang) ? lang : isLocale(cookie) ? cookie : (negotiateLocale(request.headers.get("accept-language")) ?? "fr");
+    const url = request.nextUrl.clone();
+    url.pathname = `/modele/${demo[1]}/${chosen}`;
+    const res = NextResponse.rewrite(url);
+    if (isLocale(lang)) res.cookies.set(LOCALE_COOKIE, lang, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
+    return res;
+  }
+
   // Restaurant links: rewrite to the cookie-free, cacheable menu route.
   // Language: ?lang > diner's choice (cookie) > browser > restaurant default.
   const segment = menuSegment(pathname);

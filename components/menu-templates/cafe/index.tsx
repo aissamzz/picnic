@@ -2,7 +2,7 @@
 
 import { BaseItemSheet } from "@/components/menu/base-item-sheet";
 import { DefaultTabs } from "@/components/menu/default-tabs";
-import { InfoButton, LogoMark, OpenStatus, TableChip } from "@/components/menu/header-bits";
+import { BannerHeader } from "@/components/menu/header-bits";
 import { ItemPhoto } from "@/components/menu/item-photo";
 import { MenuApp, type MenuAppProps } from "@/components/menu/menu-app";
 import { CardPrice } from "@/components/menu/menu-price";
@@ -10,21 +10,9 @@ import { SoldOutBadge, TagBadges } from "@/components/menu/tag-badges";
 import type { HeaderProps, ItemCardProps, SectionHeaderProps, TemplateParts } from "@/components/menu/template-types";
 import { cx } from "@/lib/utils/cx";
 
-function Header({ restaurant, labels, open, tableLabel, logoUrl, onInfo, langSwitch }: HeaderProps) {
+function Header(p: HeaderProps) {
   return (
-    <header className="flex flex-col items-center gap-3 px-4 pt-3 pb-5 text-center">
-      <div className="flex w-full items-center justify-between">
-        <TableChip label={tableLabel} className="bg-m-accent text-m-on-accent" />
-        <div className="ms-auto flex items-center gap-1">
-          {langSwitch}
-          <InfoButton onClick={onInfo} labels={labels} className="border border-m-line" />
-        </div>
-      </div>
-      <LogoMark url={logoUrl} name={restaurant.name} className="size-20 border-2 border-m-accent" />
-      <h1 className="font-display text-3xl leading-tight">{restaurant.name}</h1>
-      {restaurant.commune && <p className="-mt-2 text-m-muted italic">{restaurant.commune}</p>}
-      <OpenStatus open={open} labels={labels} className="bg-m-surface" />
-    </header>
+    <BannerHeader {...p} fallbackClass="bg-m-accent" fallbackNameClass="text-m-on-accent" />
   );
 }
 

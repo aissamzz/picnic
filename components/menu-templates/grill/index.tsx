@@ -3,7 +3,7 @@
 import { Flame } from "lucide-react";
 import { BaseItemSheet } from "@/components/menu/base-item-sheet";
 import { DefaultTabs } from "@/components/menu/default-tabs";
-import { InfoButton, LogoMark, OpenStatus, TableChip } from "@/components/menu/header-bits";
+import { BannerHeader } from "@/components/menu/header-bits";
 import { ItemPhoto } from "@/components/menu/item-photo";
 import { MenuApp, type MenuAppProps } from "@/components/menu/menu-app";
 import { CardPrice } from "@/components/menu/menu-price";
@@ -11,31 +11,16 @@ import { SoldOutBadge, TagBadges } from "@/components/menu/tag-badges";
 import type { HeaderProps, ItemCardProps, SectionHeaderProps, TemplateParts } from "@/components/menu/template-types";
 import { cx } from "@/lib/utils/cx";
 
-function Header({ restaurant, labels, open, tableLabel, logoUrl, coverUrl, onInfo, langSwitch }: HeaderProps) {
+function Header(p: HeaderProps) {
   return (
-    <header className="relative min-h-56 overflow-hidden border-b-4 border-m-accent">
-      {coverUrl && (
-        // eslint-disable-next-line @next/next/no-img-element -- decorative cover under a gradient
-        <img src={coverUrl} alt="" className="absolute inset-0 size-full object-cover" />
-      )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30" aria-hidden />
-      <div className="relative flex min-h-56 flex-col justify-between gap-3 px-4 pt-3 pb-5">
-        <div className="flex items-center justify-between">
-          <TableChip label={tableLabel} className="bg-m-accent text-m-on-accent" />
-          <div className="ms-auto flex items-center gap-1">
-            {langSwitch}
-            <InfoButton onClick={onInfo} labels={labels} className="bg-white/10" />
-          </div>
-        </div>
-        <div className="flex items-end gap-3">
-          <LogoMark url={logoUrl} name={restaurant.name} className="size-14" />
-          <div className="min-w-0">
-            <h1 className="font-display text-5xl leading-[0.9] tracking-wide [overflow-wrap:anywhere]">{restaurant.name}</h1>
-            <OpenStatus open={open} labels={labels} className="mt-2 -ms-2.5" />
-          </div>
-        </div>
-      </div>
-    </header>
+    <BannerHeader
+      {...p}
+      fallbackClass="bg-gradient-to-br from-[#2A2A2A] to-black"
+      nameClass="text-4xl tracking-wide"
+      fallbackNameClass="text-white"
+      statusClass="bg-white/10"
+      after={<div className="h-1 bg-m-accent" aria-hidden />}
+    />
   );
 }
 

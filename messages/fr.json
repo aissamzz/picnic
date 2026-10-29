@@ -846,7 +846,10 @@
       "cooldown": "Déjà demandé · {time}",
       "error": "L'appel n'a pas pu partir. Faites signe au serveur."
     },
-    "offline": "Hors connexion : menu enregistré sur ce téléphone, il peut ne pas être à jour."
+    "offline": "Hors connexion : menu enregistré sur ce téléphone, il peut ne pas être à jour.",
+    "bestSellers": "Meilleures ventes",
+    "combos": "Combos",
+    "comboContains": "Contient :"
   },
   "menuAdmin": {
     "title": "Menu",

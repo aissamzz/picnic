@@ -2,7 +2,7 @@
 
 import { BaseItemSheet } from "@/components/menu/base-item-sheet";
 import { DefaultTabs } from "@/components/menu/default-tabs";
-import { InfoButton, LogoMark, OpenStatus, TableChip } from "@/components/menu/header-bits";
+import { BannerHeader } from "@/components/menu/header-bits";
 import { ItemPhoto } from "@/components/menu/item-photo";
 import { MenuApp, type MenuAppProps } from "@/components/menu/menu-app";
 import { CardPrice } from "@/components/menu/menu-price";
@@ -10,25 +10,17 @@ import { SoldOutBadge, TagBadges } from "@/components/menu/tag-badges";
 import type { HeaderProps, ItemCardProps, SectionHeaderProps, TemplateParts } from "@/components/menu/template-types";
 import { cx } from "@/lib/utils/cx";
 
-function Header({ restaurant, labels, open, tableLabel, logoUrl, onInfo, langSwitch }: HeaderProps) {
+function Header(p: HeaderProps) {
   return (
-    <header className="border-b border-m-fg px-4 pt-3 pb-5">
-      <div className="flex items-center justify-between">
-        <TableChip label={tableLabel} className="bg-m-fg text-m-bg" />
-        <div className="ms-auto flex items-center gap-1">
-          {langSwitch}
-          <InfoButton onClick={onInfo} labels={labels} className="border border-m-fg" />
-        </div>
-      </div>
-      <div className="flex items-end justify-between gap-3 pt-6">
-        <h1 className="font-display text-4xl leading-none tracking-tight lowercase">{restaurant.name}</h1>
-        <LogoMark url={logoUrl} name={restaurant.name} className="size-12 grayscale" />
-      </div>
-      <div className="mt-3 flex items-center justify-between text-sm text-m-muted">
-        <span>{restaurant.commune}</span>
-        <OpenStatus open={open} labels={labels} className="-me-2.5" />
-      </div>
-    </header>
+    <BannerHeader
+      {...p}
+      fallbackClass="bg-m-fg"
+      nameClass="lowercase tracking-tight"
+      fallbackNameClass="text-m-bg"
+      bodyClass="border-b border-m-fg pb-4"
+      statusClass="border border-m-line"
+      chipClass="bg-m-fg text-m-bg"
+    />
   );
 }
 

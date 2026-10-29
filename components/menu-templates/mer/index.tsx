@@ -3,7 +3,7 @@
 import { Anchor } from "lucide-react";
 import { BaseItemSheet } from "@/components/menu/base-item-sheet";
 import { DefaultTabs } from "@/components/menu/default-tabs";
-import { InfoButton, LogoMark, OpenStatus, TableChip } from "@/components/menu/header-bits";
+import { BannerHeader } from "@/components/menu/header-bits";
 import { ItemPhoto } from "@/components/menu/item-photo";
 import { MenuApp, type MenuAppProps } from "@/components/menu/menu-app";
 import { CardPrice } from "@/components/menu/menu-price";
@@ -20,28 +20,9 @@ function Wave({ className }: { className?: string }) {
   );
 }
 
-function Header({ restaurant, labels, open, tableLabel, logoUrl, onInfo, langSwitch }: HeaderProps) {
+function Header(p: HeaderProps) {
   return (
-    <header className="bg-[#13294B] text-[#F3E9D6]">
-      <div className="flex flex-col gap-3 px-4 pt-3 pb-4">
-        <div className="flex items-center justify-between">
-          <TableChip label={tableLabel} className="bg-[#F3E9D6] text-[#13294B]" />
-          <div className="ms-auto flex items-center gap-1">
-            {langSwitch}
-            <InfoButton onClick={onInfo} labels={labels} className="bg-white/10" />
-          </div>
-        </div>
-        <div className="flex items-center gap-3 pt-2">
-          <LogoMark url={logoUrl} name={restaurant.name} className="size-16 border-2 border-[#E7C89B]" />
-          <div className="min-w-0">
-            <h1 className="font-display text-3xl leading-tight">{restaurant.name}</h1>
-            {restaurant.commune && <p className="text-sm text-[#E7C89B]">{restaurant.commune}</p>}
-          </div>
-        </div>
-        <OpenStatus open={open} labels={labels} className="self-start bg-white/10" />
-      </div>
-      <Wave />
-    </header>
+    <BannerHeader {...p} fallbackClass="bg-[#13294B]" fallbackNameClass="text-[#F3E9D6]" after={<Wave />} />
   );
 }
 

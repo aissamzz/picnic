@@ -2,31 +2,24 @@
 
 import { BaseItemSheet } from "@/components/menu/base-item-sheet";
 import { DefaultTabs } from "@/components/menu/default-tabs";
-import { InfoButton, OpenStatus, TableChip } from "@/components/menu/header-bits";
+import { BannerHeader } from "@/components/menu/header-bits";
 import { MenuApp, type MenuAppProps } from "@/components/menu/menu-app";
 import { CardPrice } from "@/components/menu/menu-price";
 import { SoldOutBadge, TagBadges } from "@/components/menu/tag-badges";
 import type { HeaderProps, ItemCardProps, SectionHeaderProps, TemplateParts } from "@/components/menu/template-types";
 import { cx } from "@/lib/utils/cx";
 
-const Hairline = () => <span className="mx-auto block h-px w-16 bg-m-accent" aria-hidden />;
-
-function Header({ restaurant, labels, open, tableLabel, onInfo, langSwitch }: HeaderProps) {
+function Header(p: HeaderProps) {
   return (
-    <header className="flex flex-col items-center gap-3 px-6 pt-3 pb-6 text-center">
-      <div className="flex w-full items-center justify-between">
-        <TableChip label={tableLabel} className="border border-m-accent text-m-fg" />
-        <div className="ms-auto flex items-center gap-1">
-          {langSwitch}
-          <InfoButton onClick={onInfo} labels={labels} />
-        </div>
-      </div>
-      <Hairline />
-      <h1 className="font-display text-4xl leading-none tracking-wide">{restaurant.name}</h1>
-      {restaurant.commune && <p className="text-xs tracking-[0.3em] text-m-muted uppercase">{restaurant.commune}</p>}
-      <Hairline />
-      <OpenStatus open={open} labels={labels} />
-    </header>
+    <BannerHeader
+      {...p}
+      fallbackClass="bg-[#1C1B19]"
+      nameClass="tracking-wide"
+      fallbackNameClass="text-[#FAF8F3]"
+      statusClass=""
+      chipClass="border border-m-accent text-m-fg"
+      after={<div className="h-px bg-m-accent" aria-hidden />}
+    />
   );
 }
 

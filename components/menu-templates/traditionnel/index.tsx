@@ -3,7 +3,7 @@
 import { ChefHat } from "lucide-react";
 import { BaseItemSheet } from "@/components/menu/base-item-sheet";
 import { DefaultTabs } from "@/components/menu/default-tabs";
-import { InfoButton, LogoMark, OpenStatus, TableChip } from "@/components/menu/header-bits";
+import { BannerHeader } from "@/components/menu/header-bits";
 import { ItemPhoto } from "@/components/menu/item-photo";
 import { MenuApp, type MenuAppProps } from "@/components/menu/menu-app";
 import { CardPrice } from "@/components/menu/menu-price";
@@ -13,32 +13,9 @@ import { KabyleBand } from "@/components/ui/kabyle-band";
 import { tx } from "@/lib/menu/types";
 import { cx } from "@/lib/utils/cx";
 
-function Header({ restaurant, labels, open, tableLabel, logoUrl, coverUrl, onInfo, langSwitch }: HeaderProps) {
+function Header(p: HeaderProps) {
   return (
-    <header className="relative bg-m-accent text-m-on-accent">
-      {coverUrl && (
-        // eslint-disable-next-line @next/next/no-img-element -- decorative cover under a tint
-        <img src={coverUrl} alt="" className="absolute inset-0 size-full object-cover opacity-25 mix-blend-multiply" />
-      )}
-      <div className="relative flex flex-col gap-3 px-4 pt-3 pb-6">
-        <div className="flex items-center justify-between">
-          <TableChip label={tableLabel} className="bg-m-on-accent text-m-accent" />
-          <div className="ms-auto flex items-center gap-1">
-            {langSwitch}
-            <InfoButton onClick={onInfo} labels={labels} className="bg-black/15" />
-          </div>
-        </div>
-        <div className="flex items-center gap-3 pt-2">
-          <LogoMark url={logoUrl} name={restaurant.name} className="size-16 border-2 border-m-on-accent" />
-          <div className="min-w-0">
-            <h1 className="font-display text-3xl leading-tight">{restaurant.name}</h1>
-            {restaurant.commune && <p className="text-sm opacity-90">{restaurant.commune}</p>}
-          </div>
-        </div>
-        <OpenStatus open={open} labels={labels} className="self-start bg-black/20" />
-      </div>
-      <KabyleBand />
-    </header>
+    <BannerHeader {...p} fallbackClass="bg-m-accent" fallbackNameClass="text-m-on-accent" after={<KabyleBand />} />
   );
 }
 

@@ -1,0 +1,67 @@
+# Demo template photos
+
+Used only on the demo menus (/template-1 ... /template-9) and template previews.
+Unsplash photos: Unsplash License (free to use, no attribution required; credited here anyway).
+Wikimedia Commons photos: CC0 / public domain.
+
+- pizza-margherita.webp: Unsplash photo 1574071318508-1cdbab80d002 (https://images.unsplash.com/photo-1574071318508-1cdbab80d002), Unsplash License
+- pizza-veggie.webp: Unsplash photo 1565299624946-b28f40a0ae38 (https://images.unsplash.com/photo-1565299624946-b28f40a0ae38), Unsplash License
+- pizza-slices.webp: Unsplash photo 1513104890138-7c749659a591 (https://images.unsplash.com/photo-1513104890138-7c749659a591), Unsplash License
+- burger.webp: Unsplash photo 1568901346375-23c9450c58cd (https://images.unsplash.com/photo-1568901346375-23c9450c58cd), Unsplash License
+- tacos.webp: Unsplash photo 1565299585323-38d6b0865b47 (https://images.unsplash.com/photo-1565299585323-38d6b0865b47), Unsplash License
+- tacos-plate.webp: Unsplash photo 1551504734-5ee1c4a1479b (https://images.unsplash.com/photo-1551504734-5ee1c4a1479b), Unsplash License
+- wrap.webp: Unsplash photo 1626700051175-6818013e1d4f (https://images.unsplash.com/photo-1626700051175-6818013e1d4f), Unsplash License
+- fries.webp: Unsplash photo 1576107232684-1279f390859f (https://images.unsplash.com/photo-1576107232684-1279f390859f), Unsplash License
+- fries-cone.webp: Unsplash photo 1573080496219-bb080dd4f877 (https://images.unsplash.com/photo-1573080496219-bb080dd4f877), Unsplash License
+- orange-juice.webp: Unsplash photo 1600271886742-f049cd451bba (https://images.unsplash.com/photo-1600271886742-f049cd451bba), Unsplash License
+- cappuccino.webp: Unsplash photo 1509042239860-f550ce710b93 (https://images.unsplash.com/photo-1509042239860-f550ce710b93), Unsplash License
+- latte.webp: Unsplash photo 1541167760496-1628856ab772 (https://images.unsplash.com/photo-1541167760496-1628856ab772), Unsplash License
+- iced-coffee.webp: Unsplash photo 1461023058943-07fcbe16d735 (https://images.unsplash.com/photo-1461023058943-07fcbe16d735), Unsplash License
+- lattes.webp: Unsplash photo 1495474472287-4d71bcdd2085 (https://images.unsplash.com/photo-1495474472287-4d71bcdd2085), Unsplash License
+- croissants.webp: Unsplash photo 1555507036-ab1f4038808a (https://images.unsplash.com/photo-1555507036-ab1f4038808a), Unsplash License
+- pancakes.webp: Unsplash photo 1567620905732-2d1ec7ab7445 (https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445), Unsplash License
+- egg-toast.webp: Unsplash photo 1525351484163-7529414344d8 (https://images.unsplash.com/photo-1525351484163-7529414344d8), Unsplash License
+- breakfast.webp: Unsplash photo 1533089860892-a7c6f0a88666 (https://images.unsplash.com/photo-1533089860892-a7c6f0a88666), Unsplash License
+- soup.webp: Unsplash photo 1476718406336-bb5a9690ee2a (https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a), Unsplash License
+- stew.webp: Unsplash photo 1585937421612-70a008356fbe (https://images.unsplash.com/photo-1585937421612-70a008356fbe), Unsplash License
+- skewers.webp: Unsplash photo 1599487488170-d11ec9c172f0 (https://images.unsplash.com/photo-1599487488170-d11ec9c172f0), Unsplash License
+- grill-platter.webp: Unsplash photo 1555939594-58d7cb561ad1 (https://images.unsplash.com/photo-1555939594-58d7cb561ad1), Unsplash License
+- tea.webp: Unsplash photo 1564890369478-c89ca6d9cde9 (https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9), Unsplash License
+- salad-bowl.webp: Unsplash photo 1512621776951-a57141f2eefd (https://images.unsplash.com/photo-1512621776951-a57141f2eefd), Unsplash License
+- couscous.webp: Wikimedia Commons, File:Couscous.png, CC0
+- makroud.webp: Wikimedia Commons, File:Makrouds.JPG, public domain
+- salmon.webp: Unsplash photo 1519708227418-c8fd9a32b7a2 (https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2), Unsplash License
+- steak.webp: Unsplash photo 1529692236671-f1f6cf9683ba (https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba), Unsplash License
+- salad-meat.webp: Unsplash photo 1514516345957-556ca7d90a29 (https://images.unsplash.com/photo-1514516345957-556ca7d90a29), Unsplash License
+- tiramisu.webp: Unsplash photo 1571877227200-a0d98ea607e9 (https://images.unsplash.com/photo-1571877227200-a0d98ea607e9), Unsplash License
+- panna-cotta.webp: Unsplash photo 1488477181946-6428a0291777 (https://images.unsplash.com/photo-1488477181946-6428a0291777), Unsplash License
+- penne.webp: Unsplash photo 1621996346565-e3dbc646d9a9 (https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9), Unsplash License
+- chocolate-cake.webp: Unsplash photo 1578985545062-69928b1d9587 (https://images.unsplash.com/photo-1578985545062-69928b1d9587), Unsplash License
+- cupcakes.webp: Unsplash photo 1486427944299-d1955d23e34d (https://images.unsplash.com/photo-1486427944299-d1955d23e34d), Unsplash License
+- donuts.webp: Unsplash photo 1551024601-bec78aea704b (https://images.unsplash.com/photo-1551024601-bec78aea704b), Unsplash License
+- brownie.webp: Unsplash photo 1606313564200-e75d5e30476c (https://images.unsplash.com/photo-1606313564200-e75d5e30476c), Unsplash License
+- cookies.webp: Unsplash photo 1558961363-fa8fdf82db35 (https://images.unsplash.com/photo-1558961363-fa8fdf82db35), Unsplash License
+- berry-pie.webp: Unsplash photo 1464305795204-6f5bbfc7fb81 (https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81), Unsplash License
+- ice-cream.webp: Unsplash photo 1497034825429-c343d7c6a68f (https://images.unsplash.com/photo-1497034825429-c343d7c6a68f), Unsplash License
+- sundae.webp: Unsplash photo 1563805042-7684c019e1cb (https://images.unsplash.com/photo-1563805042-7684c019e1cb), Unsplash License
+- steak-frites.webp: Unsplash photo 1600891964092-4316c288032e (https://images.unsplash.com/photo-1600891964092-4316c288032e), Unsplash License
+- grilled-plate.webp: Unsplash photo 1561651823-34feb02250e4 (https://images.unsplash.com/photo-1561651823-34feb02250e4), Unsplash License
+- chicken-strips.webp: Unsplash photo 1529006557810-274b9b2fc783 (https://images.unsplash.com/photo-1529006557810-274b9b2fc783), Unsplash License
+- salad-dark.webp: Unsplash photo 1540189549336-e6e99c3679fe (https://images.unsplash.com/photo-1540189549336-e6e99c3679fe), Unsplash License
+- mango-juice.webp: Unsplash photo 1546173159-315724a31696 (https://images.unsplash.com/photo-1546173159-315724a31696), Unsplash License
+- berry-smoothie.webp: Unsplash photo 1553530666-ba11a7da3888 (https://images.unsplash.com/photo-1553530666-ba11a7da3888), Unsplash License
+- milkshakes.webp: Unsplash photo 1505252585461-04db1eb84625 (https://images.unsplash.com/photo-1505252585461-04db1eb84625), Unsplash License
+- green-juices.webp: Unsplash photo 1622597467836-f3285f2131b8 (https://images.unsplash.com/photo-1622597467836-f3285f2131b8), Unsplash License
+- poke-bowl.webp: Unsplash photo 1546069901-ba9599a7e63c (https://images.unsplash.com/photo-1546069901-ba9599a7e63c), Unsplash License
+- shrimp.webp: Unsplash photo 1565680018434-b513d5e5fd47 (https://images.unsplash.com/photo-1565680018434-b513d5e5fd47), Unsplash License
+- fish-market.webp: Unsplash photo 1615141982883-c7ad0e69fd62 (https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62), Unsplash License
+- tea-cookies.webp: Unsplash photo 1544787219-7f47ccb76574 (https://images.unsplash.com/photo-1544787219-7f47ccb76574), Unsplash License
+- banner-pizzeria.webp: Unsplash photo 1565299624946-b28f40a0ae38 (https://images.unsplash.com/photo-1565299624946-b28f40a0ae38), Unsplash License
+- banner-cafe.webp: Unsplash photo 1555396273-367ea4eb4db5 (https://images.unsplash.com/photo-1555396273-367ea4eb4db5), Unsplash License
+- banner-traditionnel.webp: Unsplash photo 1585937421612-70a008356fbe (https://images.unsplash.com/photo-1585937421612-70a008356fbe), Unsplash License
+- banner-gastro.webp: Unsplash photo 1517248135467-4c7edcad34c4 (https://images.unsplash.com/photo-1517248135467-4c7edcad34c4), Unsplash License
+- banner-patisserie.webp: Unsplash photo 1578985545062-69928b1d9587 (https://images.unsplash.com/photo-1578985545062-69928b1d9587), Unsplash License
+- banner-grill.webp: Unsplash photo 1555939594-58d7cb561ad1 (https://images.unsplash.com/photo-1555939594-58d7cb561ad1), Unsplash License
+- banner-jus.webp: Unsplash photo 1505252585461-04db1eb84625 (https://images.unsplash.com/photo-1505252585461-04db1eb84625), Unsplash License
+- banner-mer.webp: Unsplash photo 1559339352-11d035aa65de (https://images.unsplash.com/photo-1559339352-11d035aa65de), Unsplash License
+- banner-coffee.webp: Unsplash photo 1495474472287-4d71bcdd2085 (https://images.unsplash.com/photo-1495474472287-4d71bcdd2085), Unsplash License

@@ -1,5 +1,10 @@
 -- Phase 9: team invites, hours and links settings, nightly maintenance.
 
+-- Demo menus and their internal route.
+insert into public.reserved_slugs (slug) values
+  ('modele'), ('template-1'), ('template-2'), ('template-3'), ('template-4'), ('template-5'), ('template-6'), ('template-7'), ('template-8'), ('template-9')
+on conflict do nothing;
+
 -- Combos and best sellers: owners build fixed-price combos (a burger + fries +
 -- a drink...) shown in their own section of every template, orderable like a dish.
 

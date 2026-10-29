@@ -2,7 +2,7 @@
 
 import { BaseItemSheet } from "@/components/menu/base-item-sheet";
 import { DefaultTabs } from "@/components/menu/default-tabs";
-import { InfoButton, LogoMark, OpenStatus, TableChip } from "@/components/menu/header-bits";
+import { BannerHeader } from "@/components/menu/header-bits";
 import { ItemPhoto } from "@/components/menu/item-photo";
 import { MenuApp, type MenuAppProps } from "@/components/menu/menu-app";
 import { CardPrice } from "@/components/menu/menu-price";
@@ -12,21 +12,9 @@ import { cx } from "@/lib/utils/cx";
 
 const TILE = ["#FBE3EA", "#DDF3EC"];
 
-function Header({ restaurant, labels, open, tableLabel, logoUrl, onInfo, langSwitch }: HeaderProps) {
+function Header(p: HeaderProps) {
   return (
-    <header className="mx-3 mt-3 flex flex-col items-center gap-2 rounded-[28px] bg-[#FBE3EA] px-4 pt-3 pb-5 text-center">
-      <div className="flex w-full items-center justify-between">
-        <TableChip label={tableLabel} className="bg-m-surface" />
-        <div className="ms-auto flex items-center gap-1">
-          {langSwitch}
-          <InfoButton onClick={onInfo} labels={labels} className="bg-m-surface" />
-        </div>
-      </div>
-      <LogoMark url={logoUrl} name={restaurant.name} className="size-20 shadow-sm" />
-      <h1 className="font-display text-3xl">{restaurant.name}</h1>
-      {restaurant.commune && <p className="-mt-1 text-sm text-m-muted">{restaurant.commune}</p>}
-      <OpenStatus open={open} labels={labels} className="bg-m-surface" />
-    </header>
+    <BannerHeader {...p} fallbackClass="bg-[#FBE3EA]" fallbackNameClass="text-m-fg" />
   );
 }
 

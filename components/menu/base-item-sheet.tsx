@@ -30,7 +30,7 @@ export function BaseItemSheet({
         {item.is_sold_out && <SoldOutBadge label={labels.soldOut} />}
         <TagBadges tags={item.tags} labels={labels} />
       </div>
-      {description && <p className="text-m-muted">{description}</p>}
+      {description && <p className="whitespace-pre-line text-m-muted">{description}</p>}
 
       {orderable && !item.is_sold_out ? null : item.variants.length > 0 ? (
         <section aria-label={labels.variants} className="flex flex-col">

@@ -7,10 +7,11 @@ import * as React from "react";
 import { APP_NAME } from "@/lib/config";
 import { logMenuEvent, trafficSource } from "@/lib/menu/beacon";
 import { isScheduleActive, openState, type OpenState } from "@/lib/menu/hours";
-import { tx, type Lang, type MenuItem, type MenuMode, type PublicMenu } from "@/lib/menu/types";
+import { comboAsItem, tx, type Lang, type MenuCombo, type MenuItem, type MenuMode, type PublicMenu } from "@/lib/menu/types";
 import { publicImageUrl } from "@/lib/storage";
 import { cx as cn } from "@/lib/utils/cx";
 import { DefaultDishOfDay } from "./dish-of-day";
+import { BestSellersRow, CombosSection } from "./featured";
 import { InfoSheetBody } from "./info-sheet";
 import { fmt, type MenuLabels } from "./labels";
 import { LangSwitch } from "./lang-switch";
@@ -107,6 +108,8 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
   );
   const allItems = React.useMemo(() => menu.categories.flatMap((c) => c.items), [menu.categories]);
   const dishOfDay = allItems.filter((i) => i.tags.includes("dish_of_day") && !i.is_sold_out);
+  const bestSellers = allItems.filter((i) => i.tags.includes("best_seller") && !i.is_sold_out);
+  const combos = menu.combos ?? [];
   const q = normalize(query.trim());
   const results = q
     ? allItems.filter((i) => normalize([tx(i.name, "fr"), tx(i.name, "ar"), tx(i.description, lang)].join(" ")).includes(q))
@@ -134,6 +137,13 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
       viewed.current.add(item.id);
       logMenuEvent({ restaurantId: r.id, kind: "item_view", source: trafficSource(mode, new URLSearchParams(window.location.search).get("src")), itemId: item.id });
     }
+  };
+
+  /** A combo opens in the item sheet (and the cart) as a fixed-price dish. */
+  const openCombo = (c: MenuCombo) => {
+    const includes = c.includes.map((n) => tx(n, lang)).filter(Boolean).join(" + ");
+    const description = [includes && `${labels.comboContains} ${includes}`, tx(c.description, lang)].filter(Boolean).join("\n");
+    setSelected({ ...comboAsItem(c), description: { [lang]: description } });
   };
 
   const hideCurrency = !!parts.hideCurrencyOnItems;
@@ -223,6 +233,10 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
           ) : (
             <>
               {dishOfDay.length > 0 && !favoritesOnly && <DishOfDay items={dishOfDay} lang={lang} labels={labels} onOpen={openItem} hideCurrency={hideCurrency} />}
+              {bestSellers.length > 0 && !favoritesOnly && (
+                <BestSellersRow items={bestSellers} lang={lang} labels={labels} onOpen={openItem} hideCurrency={hideCurrency} />
+              )}
+              {combos.length > 0 && !favoritesOnly && <CombosSection combos={combos} lang={lang} labels={labels} onOpen={openCombo} />}
               <parts.CategoryTabs
                 categories={categories.map((c) => ({ id: c.id, name: tx(c.name, lang), count: c.items.length }))}
                 active={active}

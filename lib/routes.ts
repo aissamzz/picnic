@@ -20,7 +20,18 @@ export const APP_ROOTS = [
   "confidentialite",
   "demo",
   "apercu",
+  "modele",
   "r",
+  // Demo menus (/template-N, rewritten to /modele/N/{lang}).
+  "template-1",
+  "template-2",
+  "template-3",
+  "template-4",
+  "template-5",
+  "template-6",
+  "template-7",
+  "template-8",
+  "template-9",
 ] as const;
 
 const ROOTS = new Set<string>(APP_ROOTS);

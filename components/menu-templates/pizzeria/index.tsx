@@ -2,7 +2,7 @@
 
 import { BaseItemSheet } from "@/components/menu/base-item-sheet";
 import { DefaultTabs } from "@/components/menu/default-tabs";
-import { InfoButton, LogoMark, OpenStatus, TableChip } from "@/components/menu/header-bits";
+import { BannerHeader } from "@/components/menu/header-bits";
 import { ItemPhoto } from "@/components/menu/item-photo";
 import { MenuApp, type MenuAppProps } from "@/components/menu/menu-app";
 import { CardPrice } from "@/components/menu/menu-price";
@@ -10,32 +10,9 @@ import { SoldOutBadge, TagBadges } from "@/components/menu/tag-badges";
 import type { HeaderProps, ItemCardProps, TemplateParts } from "@/components/menu/template-types";
 import { cx as cn } from "@/lib/utils/cx";
 
-function Header({ restaurant, labels, open, tableLabel, logoUrl, coverUrl, onInfo, langSwitch }: HeaderProps) {
+function Header(p: HeaderProps) {
   return (
-    <header className="relative overflow-hidden">
-      {coverUrl && (
-        // eslint-disable-next-line @next/next/no-img-element -- cover sits behind a gradient, decorative
-        <img src={coverUrl} alt="" className="absolute inset-0 size-full object-cover opacity-40" />
-      )}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-m-bg" aria-hidden />
-      <div className="relative flex flex-col gap-4 px-4 pt-4 pb-6">
-        <div className="flex items-center justify-between">
-          <TableChip label={tableLabel} className="bg-m-accent text-m-on-accent" />
-          <div className="ms-auto flex items-center gap-1">
-            {langSwitch}
-            <InfoButton onClick={onInfo} labels={labels} className="bg-white/10" />
-          </div>
-        </div>
-        <div className="flex items-end gap-3 pt-6">
-          <LogoMark url={logoUrl} name={restaurant.name} className="size-16 ring-2 ring-m-accent" />
-          <div className="min-w-0">
-            <h1 className="font-display text-3xl leading-none tracking-tight uppercase [overflow-wrap:anywhere]">{restaurant.name}</h1>
-            {restaurant.commune && <p className="mt-1 text-sm text-m-muted">{restaurant.commune}</p>}
-          </div>
-        </div>
-        <OpenStatus open={open} labels={labels} className="self-start bg-white/10" />
-      </div>
-    </header>
+    <BannerHeader {...p} fallbackClass="bg-m-surface" nameClass="uppercase tracking-tight" fallbackNameClass="text-m-fg" statusClass="bg-white/10" />
   );
 }
 

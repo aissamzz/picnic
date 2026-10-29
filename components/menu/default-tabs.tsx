@@ -11,8 +11,14 @@ type Variant = "pill" | "underline" | "square";
 export function DefaultTabs({ variant = "pill", className, ...p }: TabsProps & { variant?: Variant; className?: string }) {
   const listRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
-    const el = listRef.current?.querySelector<HTMLElement>('[aria-current="true"]');
-    el?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+    // Scroll the tab strip only: scrollIntoView would also move the page.
+    const list = listRef.current;
+    const el = list?.querySelector<HTMLElement>('[aria-current="true"]');
+    if (!list || !el) return;
+    const a = el.getBoundingClientRect();
+    const b = list.getBoundingClientRect();
+    // Relative scroll: same maths in LTR and RTL.
+    list.scrollBy({ left: a.left + a.width / 2 - (b.left + b.width / 2), behavior: "smooth" });
   }, [p.active]);
 
   const base =
