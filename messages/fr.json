@@ -832,7 +832,11 @@
       "appearance": "Apparence",
       "tables": "Tables et QR codes",
       "orders": "Commandes en ligne",
-      "calls": "Appels des tables"
+      "calls": "Appels des tables",
+      "subscription": "Abonnement",
+      "kit": "Kit QR",
+      "referral": "Parrainage",
+      "notifications": "Notifications"
     },
     "orders": {
       "title": "Commandes en ligne",
@@ -983,5 +987,176 @@
     },
     "menuLink": "Importer depuis une photo",
     "menuLinkHint": "Ajoutez des plats en photographiant votre menu."
+  },
+  "billing": {
+    "title": "Abonnement",
+    "subtitle": "Paiement par BaridiMob, CCP ou en espèces. Aucune carte bancaire.",
+    "current": "Votre abonnement",
+    "plan": "Formule",
+    "until": "Valable jusqu'au {date}",
+    "trialUntil": "Essai jusqu'au {date}",
+    "graceUntil": "Modifications bloquées le {date}",
+    "expiredBody": "Votre menu reste en ligne. Payez pour débloquer l'édition et les commandes.",
+    "reference": "Votre référence de paiement",
+    "referenceHint": "Indiquez-la dans le motif du virement ou au dos du reçu.",
+    "copy": "Copier",
+    "copied": "Copié",
+    "choosePlan": "1. Choisissez une formule",
+    "plans": {
+      "monthly": "Mensuel",
+      "semiannual": "6 mois",
+      "annual": "12 mois"
+    },
+    "planMonths": {
+      "monthly": "1 mois",
+      "semiannual": "6 mois",
+      "annual": "12 mois"
+    },
+    "perMonth": "soit {price} par mois",
+    "saving": "−{percent} %",
+    "chooseMethod": "2. Payez",
+    "methods": {
+      "baridimob": "BaridiMob",
+      "ccp": "Versement CCP",
+      "cash": "Espèces",
+      "cod": "À la livraison du kit"
+    },
+    "baridimobSteps": "Dans BaridiMob, faites un virement vers ce RIP, avec votre référence en motif.",
+    "rip": "RIP",
+    "ccpSteps": "Au bureau de poste, versez le montant sur ce compte CCP, avec votre référence.",
+    "ccpNumber": "Compte CCP",
+    "ccpKey": "Clé",
+    "ccpHolder": "Titulaire",
+    "cashSteps": "Remettez le montant à notre agent et gardez le reçu signé. Appelez-nous pour un rendez-vous.",
+    "amount": "Montant",
+    "notConfigured": "Coordonnées bientôt disponibles. Contactez-nous.",
+    "uploadTitle": "3. Envoyez le reçu",
+    "receipt": "Photo ou PDF du reçu",
+    "receiptHint": "Une photo nette où l'on voit le montant et la date.",
+    "submit": "Envoyer le reçu",
+    "submitted": "Reçu envoyé. Nous le vérifions en général sous 24 h.",
+    "pendingTitle": "Reçu en cours de vérification",
+    "pendingBody": "{plan} · {amount} · envoyé le {date}. Vous recevrez une notification dès la validation.",
+    "history": "Historique des paiements",
+    "historyEmpty": "Aucun paiement pour le moment.",
+    "statuses": {
+      "pending": "En vérification",
+      "approved": "Validé",
+      "rejected": "Refusé"
+    },
+    "rejectedReason": "Motif : {reason}",
+    "period": "Du {from} au {to}",
+    "receiptPdf": "Reçu PDF",
+    "viewReceipt": "Voir le justificatif",
+    "kitTitle": "Le kit QR Liinky",
+    "kitBody": "Présentoirs en plexiglas imprimés + 12 mois d'abonnement, payés à la livraison.",
+    "kitCta": "Commander le kit",
+    "lockedHint": "Les modifications sont bloquées. Seul le propriétaire peut payer l'abonnement.",
+    "errors": {
+      "pending_exists": "Un reçu est déjà en cours de vérification.",
+      "receipt": "Envoyez une photo (JPG, PNG, WebP) ou un PDF de 10 Mo maximum.",
+      "generic": "L'envoi a échoué. Réessayez."
+    }
+  },
+  "receiptPdf": {
+    "title": "Reçu de paiement",
+    "number": "Reçu n°",
+    "restaurant": "Établissement",
+    "reference": "Référence",
+    "plan": "Formule",
+    "method": "Mode de paiement",
+    "period": "Période",
+    "amount": "Montant",
+    "paid": "Payé",
+    "issuedOn": "Émis le {date}",
+    "footer": "Liinky · liinky.app · Merci pour votre confiance."
+  },
+  "kit": {
+    "title": "Kit QR",
+    "subtitle": "Des présentoirs en plexiglas pour vos tables et des affiches, imprimés avec vos QR codes.",
+    "includes": "Inclus",
+    "includesList": [
+      "Présentoirs de table avec le QR de chaque table",
+      "Affiches A4 pour la vitrine et le comptoir",
+      "12 mois d'abonnement à partir de la livraison"
+    ],
+    "stands": "Présentoirs de table",
+    "posters": "Affiches A4",
+    "address": "Adresse de livraison",
+    "commune": "Commune",
+    "wilaya": "Wilaya",
+    "phone": "Téléphone du livreur",
+    "price": "Prix",
+    "kitPrice": "Kit",
+    "annualPlan": "Abonnement 12 mois",
+    "total": "Total à payer à la livraison",
+    "order": "Commander le kit",
+    "ordered": "Commande enregistrée. Nous vous envoyons une maquette sous 48 h.",
+    "stages": {
+      "ordered": "Commande reçue",
+      "mockup": "Maquette",
+      "approved": "Maquette validée",
+      "printed": "Imprimé",
+      "shipped": "Expédié",
+      "delivered": "Livré",
+      "paid": "Payé"
+    },
+    "timeline": "Suivi",
+    "tracking": "N° de suivi : {number}",
+    "mockupTitle": "Votre maquette",
+    "mockupBody": "Vérifiez le nom, le logo et les QR codes avant impression.",
+    "openMockup": "Ouvrir la maquette",
+    "approve": "Valider la maquette",
+    "requestChanges": "Demander des modifications",
+    "feedback": "Ce qu'il faut changer",
+    "sendFeedback": "Envoyer",
+    "feedbackSent": "Merci, nous préparons une nouvelle maquette.",
+    "waitingNewMockup": "Modifications demandées : « {feedback} ». Nouvelle maquette en préparation.",
+    "approved": "Maquette validée, impression en cours.",
+    "done": "Kit payé : votre abonnement de 12 mois est actif.",
+    "errors": {
+      "kit_open": "Une commande de kit est déjà en cours.",
+      "invalid_address": "Vérifiez l'adresse, la wilaya et le téléphone.",
+      "invalid_counts": "Entre 1 et 50 présentoirs, et jusqu'à 20 affiches.",
+      "generic": "La commande a échoué. Réessayez."
+    }
+  },
+  "referral": {
+    "title": "Parrainage",
+    "subtitle": "Un mois offert pour chaque restaurant parrainé qui prend un abonnement.",
+    "code": "Votre code",
+    "link": "Votre lien de parrainage",
+    "share": "Partager",
+    "shareText": "Je mets mon menu en ligne avec Liinky : QR code, commandes WhatsApp. Essai gratuit 14 jours :",
+    "whatsapp": "Envoyer sur WhatsApp",
+    "how": "Comment ça marche",
+    "steps": [
+      "Partagez votre lien à un restaurant ou un café.",
+      "Il s'inscrit et essaie Liinky gratuitement.",
+      "Dès son premier paiement, vous gagnez un mois."
+    ],
+    "list": "Vos filleuls",
+    "empty": "Aucun filleul pour le moment.",
+    "rewarded": "1 mois gagné",
+    "waiting": "En essai"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "Aucune notification.",
+    "markAll": "Tout marquer comme lu",
+    "bell": "Notifications, {count, plural, =0 {aucune nouvelle} one {# nouvelle} other {# nouvelles}}",
+    "kinds": {
+      "trial_ending": "Votre essai se termine le {date}. Choisissez une formule pour rester en ligne sans interruption.",
+      "renewal_due": "Votre abonnement se termine le {date}. Pensez à renouveler.",
+      "subscription_grace": "Abonnement en retard : les modifications seront bloquées le {date}.",
+      "subscription_expired": "Abonnement expiré : votre menu reste en ligne, l'édition et les commandes sont bloquées.",
+      "payment_approved": "Paiement validé. Abonnement actif jusqu'au {date}.",
+      "payment_rejected": "Reçu refusé : {reason}. Envoyez un nouveau reçu.",
+      "kit_mockup": "La maquette de votre kit est prête. Vérifiez-la.",
+      "kit_printed": "Votre kit est imprimé.",
+      "kit_shipped": "Votre kit est expédié.",
+      "kit_delivered": "Votre kit est livré.",
+      "referral_reward": "{restaurant} s'est abonné grâce à vous : un mois offert !"
+    }
   }
 }

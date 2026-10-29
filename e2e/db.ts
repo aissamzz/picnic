@@ -23,3 +23,14 @@ export async function tempRestaurant(fields: Record<string, unknown> = {}) {
   await client.from("tables").insert({ restaurant_id: r.id, code: "T1", label: "Table 1" });
   return { id: r.id as string, slug, cleanup: () => client.from("restaurants").delete().eq("id", r.id) };
 }
+
+/** Supabase client signed in as the E2E super admin (admin RPCs check auth.uid()). */
+export async function adminClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  const phone = (process.env.E2E_ADMIN_PHONE ?? "0555000009").replace(/^0/, "213");
+  const client = createClient(url, anon, { auth: { persistSession: false } });
+  const { error } = await client.auth.signInWithPassword({ email: `p${phone}@phone.invalid`, password: process.env.E2E_ADMIN_PASSWORD ?? "admin-pass-123" });
+  if (error) throw error;
+  return client;
+}

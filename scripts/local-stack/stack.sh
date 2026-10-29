@@ -116,6 +116,7 @@ ENABLE_DEV_UI=true
 NEXT_PUBLIC_REALTIME=off
 # No API key locally: canned AI menu imports.
 AI_PROVIDER=fixture
+CRON_SECRET=local-cron-secret
 ENV
     echo "wrote .env.local"
   fi

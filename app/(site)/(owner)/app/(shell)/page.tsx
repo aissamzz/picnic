@@ -2,12 +2,10 @@ import { ChevronRight, PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { LinkRow } from "@/components/owner/link-row";
-import { SubscriptionBanner } from "@/components/ui/banners";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { requireRestaurant, requireSession } from "@/lib/auth/session";
 import { menuLinks } from "@/lib/links";
-import { bannerFor } from "@/lib/subscription/banner";
 
 /** Onboarding steps shown in the checklist (4 = AI review is part of the menu step). */
 const CHECKLIST = [1, 2, 3, 5, 6, 7] as const;
@@ -18,7 +16,6 @@ export default async function OwnerHome() {
   const t = await getTranslations("home");
   const tl = await getTranslations("onboarding.live");
   const steps = (await getTranslations("onboarding")).raw("steps") as string[];
-  const banner = bannerFor(restaurant);
   const links = menuLinks(restaurant.slug);
   const done = CHECKLIST.filter((s) => s < restaurant.onboarding_step).length;
   const resume = CHECKLIST.find((s) => s >= restaurant.onboarding_step) ?? 7;
@@ -26,7 +23,6 @@ export default async function OwnerHome() {
 
   return (
     <div className="flex flex-col gap-4">
-      {banner && restaurant.role === "owner" && <SubscriptionBanner {...banner} href="/app/plus" />}
       <h1 className="text-2xl font-bold">{firstName ? t("hello", { name: firstName }) : t("helloNoName")}</h1>
 
       {done < CHECKLIST.length && (

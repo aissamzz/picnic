@@ -1,10 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { z } from "zod";
 import { fail, zodFieldErrors, type ActionResult } from "@/lib/actions/result";
 import { getMyRestaurant, requireOwnerRestaurant, requireSession } from "@/lib/auth/session";
+import { REFERRAL_COOKIE } from "@/lib/config";
 import { resolveLocale } from "@/lib/i18n/request";
 import { revalidateMenu } from "@/lib/menu/revalidate";
 import { slugCandidates } from "@/lib/slug";
@@ -81,6 +83,7 @@ export async function saveInfo(input: z.input<typeof infoSchema>): Promise<Actio
       p_commune: v.commune,
       p_address: v.address,
       p_whatsapp_order_phone: v.whatsapp ?? undefined,
+      p_referral_code: (await cookies()).get(REFERRAL_COOKIE)?.value,
     });
     if (error || !data) {
       if (error?.message.includes("slug_unavailable")) return fail("errors.slugUnavailable", { slug: "errors.slugUnavailable" });
@@ -88,6 +91,7 @@ export async function saveInfo(input: z.input<typeof infoSchema>): Promise<Actio
       console.error("create_restaurant", error);
       return fail("errors.generic");
     }
+    (await cookies()).delete(REFERRAL_COOKIE);
     // The menu's default language follows the language the owner set up in.
     await supabase.from("restaurants").update({ default_locale: await resolveLocale() }).eq("id", data);
     revalidateMenu(v.slug);

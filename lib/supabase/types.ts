@@ -467,6 +467,7 @@ export type Database = {
           timeline: Json;
           created_at: string;
           updated_at: string;
+          delivered_at: string | null;
         };
         Insert: {
           id?: string;
@@ -485,6 +486,7 @@ export type Database = {
           timeline?: Json;
           created_at?: string;
           updated_at?: string;
+          delivered_at?: string | null;
         };
         Update: {
           id?: string;
@@ -503,12 +505,13 @@ export type Database = {
           timeline?: Json;
           created_at?: string;
           updated_at?: string;
+          delivered_at?: string | null;
         };
         Relationships: [
           {
             foreignKeyName: "kit_orders_restaurant_id_fkey";
             columns: ["restaurant_id"];
-            isOneToOne: false;
+            isOneToOne: true;
             referencedRelation: "restaurants";
             referencedColumns: ["id"];
           },
@@ -623,6 +626,7 @@ export type Database = {
           read_at: string | null;
           created_at: string;
           updated_at: string;
+          dedupe_key: string | null;
         };
         Insert: {
           id?: string;
@@ -633,6 +637,7 @@ export type Database = {
           read_at?: string | null;
           created_at?: string;
           updated_at?: string;
+          dedupe_key?: string | null;
         };
         Update: {
           id?: string;
@@ -643,6 +648,7 @@ export type Database = {
           read_at?: string | null;
           created_at?: string;
           updated_at?: string;
+          dedupe_key?: string | null;
         };
         Relationships: [
           {
@@ -821,6 +827,8 @@ export type Database = {
           receipt_pdf_path: string | null;
           created_at: string;
           updated_at: string;
+          period_start: string | null;
+          period_end: string | null;
         };
         Insert: {
           id?: string;
@@ -837,6 +845,8 @@ export type Database = {
           receipt_pdf_path?: string | null;
           created_at?: string;
           updated_at?: string;
+          period_start?: string | null;
+          period_end?: string | null;
         };
         Update: {
           id?: string;
@@ -853,12 +863,14 @@ export type Database = {
           receipt_pdf_path?: string | null;
           created_at?: string;
           updated_at?: string;
+          period_start?: string | null;
+          period_end?: string | null;
         };
         Relationships: [
           {
             foreignKeyName: "payments_restaurant_id_fkey";
             columns: ["restaurant_id"];
-            isOneToOne: false;
+            isOneToOne: true;
             referencedRelation: "restaurants";
             referencedColumns: ["id"];
           },
@@ -1131,6 +1143,7 @@ export type Database = {
           deleted_at: string | null;
           created_at: string;
           updated_at: string;
+          referral_rewarded_at: string | null;
         };
         Insert: {
           id?: string;
@@ -1165,6 +1178,7 @@ export type Database = {
           deleted_at?: string | null;
           created_at?: string;
           updated_at?: string;
+          referral_rewarded_at?: string | null;
         };
         Update: {
           id?: string;
@@ -1199,6 +1213,7 @@ export type Database = {
           deleted_at?: string | null;
           created_at?: string;
           updated_at?: string;
+          referral_rewarded_at?: string | null;
         };
         Relationships: [
           {
@@ -1467,6 +1482,22 @@ export type Database = {
       };
     };
     Functions: {
+      _extend_subscription: {
+        Args: { p_restaurant_id: string; p_months: number; p_from?: string };
+        Returns: { period_start: string; period_end: string }[];
+      };
+      _kit_step: {
+        Args: { k: string; p_stage: Database["public"]["Enums"]["kit_stage"]; p_extra?: Json };
+        Returns: Json;
+      };
+      _reward_referral: {
+        Args: { p_restaurant_id: string };
+        Returns: undefined;
+      };
+      _sync_subscription: {
+        Args: { p_restaurant_id: string };
+        Returns: Database["public"]["Enums"]["restaurant_status"];
+      };
       accept_invite: {
         Args: { p_token: string };
         Returns: string;
@@ -1494,6 +1525,10 @@ export type Database = {
       apply_ai_import: {
         Args: { p_import_id: string; p_draft: Json };
         Returns: number;
+      };
+      approve_payment: {
+        Args: { p_payment_id: string };
+        Returns: string;
       };
       assert_can_edit_menu: {
         Args: { p_restaurant_id: string };
@@ -1544,7 +1579,7 @@ export type Database = {
         Returns: { result: string; user_id: string }[];
       };
       create_restaurant: {
-        Args: { p_name: string; p_slug: string; p_type: Database["public"]["Enums"]["restaurant_type"]; p_wilaya_code: number; p_commune?: string; p_address?: string; p_whatsapp_order_phone?: string };
+        Args: { p_name: string; p_slug: string; p_type: Database["public"]["Enums"]["restaurant_type"]; p_wilaya_code: number; p_commune?: string; p_address?: string; p_whatsapp_order_phone?: string; p_referral_code?: string };
         Returns: string;
       };
       default_template_for: {
@@ -1599,8 +1634,20 @@ export type Database = {
         Args: never;
         Returns: boolean;
       };
+      kit_advance: {
+        Args: { p_kit_id: string; p_stage: Database["public"]["Enums"]["kit_stage"]; p_tracking?: string };
+        Returns: undefined;
+      };
+      kit_set_mockup: {
+        Args: { p_kit_id: string; p_path: string };
+        Returns: undefined;
+      };
       log_menu_event: {
         Args: { p_restaurant_id: string; p_kind: Database["public"]["Enums"]["menu_event_kind"]; p_session_id: string; p_source?: Database["public"]["Enums"]["traffic_source"]; p_table_code?: string; p_item_id?: string };
+        Returns: undefined;
+      };
+      mark_notifications_read: {
+        Args: { p_restaurant_id: string };
         Returns: undefined;
       };
       member_role: {
@@ -1611,6 +1658,10 @@ export type Database = {
         Args: never;
         Returns: string;
       };
+      my_referrals: {
+        Args: { p_restaurant_id: string };
+        Returns: { name: string; created_at: string; rewarded: boolean }[];
+      };
       my_restaurant_ids: {
         Args: never;
         Returns: string[];
@@ -1619,9 +1670,25 @@ export type Database = {
         Args: never;
         Returns: string;
       };
+      notify: {
+        Args: { p_restaurant_id: string; p_kind: string; p_payload?: Json; p_dedupe?: string };
+        Returns: undefined;
+      };
       open_code_request: {
         Args: { p_user_id: string; p_purpose: Database["public"]["Enums"]["code_purpose"]; p_by_admin: boolean };
         Returns: string;
+      };
+      order_kit: {
+        Args: { p_restaurant_id: string; p_stands: number; p_posters: number; p_wilaya_code: number; p_commune: string; p_address: string; p_phone: string };
+        Returns: string;
+      };
+      payment_details: {
+        Args: never;
+        Returns: { baridimob_rip: string; ccp_number: string; ccp_key: string; ccp_holder: string; price_monthly: number; price_semiannual: number; price_annual: number; kit_price: number }[];
+      };
+      plan_price: {
+        Args: { p_plan: Database["public"]["Enums"]["subscription_plan"] };
+        Returns: number;
       };
       random_code: {
         Args: { len?: number };
@@ -1630,6 +1697,10 @@ export type Database = {
       random_digits6: {
         Args: never;
         Returns: string;
+      };
+      reject_payment: {
+        Args: { p_payment_id: string; p_reason: string };
+        Returns: undefined;
       };
       reorder_categories: {
         Args: { p_restaurant_id: string; p_ids: string[] };
@@ -1655,6 +1726,14 @@ export type Database = {
         Args: { p_restaurant_id: string; p_days?: number };
         Returns: Json;
       };
+      review_kit_mockup: {
+        Args: { p_kit_id: string; p_approve: boolean; p_feedback?: string };
+        Returns: undefined;
+      };
+      run_subscription_tick: {
+        Args: never;
+        Returns: number;
+      };
       save_item: {
         Args: { p_restaurant_id: string; p_item: Json };
         Returns: string;
@@ -1679,9 +1758,21 @@ export type Database = {
         Args: { p_restaurant_id: string; p_order: Json };
         Returns: Json;
       };
+      submit_payment: {
+        Args: { p_restaurant_id: string; p_plan: Database["public"]["Enums"]["subscription_plan"]; p_method: Database["public"]["Enums"]["payment_method"]; p_receipt_path: string };
+        Returns: string;
+      };
+      subscription_status_for: {
+        Args: { p_status: Database["public"]["Enums"]["restaurant_status"]; p_trial_ends_at: string; p_paid_until: string; p_grace_days: number; p_now?: string };
+        Returns: Database["public"]["Enums"]["restaurant_status"];
+      };
       suggest_restaurants: {
         Args: { p_query: string };
         Returns: { slug: string; name: string; commune: string }[];
+      };
+      sync_subscription: {
+        Args: { p_restaurant_id: string };
+        Returns: Database["public"]["Enums"]["restaurant_status"];
       };
       verify_phone_code: {
         Args: { p_code: string };

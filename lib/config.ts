@@ -9,3 +9,6 @@ export const APP_URL =
   (APP_DOMAIN.startsWith("localhost") ? `http://${APP_DOMAIN}` : `https://${APP_DOMAIN}`);
 
 export const TABLE_SLUG_SUFFIX = "-menu";
+
+/** Referral code from a /inscription?ref= link (httpOnly, 30 days). */
+export const REFERRAL_COOKIE = "liinky_ref";

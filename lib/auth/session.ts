@@ -10,6 +10,8 @@ export type MyRestaurant = {
   role: "owner" | "staff";
   status: "trial" | "active" | "grace" | "expired" | "suspended" | "paused";
   trial_ends_at: string;
+  /** Owners only (billing columns); null for staff and before the first payment. */
+  paid_until: string | null;
   onboarding_step: number;
   went_live_at: string | null;
   default_locale: string;
@@ -51,12 +53,18 @@ export const getMyRestaurant = cache(async (): Promise<MyRestaurant | null> => {
   if (!memberships?.length) return null;
   const sorted = [...memberships].sort((a, b) => (a.role === b.role ? 0 : a.role === "owner" ? -1 : 1));
   for (const m of sorted) {
+    // Request guard: apply the subscription state machine before reading.
+    await supabase.rpc("sync_subscription", { p_restaurant_id: m.restaurant_id });
     const { data: r } = await supabase
       .from("restaurants")
       .select("id, slug, name, status, trial_ends_at, onboarding_step, went_live_at, default_locale, enabled_locales, template_key, deleted_at")
       .eq("id", m.restaurant_id)
       .maybeSingle();
-    if (r && !r.deleted_at) return { ...r, role: m.role } as MyRestaurant;
+    if (r && !r.deleted_at) {
+      const { data: billing } =
+        m.role === "owner" ? await supabase.from("restaurant_billing").select("paid_until").eq("id", r.id).maybeSingle() : { data: null };
+      return { ...r, role: m.role, paid_until: billing?.paid_until ?? null } as MyRestaurant;
+    }
   }
   return null;
 });

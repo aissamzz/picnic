@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { TABLE_SLUG_SUFFIX } from "@/lib/config";
+import { REFERRAL_COOKIE, TABLE_SLUG_SUFFIX } from "@/lib/config";
 import { isLocale, LOCALE_COOKIE, negotiateLocale } from "@/lib/i18n/config";
 import { MENU_ROUTE_PREFIX, menuSegment } from "@/lib/routes";
 import { parseMenuSegment } from "@/lib/slug";
@@ -68,6 +68,11 @@ export async function middleware(request: NextRequest) {
   const response = NextResponse.next({ request: { headers: requestHeaders } });
   if (isLocale(lang)) {
     response.cookies.set(LOCALE_COOKIE, lang, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
+  }
+  // Referral links (/inscription?ref=CODE): remembered until the restaurant is created.
+  const ref = searchParams.get("ref");
+  if (ref && /^[A-Za-z0-9]{4,12}$/.test(ref)) {
+    response.cookies.set(REFERRAL_COOKIE, ref.toUpperCase(), { path: "/", maxAge: 60 * 60 * 24 * 30, sameSite: "lax", httpOnly: true });
   }
   if (!SESSION_PATHS.test(pathname)) return response;
 

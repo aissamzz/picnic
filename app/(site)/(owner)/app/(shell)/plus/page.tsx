@@ -1,4 +1,4 @@
-import { BellRing, ChevronRight, LogOut, Palette, QrCode, Shield, ShoppingBag, Store, UserRound } from "lucide-react";
+import { Bell, BellRing, ChevronRight, CreditCard, Gift, LogOut, Package, Palette, QrCode, Shield, ShoppingBag, Store, UserRound } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { Card } from "@/components/ui/card";
@@ -12,6 +12,14 @@ export default async function MorePage() {
   const ta = await getTranslations("auth");
   const tl = await getTranslations("owner.plusLinks");
   const rows = [
+    ...(restaurant.role === "owner"
+      ? [
+          { href: "/app/abonnement", label: tl("subscription"), icon: CreditCard },
+          { href: "/app/kit", label: tl("kit"), icon: Package },
+          { href: "/app/parrainage", label: tl("referral"), icon: Gift },
+        ]
+      : []),
+    { href: "/app/notifications", label: tl("notifications"), icon: Bell },
     { href: "/app/appels", label: tl("calls"), icon: BellRing },
     { href: "/app/compte", label: t("account"), icon: UserRound },
     ...(restaurant.role === "owner"

@@ -1,13 +1,13 @@
 # TODO
 
 ## Needs a decision from you
-- [ ] Payment approval (phase 7) said "SMS to owner": planned as an in-app notification + banner instead.
+- [ ] Kit pricing: the kit is billed as kit (6 000 DA) + 12-month plan (24 000 DA) = 30 000 DA cash on delivery. Confirm, or say if the kit alone should be 6 000 DA with the plan paid separately.
 - [ ] Real BaridiMob RIP / CCP details before launch (seed keeps fake values on purpose).
 
 ## Deferred
 - [ ] Phase 8: admin MFA (TOTP) enforcement in middleware and `requireSuperAdmin()`.
 - [ ] Phase 4: `/app/equipe` to create staff invites (accept page `/invitation/[token]` exists).
-- [ ] Old open code requests are only hidden after 24 h; a cleanup job can expire them (phase 7 cron).
+- [ ] Old open code requests are only hidden after 24 h; a cleanup job can expire them (add to the nightly cron).
 - [ ] Replace `lib/supabase/types.ts` with `supabase gen types` output once a Supabase stack is running.
 - [ ] Document super admin bootstrap (`scripts/create-admin.mjs`) in DEPLOY.md (phase 9).
 - [ ] Partition `menu_events` by month if volume requires.
@@ -21,3 +21,6 @@
 - [ ] AI import: run a real-menu evaluation with an API key (handwritten, Arabic-only, chalkboard, multi-page PDF) before launch; the extractor has only been exercised with the fixture provider here (no key in this environment).
 - [ ] AI import: purge `imports/` sources after 30 days (phase 7 cron).
 - [ ] AI import: HEIC photos are converted by iOS Safari on upload; other browsers may send HEIC, which is refused with the "files" message.
+- [ ] Phase 8 admin screens: payment queue (approve/reject with preset reasons), kit kanban with mockup upload, renewals list (the RPCs exist).
+- [ ] Phase 9 DEPLOY.md: schedule `POST /api/cron/subscriptions` nightly when pg_cron is unavailable; set CRON_SECRET.
+- [ ] Owner SMS/WhatsApp messages for payment approval if an SMS provider is added later (in-app notifications only for now).
