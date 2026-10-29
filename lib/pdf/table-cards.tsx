@@ -1,7 +1,7 @@
 import "server-only";
 import path from "node:path";
-import { Document, Font, Image, Page, Polygon, Rect, StyleSheet, Svg, Text, View, renderToBuffer } from "@react-pdf/renderer";
-import QRCode from "qrcode";
+import { Circle, Document, Font, G, Page, Path, Polygon, Rect, StyleSheet, Svg, Text, View, renderToBuffer } from "@react-pdf/renderer";
+import { brandedQr, QR_BERRY, QR_INK, SYMBOL_CIRCLES, SYMBOL_PATH, symbolTransform } from "@/lib/qr/branded";
 
 // Static TTFs: fontkit can't embed variable WOFF2. Cairo covers Latin + Arabic.
 Font.register({
@@ -13,7 +13,7 @@ Font.register({
 });
 Font.registerHyphenationCallback((w) => [w]);
 
-const INK = "#1C1B19";
+const INK = QR_INK;
 const CLAY = "#9C3D24";
 const SAND = "#F6F4EF";
 
@@ -42,22 +42,42 @@ function Band() {
   );
 }
 
+/** Branded QR (level H, Liinky badge) as vector shapes. */
+function Qr({ text, size }: { text: string; size: number }) {
+  const q = brandedQr(text, 1);
+  const total = q.size + q.margin * 2;
+  const t = symbolTransform(q.badge);
+  return (
+    <Svg width={size} height={size} viewBox={`0 0 ${total} ${total}`}>
+      <Rect x={0} y={0} width={total} height={total} fill="#FFFFFF" />
+      <Path d={q.path} fill={INK} />
+      <Rect x={q.badge.x} y={q.badge.y} width={q.badge.size} height={q.badge.size} rx={q.badge.radius} fill={QR_BERRY} />
+      <G transform={`translate(${t.x} ${t.y}) scale(${t.scale})`}>
+        {SYMBOL_CIRCLES.map((c) => (
+          <Circle key={c.cx} cx={c.cx} cy={c.cy} r={c.r} fill="#FFFFFF" />
+        ))}
+        <Path d={SYMBOL_PATH} fill="#FFFFFF" />
+      </G>
+    </Svg>
+  );
+}
+
 export type TableCard = { label: string; url: string };
 
 export async function tableCardsPdf(opts: { restaurant: string; cards: TableCard[]; lines: string[] }): Promise<Buffer> {
-  const qrs = await Promise.all(opts.cards.map((c) => QRCode.toDataURL(c.url, { errorCorrectionLevel: "M", margin: 1, width: 480, color: { dark: INK, light: "#FFFFFF" } })));
   const pages: TableCard[][] = [];
   for (let i = 0; i < opts.cards.length; i += 6) pages.push(opts.cards.slice(i, i + 6));
   const doc = (
     <Document title={`${opts.restaurant} · QR`}>
       {pages.map((cards, p) => (
         <Page key={p} size="A4" style={s.page}>
-          {cards.map((c, i) => (
+          {cards.map((c) => (
             <View key={c.url} style={s.card} wrap={false}>
               <Band />
               <Text style={s.name}>{opts.restaurant}</Text>
-              {/* eslint-disable-next-line jsx-a11y/alt-text -- react-pdf Image has no alt */}
-              <Image src={qrs[p * 6 + i]} style={s.qr} />
+              <View style={s.qr}>
+                <Qr text={c.url} size={120} />
+              </View>
               <Text style={s.table}>{c.label}</Text>
               {opts.lines.map((l) => (
                 <Text key={l} style={[s.line, { textAlign: "center" }]}>

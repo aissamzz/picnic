@@ -12,7 +12,7 @@ Font.register({
 
 const INK = "#1C1B19";
 const MUTED = "#5E5A53";
-const PRIMARY = "#1F6B4A";
+const PRIMARY = "#E5245E";
 
 const s = StyleSheet.create({
   page: { padding: 48, fontFamily: "Cairo", fontSize: 11, color: INK },

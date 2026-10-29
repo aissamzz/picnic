@@ -5,7 +5,7 @@ export default function OnboardingLayout({ children }: { children: React.ReactNo
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="mx-auto flex w-full max-w-xl items-center justify-between px-4 pt-4">
-        <Logo />
+        <Logo height={34} />
         <LanguagePicker />
       </header>
       <main className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pt-4 pb-10">{children}</main>

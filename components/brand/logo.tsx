@@ -1,18 +1,42 @@
 import { APP_NAME } from "@/lib/config";
 import { cn } from "@/lib/utils/cn";
 
-/** Wordmark: a QR-corner mark + the app name. */
-export function Logo({ className, compact }: { className?: string; compact?: boolean }) {
+/**
+ * The Liinky logo, from the brand kit (public/brand, see brand/logo/GUIDELINES.md
+ * in the brand repo). Never retype the name as text in its place.
+ * - horizontal: headers and nav (reversed on dark backgrounds), min 96 px wide
+ * - stacked: login, signup and splash screens, min 64 px wide
+ * - symbol: small square marks, min 32 px (below that the small symbol is used)
+ */
+const FILES = {
+  horizontal: { src: "/brand/liinky-horizontal.svg", w: 696, h: 250 },
+  reversed: { src: "/brand/liinky-horizontal-reversed.svg", w: 696, h: 250 },
+  stacked: { src: "/brand/liinky-stacked.svg", w: 546, h: 496 },
+  symbol: { src: "/brand/liinky-symbol.svg", w: 256, h: 256 },
+  "symbol-small": { src: "/brand/liinky-symbol-small.svg", w: 256, h: 256 },
+  "symbol-white": { src: "/brand/liinky-symbol-white.svg", w: 256, h: 256 },
+} as const;
+
+export type LogoVariant = keyof typeof FILES;
+
+export function Logo({
+  variant = "horizontal",
+  height,
+  className,
+  decorative,
+}: {
+  variant?: LogoVariant;
+  /** Rendered height in px (width follows the artwork). */
+  height?: number;
+  className?: string;
+  /** Next to visible text naming Liinky: hide from screen readers. */
+  decorative?: boolean;
+}) {
+  const f = FILES[variant === "symbol" && height != null && height < 32 ? "symbol-small" : variant];
+  const h = height ?? (variant === "stacked" ? 110 : variant.startsWith("symbol") ? 32 : 36);
+  const w = Math.round((f.w / f.h) * h);
   return (
-    <span className={cn("inline-flex items-center gap-2 font-bold text-ink", className)} dir="ltr">
-      <svg viewBox="0 0 24 24" className="size-7" aria-hidden>
-        <rect width="24" height="24" rx="7" fill="var(--primary)" />
-        <rect x="5" y="5" width="6" height="6" rx="1.5" fill="none" stroke="#fff" strokeWidth="2" />
-        <rect x="13" y="13" width="6" height="6" rx="1.5" fill="var(--accent)" />
-        <rect x="14" y="5" width="2.5" height="2.5" rx="0.6" fill="#fff" />
-        <rect x="5" y="14" width="2.5" height="2.5" rx="0.6" fill="#fff" />
-      </svg>
-      {!compact && <span className="text-xl tracking-tight">{APP_NAME}</span>}
-    </span>
+    // eslint-disable-next-line @next/next/no-img-element -- static SVG artwork, no optimisation needed
+    <img src={f.src} alt={decorative ? "" : APP_NAME} width={w} height={h} className={cn("shrink-0 select-none", className)} draggable={false} />
   );
 }

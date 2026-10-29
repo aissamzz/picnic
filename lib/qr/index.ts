@@ -1,12 +1,7 @@
 import "server-only";
-import QRCode from "qrcode";
+import { brandedQrSvg } from "./branded";
 
-/** SVG markup for a QR code (error correction M, ink on white). */
+/** SVG markup for a branded QR code (level H, Liinky badge in the centre). */
 export async function qrSvg(text: string, opts: { margin?: number; color?: string } = {}): Promise<string> {
-  return QRCode.toString(text, {
-    type: "svg",
-    errorCorrectionLevel: "M",
-    margin: opts.margin ?? 1,
-    color: { dark: opts.color ?? "#1C1B19", light: "#FFFFFF" },
-  });
+  return brandedQrSvg(text, { margin: opts.margin ?? 1, color: opts.color });
 }

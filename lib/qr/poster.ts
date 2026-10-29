@@ -1,8 +1,9 @@
-import QRCode from "qrcode";
+import { brandedQrSvg, drawBrandedQr, QR_INK } from "./branded";
 
 /**
  * Browser-side QR images for the share hub and table cards. Drawn on a canvas
- * with the page's own fonts (Inter/Cairo), so Arabic shapes correctly.
+ * with the page's own fonts (Nunito/Cairo), so Arabic shapes correctly. Every
+ * code carries the Liinky badge (level H, see ./branded.ts).
  */
 
 export type PosterOptions = {
@@ -17,15 +18,7 @@ export type PosterOptions = {
   rtl: boolean;
 };
 
-const INK = "#1C1B19";
-
-async function qrImage(text: string, size: number): Promise<HTMLImageElement> {
-  const url = await QRCode.toDataURL(text, { errorCorrectionLevel: "M", margin: 1, width: size, color: { dark: INK, light: "#FFFFFF" } });
-  const img = new Image();
-  img.src = url;
-  await img.decode();
-  return img;
-}
+const INK = QR_INK;
 
 function fontFamily() {
   return getComputedStyle(document.body).fontFamily || "sans-serif";
@@ -75,8 +68,7 @@ export async function renderPoster(o: PosterOptions): Promise<Blob> {
 
   ctx.fillStyle = "#FFFFFF";
   roundRect(ctx, cx - cardW / 2, cardY, cardW, cardH, Math.round(unit * 0.04));
-  const qr = await qrImage(o.qrText, qrSize);
-  ctx.drawImage(qr, cx - qrSize / 2, cardY + cardPad, qrSize, qrSize);
+  drawBrandedQr(ctx, o.qrText, cx - qrSize / 2, cardY + cardPad, qrSize);
 
   ctx.fillStyle = INK;
   fitText(ctx, o.headline, 700, Math.round(unit * 0.05), cardW - cardPad * 2);
@@ -91,13 +83,14 @@ export async function renderPoster(o: PosterOptions): Promise<Blob> {
 }
 
 export async function qrPng(text: string, size = 1024): Promise<Blob> {
-  const url = await QRCode.toDataURL(text, { errorCorrectionLevel: "M", margin: 2, width: size, color: { dark: INK, light: "#FFFFFF" } });
-  return (await fetch(url)).blob();
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = size;
+  drawBrandedQr(canvas.getContext("2d")!, text, 0, 0, size, 2);
+  return new Promise((resolve, reject) => canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("canvas"))), "image/png"));
 }
 
 export async function qrSvgBlob(text: string): Promise<Blob> {
-  const svg = await QRCode.toString(text, { type: "svg", errorCorrectionLevel: "M", margin: 2, color: { dark: INK, light: "#FFFFFF" } });
-  return new Blob([svg], { type: "image/svg+xml" });
+  return new Blob([brandedQrSvg(text, { margin: 2 })], { type: "image/svg+xml" });
 }
 
 export function downloadBlob(blob: Blob, filename: string) {

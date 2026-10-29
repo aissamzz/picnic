@@ -35,7 +35,7 @@ const serwist = new Serwist({
       handler: new StaleWhileRevalidate({ cacheName: "menu-images", plugins: [new ExpirationPlugin({ maxEntries: 150, maxAgeSeconds: 30 * DAY })] }),
     },
     {
-      matcher: ({ url }) => sameOrigin(url) && (url.pathname.startsWith("/_next/static/") || url.pathname.startsWith("/fonts/") || url.pathname.startsWith("/icons/")),
+      matcher: ({ url }) => sameOrigin(url) && (url.pathname.startsWith("/_next/static/") || url.pathname.startsWith("/fonts/") || url.pathname.startsWith("/brand/")),
       handler: new CacheFirst({ cacheName: "static", plugins: [new ExpirationPlugin({ maxEntries: 300, maxAgeSeconds: 365 * DAY })] }),
     },
     {

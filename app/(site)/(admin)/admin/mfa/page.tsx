@@ -14,7 +14,7 @@ export default async function MfaPage() {
   const t = await getTranslations("admin.mfa");
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 p-6">
-      <Logo />
+      <Logo variant="stacked" height={96} className="self-center" />
       <h1 className="text-2xl font-bold">{t("title")}</h1>
       <MfaForm />
     </main>

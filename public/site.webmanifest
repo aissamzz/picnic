@@ -1,0 +1,32 @@
+{
+  "name": "Liinky",
+  "short_name": "Liinky",
+  "description": "Votre menu QR, vos commandes WhatsApp et vos appels de table.",
+  "id": "/app",
+  "start_url": "/app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "fr",
+  "dir": "auto",
+  "theme_color": "#E5245E",
+  "background_color": "#E5245E",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

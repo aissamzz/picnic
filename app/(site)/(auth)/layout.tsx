@@ -7,14 +7,14 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
   const t = await getTranslations("auth");
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="mx-auto flex w-full max-w-md items-center justify-between px-4 pt-4">
-        <Link href="/" aria-label="Liinky" className="rounded-md">
-          <Logo />
-        </Link>
+      <header className="mx-auto flex w-full max-w-md justify-end px-4 pt-4">
         <LanguagePicker />
       </header>
-      <main className="mx-auto flex w-full max-w-md flex-1 flex-col px-4 pt-6 pb-10">
-        <p className="mb-6 text-sm text-muted">{t("tagline")}</p>
+      <main className="mx-auto flex w-full max-w-md flex-1 flex-col px-4 pt-2 pb-10">
+        <Link href="/" className="mb-3 self-center rounded-md">
+          <Logo variant="stacked" height={104} />
+        </Link>
+        <p className="mb-6 text-center text-sm text-muted">{t("tagline")}</p>
         {children}
       </main>
     </div>

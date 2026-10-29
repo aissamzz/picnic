@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { RegisterServiceWorker } from "@/components/pwa/register-sw";
 import { Toaster } from "@/components/ui/toast";
 import { APP_NAME, APP_URL } from "@/lib/config";
-import { cairo, inter } from "@/lib/fonts";
+import { cairo, nunito } from "@/lib/fonts";
 import { localeDir, type Locale } from "@/lib/i18n/config";
 import "../globals.css";
 
@@ -15,14 +15,21 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { default: APP_NAME, template: `%s · ${APP_NAME}` },
     description: t("description", { app: APP_NAME }),
     // Installable owner app (menus stay plain pages: no manifest there).
-    manifest: "/manifest.webmanifest",
+    manifest: "/site.webmanifest",
     appleWebApp: { capable: true, title: APP_NAME, statusBarStyle: "default" },
-    icons: { icon: "/icons/icon-192.png", apple: "/icons/apple-touch-icon.png" },
+    // brand/logo/final/web/head-snippet.html
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "48x48" },
+        { url: "/favicon.svg", type: "image/svg+xml" },
+      ],
+      apple: "/apple-touch-icon.png",
+    },
   };
 }
 
 export const viewport: Viewport = {
-  themeColor: "#1F6B4A",
+  themeColor: "#E5245E",
   width: "device-width",
   initialScale: 1,
 };
@@ -30,7 +37,7 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const locale = (await getLocale()) as Locale;
   return (
-    <html lang={locale} dir={localeDir(locale)} className={`${inter.variable} ${cairo.variable}`}>
+    <html lang={locale} dir={localeDir(locale)} className={`${nunito.variable} ${cairo.variable}`}>
       <body>
         <NextIntlClientProvider>
           {children}

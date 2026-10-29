@@ -50,7 +50,7 @@ const swatches = [
   ["surface", "#FFFFFF"],
   ["line", "#E7E3DA"],
   ["muted", "#5E5A53"],
-  ["primary", "#1F6B4A"],
+  ["primary", "#E5245E"],
   ["primary-soft", "#E3F0E8"],
   ["accent", "#F2B441"],
   ["clay", "#9C3D24"],
