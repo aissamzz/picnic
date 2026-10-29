@@ -15,6 +15,7 @@ import { formatPrice } from "@/lib/price";
 import { publicImageUrl } from "@/lib/storage";
 import { cn } from "@/lib/utils/cn";
 import { reorderItems, setSoldOut } from "../../../actions";
+import { enqueue, isNetworkError, isOffline } from "@/lib/offline/queue";
 
 /** "800 DA" or "1 100 DA – 1 500 DA"; each price isolated so ranges read right in Arabic. */
 function PriceLabel({ item, locale, none }: { item: AdminItemRow; locale: Locale; none: string }) {
@@ -41,7 +42,14 @@ export function ItemsBoard({ items, editable, locale }: { items: AdminItemRow[];
     const name = tx(item.name, uiLocale);
     const apply = (value: boolean) => {
       setSoldOutState((s) => ({ ...s, [item.id]: value }));
-      return setSoldOut(item.id, value).then((r) => {
+      const queue = () => {
+        enqueue({ kind: "soldOut", itemId: item.id, value });
+        toast(tr("pwa.queue.queued"));
+        return { ok: false as const, queued: true };
+      };
+      if (isOffline()) return Promise.resolve(queue());
+      return setSoldOut(item.id, value).catch((e) => (isNetworkError(e) ? queue() : { ok: false as const, error: "errors.generic" })).then((r) => {
+        if ("queued" in r) return r;
         if (!r.ok) {
           setSoldOutState((s) => ({ ...s, [item.id]: !value }));
           toast(tr(r.error as never));

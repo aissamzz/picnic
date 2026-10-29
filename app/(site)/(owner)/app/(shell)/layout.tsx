@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getTranslations } from "next-intl/server";
 import { BottomNav } from "./bottom-nav";
 import { ReadOnlyProvider } from "@/components/owner/read-only";
+import { OfflineSync } from "@/components/owner/offline-sync";
 import { CallsChip } from "./calls-chip";
 import { NotificationsBell } from "./notifications-bell";
 
@@ -35,6 +36,7 @@ export default async function ShellLayout({
   return (
     <div className="flex min-h-dvh flex-col">
       <OfflineBanner />
+      {!restaurant.viewAs && <OfflineSync restaurantId={restaurant.id} />}
       {restaurant.viewAs && (
         <form
           method="post"

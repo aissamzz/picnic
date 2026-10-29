@@ -14,6 +14,7 @@ import type { FullMenuCategory } from "@/lib/menu/admin-data";
 import { tx } from "@/lib/menu/types";
 import { parsePrice } from "@/lib/price";
 import { bumpPrices, savePrices } from "../actions";
+import { enqueue, isNetworkError, isOffline } from "@/lib/offline/queue";
 
 /** key: `i:{itemId}` for base prices, `v:{variantId}` for sizes. */
 type Drafts = Record<string, string>;
@@ -64,8 +65,17 @@ export function PriceEditor({ menu, editable, locale }: { menu: FullMenuCategory
         if (basePrice === "invalid" || variants.some((v) => v.price === "invalid" || v.price === null)) return setError("errors.priceInvalid");
         rows.push({ itemId: i.id, basePrice, variants: variants as { id: string; price: number }[] });
       }
+    const queue = () => {
+      enqueue({ kind: "prices", rows });
+      toast(tr("pwa.queue.queued"));
+    };
+    if (isOffline()) return queue();
     startSave(async () => {
-      const r = await savePrices(rows);
+      const r = await savePrices(rows).catch((e) => {
+        if (isNetworkError(e)) return null;
+        throw e;
+      });
+      if (!r) return queue();
       if (!r.ok) return setError(r.error);
       toast(t("savedCount"));
       router.refresh();

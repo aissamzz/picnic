@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
+import { RegisterServiceWorker } from "@/components/pwa/register-sw";
 import { Toaster } from "@/components/ui/toast";
 import { APP_NAME, APP_URL } from "@/lib/config";
 import { cairo, inter } from "@/lib/fonts";
 import { localeDir, type Locale } from "@/lib/i18n/config";
 import "../globals.css";
-
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta");
@@ -14,6 +14,10 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(APP_URL),
     title: { default: APP_NAME, template: `%s · ${APP_NAME}` },
     description: t("description", { app: APP_NAME }),
+    // Installable owner app (menus stay plain pages: no manifest there).
+    manifest: "/manifest.webmanifest",
+    appleWebApp: { capable: true, title: APP_NAME, statusBarStyle: "default" },
+    icons: { icon: "/icons/icon-192.png", apple: "/icons/apple-touch-icon.png" },
   };
 }
 
@@ -31,6 +35,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <NextIntlClientProvider>
           {children}
           <Toaster dir={localeDir(locale)} />
+          <RegisterServiceWorker />
         </NextIntlClientProvider>
       </body>
     </html>

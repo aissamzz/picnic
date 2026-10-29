@@ -43,3 +43,7 @@ next-env.d.ts
 .local/
 test-results/
 playwright-report/
+
+# built by `serwist build`
+public/sw.js
+public/sw.js.map

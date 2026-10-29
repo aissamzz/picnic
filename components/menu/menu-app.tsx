@@ -66,6 +66,7 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
   const [favoritesOnly, setFavoritesOnly] = React.useState(false);
   const [selected, setSelected] = React.useState<MenuItem | null>(null);
   const [infoOpen, setInfoOpen] = React.useState(false);
+  const offline = useOffline();
   const [active, setActive] = React.useState<string | null>(null);
   const [open, setOpen] = React.useState<OpenState | null>(null);
   const [table, setTable] = React.useState<{ code: string; label: string } | null>(null);
@@ -161,6 +162,11 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
 
   return (
     <div className={cn("menu-root min-h-dvh", ordering || waiter ? "pb-28" : "pb-10", parts.rootClass)} style={themeStyle} data-template={r.template_key} data-mode={mode}>
+      {offline && (
+        <p role="status" className="bg-black px-4 py-2 text-center text-sm text-white">
+          {labels.offline}
+        </p>
+      )}
       <parts.Header
         restaurant={r}
         lang={lang}
@@ -285,4 +291,20 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
 
 function DefaultSectionHeader({ title }: { title: string }) {
   return <h2 className="font-display mb-3 text-xl font-bold">{title}</h2>;
+}
+
+/** True while the device is offline (the page then comes from the service worker cache). */
+function useOffline() {
+  const [offline, setOffline] = React.useState(false);
+  React.useEffect(() => {
+    const update = () => setOffline(!navigator.onLine);
+    update();
+    window.addEventListener("online", update);
+    window.addEventListener("offline", update);
+    return () => {
+      window.removeEventListener("online", update);
+      window.removeEventListener("offline", update);
+    };
+  }, []);
+  return offline;
 }

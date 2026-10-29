@@ -845,7 +845,8 @@
       "sent": "C'est noté, quelqu'un arrive.",
       "cooldown": "Déjà demandé · {time}",
       "error": "L'appel n'a pas pu partir. Faites signe au serveur."
-    }
+    },
+    "offline": "Hors connexion : menu enregistré sur ce téléphone, il peut ne pas être à jour."
   },
   "menuAdmin": {
     "title": "Menu",
@@ -1386,6 +1387,21 @@
       "kit_shipped": "Votre kit est expédié.",
       "kit_delivered": "Votre kit est livré.",
       "referral_reward": "{restaurant} s'est abonné grâce à vous : un mois offert !"
+    }
+  },
+  "pwa": {
+    "queue": {
+      "pending": "{count, plural, one {# modification en attente du réseau} other {# modifications en attente du réseau}}",
+      "synced": "{count, plural, one {# modification envoyée} other {# modifications envoyées}}",
+      "failed": "Certaines modifications n'ont pas pu être envoyées. Vérifiez vos prix et vos plats épuisés.",
+      "queued": "Hors ligne : modification enregistrée, elle sera envoyée au retour du réseau."
+    },
+    "install": {
+      "title": "Installer Liinky",
+      "body": "Ajoutez Liinky à l'écran d'accueil pour ouvrir vos appels et votre menu en un geste.",
+      "cta": "Installer",
+      "later": "Plus tard",
+      "ios": "Sur iPhone : touchez Partager puis « Sur l'écran d'accueil »."
     }
   }
 }

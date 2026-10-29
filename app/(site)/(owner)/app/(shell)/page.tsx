@@ -2,6 +2,7 @@ import { ChevronRight, PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { LinkRow } from "@/components/owner/link-row";
+import { InstallCard } from "@/components/pwa/install-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { requireRestaurant, requireSession } from "@/lib/auth/session";
@@ -24,6 +25,7 @@ export default async function OwnerHome() {
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">{firstName ? t("hello", { name: firstName }) : t("helloNoName")}</h1>
+      <InstallCard />
 
       {done < CHECKLIST.length && (
         <Card>
