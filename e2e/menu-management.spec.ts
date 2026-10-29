@@ -172,7 +172,7 @@ test("appearance: template and color with live preview, applied to the public me
   await page.goto("/app/apparence");
   const preview = page.frameLocator('iframe[title="Aperçu du menu"]');
   await expect(preview.getByText("Brochettes")).toBeVisible();
-  await page.getByText("Grill", { exact: true }).first().click();
+  await page.locator('label:has(input[name="template"][value="grill"])').click();
   await page.getByRole("radio", { name: "Couleur #0F6E6E" }).click();
   await expect(page.locator('iframe[title="Aperçu du menu"]')).toHaveAttribute("src", /\/apercu\/grill\/fr\/.*accent=0F6E6E/);
   await expect(preview.locator('[data-template="grill"]')).toBeVisible();
