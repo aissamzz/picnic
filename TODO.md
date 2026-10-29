@@ -3,8 +3,12 @@
 ## Needs a decision from you
 - [ ] Kit pricing: the kit is billed as kit (6 000 DA) + 12-month plan (24 000 DA) = 30 000 DA cash on delivery. Confirm, or say if the kit alone should be 6 000 DA with the plan paid separately.
 - [ ] Real BaridiMob RIP / CCP details before launch (seed keeps fake values on purpose).
+- [ ] Legal pages (/conditions, /confidentialite): company name, address, contact email, order retention period ([…] placeholders), then a lawyer's review.
+- [ ] Support phone for /aide: set NEXT_PUBLIC_SUPPORT_PHONE (WhatsApp + call buttons stay hidden until then).
 
 ## Deferred
+- [ ] Combos: no per-combo choices yet (e.g. pick the drink); add if owners ask.
+- [ ] Demo photos are generic for a few traditional dishes (chorba shown with a soup photo, chtitha with a stew photo); replace with real photos when available.
 - [ ] Photos uploaded in the item editor but never saved (editor closed) stay in Storage; a weekly sweep against `items.photos` could remove them.
 - [ ] Owner offline queue covers sold-out and prices only; other edits need the network.
 - [ ] Docker image built only as a standalone server here (Docker Hub and ECR rate-limited this environment); build it once on the Coolify server.

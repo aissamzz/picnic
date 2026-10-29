@@ -33,6 +33,7 @@ with a hosted Supabase project (or self-hosted Supabase) for Postgres, Auth, Sto
 | `NEXT_PUBLIC_SUPABASE_URL` | yes | `https://<ref>.supabase.co` |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | yes | anon key |
 | `NEXT_PUBLIC_REALTIME` | yes | empty, or `off` without Realtime |
+| `NEXT_PUBLIC_SUPPORT_PHONE` | yes | support line for /aide, E.164 (`+213…`); empty hides the buttons |
 | `SUPABASE_SERVICE_ROLE_KEY` | no | service role key (server only, never exposed) |
 | `ANTHROPIC_API_KEY` | no | for AI menu import and auto-translation |
 | `AI_MODEL` | no | `claude-opus-5-5` (default) |
