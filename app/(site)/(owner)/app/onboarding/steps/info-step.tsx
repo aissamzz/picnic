@@ -2,9 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, ImagePlus, Loader2, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
+import { toast } from "sonner";
 import type { z } from "zod";
 import { FormAlert } from "@/components/forms/form-alert";
 import { applyServerErrors } from "@/components/forms/server-errors";
@@ -40,8 +42,21 @@ type Initial = {
 
 type SlugState = { state: "idle" | "checking" | "available" | "taken"; suggestion?: string | null };
 
-export function InfoStep({ initial, accountPhone, locale }: { initial: Initial; accountPhone: string | null; locale: Locale }) {
+/** Onboarding step 1, also reused as the restaurant info settings screen (`mode="settings"`). */
+export function InfoStep({
+  initial,
+  accountPhone,
+  locale,
+  mode = "onboarding",
+}: {
+  initial: Initial;
+  accountPhone: string | null;
+  locale: Locale;
+  mode?: "onboarding" | "settings";
+}) {
   const t = useTranslations("onboarding.info");
+  const ts = useTranslations("owner.infoSettings");
+  const router = useRouter();
   const tt = useTranslations("restaurantTypes");
   const tr = useTranslations();
   const [pending, start] = React.useTransition();
@@ -112,13 +127,16 @@ export function InfoStep({ initial, accountPhone, locale }: { initial: Initial; 
       } else if (logoRemoved && initial?.logo_path) {
         await removeLogo();
       }
-      await finishInfo();
+      if (mode === "settings") {
+        toast(ts("saved"));
+        router.refresh();
+      } else await finishInfo();
     }),
   );
 
   return (
     <form id="info-form" onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
-      <StepHeader title={t("title")} subtitle={t("subtitle")} />
+      {mode === "settings" ? <StepHeader title={ts("title")} subtitle={ts("subtitle")} /> : <StepHeader title={t("title")} subtitle={t("subtitle")} />}
       <FormAlert>{formError && tr(formError as never)}</FormAlert>
 
       <Field id="name" label={t("name")} error={err("name")}>
@@ -168,6 +186,11 @@ export function InfoStep({ initial, accountPhone, locale }: { initial: Initial; 
             </button>
           )}
         </p>
+        {mode === "settings" && initial && slug !== initial.slug && (
+          <p role="alert" className="rounded-md bg-warning-soft p-3 text-sm text-warning">
+            {ts("slugWarning", { old: `${APP_DOMAIN}/${initial.slug}` })}
+          </p>
+        )}
       </Field>
 
       <Field id="type" label={t("type")} error={err("type")}>
@@ -299,7 +322,15 @@ export function InfoStep({ initial, accountPhone, locale }: { initial: Initial; 
         {logoSrc && <ImageCropper src={logoSrc} aspect={1} round onCropComplete={setCrop} />}
       </BottomSheet>
 
-      <StepFooter step={1} form="info-form" pending={pending} />
+      {mode === "settings" ? (
+        <div className="sticky bottom-0 -mx-4 mt-2 border-t border-line bg-sand/95 px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur">
+          <Button type="submit" size="lg" block loading={pending}>
+            {ts("save")}
+          </Button>
+        </div>
+      ) : (
+        <StepFooter step={1} form="info-form" pending={pending} />
+      )}
     </form>
   );
 }

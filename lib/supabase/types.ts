@@ -1670,6 +1670,10 @@ export type Database = {
         Args: { p_key: string; p_max: number; p_window_seconds: number };
         Returns: boolean;
       };
+      invite_staff: {
+        Args: { p_restaurant_id: string; p_phone: string };
+        Returns: string;
+      };
       is_admin_account: {
         Args: never;
         Returns: boolean;
@@ -1766,6 +1770,10 @@ export type Database = {
         Args: { p_payment_id: string; p_reason: string };
         Returns: undefined;
       };
+      remove_member: {
+        Args: { p_member_id: string };
+        Returns: undefined;
+      };
       reorder_categories: {
         Args: { p_restaurant_id: string; p_ids: string[] };
         Returns: undefined;
@@ -1797,6 +1805,10 @@ export type Database = {
       run_subscription_tick: {
         Args: never;
         Returns: number;
+      };
+      save_hours_and_links: {
+        Args: { p_restaurant_id: string; p_hours: Json; p_exceptions: Json; p_links: Json };
+        Returns: undefined;
       };
       save_item: {
         Args: { p_restaurant_id: string; p_item: Json };
@@ -1837,6 +1849,10 @@ export type Database = {
       sync_subscription: {
         Args: { p_restaurant_id: string };
         Returns: Database["public"]["Enums"]["restaurant_status"];
+      };
+      team_members: {
+        Args: { p_restaurant_id: string };
+        Returns: { id: string; role: Database["public"]["Enums"]["member_role"]; status: Database["public"]["Enums"]["invite_status"]; full_name: string; phone: string; invite_token: string; created_at: string }[];
       };
       verify_phone_code: {
         Args: { p_code: string };

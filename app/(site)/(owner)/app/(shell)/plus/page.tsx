@@ -1,4 +1,4 @@
-import { Bell, BellRing, ChevronRight, CreditCard, Gift, LogOut, Package, Palette, QrCode, Shield, ShoppingBag, Store, UserRound } from "lucide-react";
+import { Bell, BellRing, ChevronRight, Clock, CreditCard, Gift, LogOut, Package, Palette, QrCode, Shield, ShoppingBag, Store, UserRound, Users } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { Card } from "@/components/ui/card";
@@ -27,7 +27,9 @@ export default async function MorePage() {
           { href: "/app/apparence", label: tl("appearance"), icon: Palette },
           { href: "/app/tables", label: tl("tables"), icon: QrCode },
           { href: "/app/reglages/commandes", label: tl("orders"), icon: ShoppingBag },
-          { href: "/app/onboarding/1", label: t("restaurant"), icon: Store },
+          { href: "/app/reglages/infos", label: t("restaurant"), icon: Store },
+          { href: "/app/reglages/horaires-liens", label: tl("hoursLinks"), icon: Clock },
+          { href: "/app/equipe", label: tl("team"), icon: Users },
         ]
       : []),
     ...(profile.is_super_admin ? [{ href: "/admin", label: t("admin"), icon: Shield }] : []),

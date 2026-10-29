@@ -112,7 +112,8 @@ export async function saveInfo(input: z.input<typeof infoSchema>): Promise<Actio
       commune: v.commune || null,
       address: v.address || null,
       whatsapp_order_phone: v.whatsapp,
-      orders_enabled: v.whatsapp !== null,
+      // Onboarding turns ordering on with the number; later edits leave the switch alone.
+      ...(existing.onboarding_step <= 1 ? { orders_enabled: v.whatsapp !== null } : v.whatsapp === null ? { orders_enabled: false } : {}),
     })
     .eq("id", existing.id);
   if (error) return fail(error.code === "42501" ? "errors.locked" : "errors.generic");
