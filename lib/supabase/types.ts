@@ -1088,6 +1088,94 @@ export type Database = {
         };
         Relationships: [];
       };
+      push_outbox: {
+        Row: {
+          id: number;
+          restaurant_id: string;
+          kind: string;
+          audience: string;
+          payload: Json;
+          claimed_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: number;
+          restaurant_id: string;
+          kind: string;
+          audience: string;
+          payload?: Json;
+          claimed_at?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: number;
+          restaurant_id?: string;
+          kind?: string;
+          audience?: string;
+          payload?: Json;
+          claimed_at?: string | null;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "push_outbox_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      push_subscriptions: {
+        Row: {
+          id: string;
+          user_id: string;
+          restaurant_id: string;
+          endpoint: string;
+          p256dh: string;
+          auth: string;
+          locale: string;
+          user_agent: string | null;
+          last_success_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          restaurant_id: string;
+          endpoint: string;
+          p256dh: string;
+          auth: string;
+          locale?: string;
+          user_agent?: string | null;
+          last_success_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          restaurant_id?: string;
+          endpoint?: string;
+          p256dh?: string;
+          auth?: string;
+          locale?: string;
+          user_agent?: string | null;
+          last_success_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "push_subscriptions_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       rate_limits: {
         Row: {
           key: string;
@@ -1682,6 +1770,10 @@ export type Database = {
         Args: { p_request: string; p_code: string };
         Returns: string;
       };
+      claim_push_batch: {
+        Args: { p_limit?: number };
+        Returns: string[];
+      };
       code_effective_status: {
         Args: { c: string };
         Returns: Database["public"]["Enums"]["code_status"];
@@ -1818,6 +1910,10 @@ export type Database = {
         Args: never;
         Returns: Json;
       };
+      push_targets: {
+        Args: { p_restaurant_id: string; p_audience: string };
+        Returns: { id: string; endpoint: string; p256dh: string; auth: string; locale: string; restaurant_name: string }[];
+      };
       random_code: {
         Args: { len?: number };
         Returns: string;
@@ -1881,6 +1977,10 @@ export type Database = {
       save_item: {
         Args: { p_restaurant_id: string; p_item: Json };
         Returns: string;
+      };
+      save_push_subscription: {
+        Args: { p_restaurant_id: string; p_endpoint: string; p_p256dh: string; p_auth: string; p_locale: string; p_user_agent: string };
+        Returns: undefined;
       };
       save_translations: {
         Args: { p_restaurant_id: string; p_rows: Json };

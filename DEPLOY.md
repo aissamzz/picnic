@@ -33,6 +33,9 @@ with a hosted Supabase project (or self-hosted Supabase) for Postgres, Auth, Sto
 | `NEXT_PUBLIC_SUPABASE_URL` | yes | `https://<ref>.supabase.co` |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | yes | anon key |
 | `NEXT_PUBLIC_REALTIME` | yes | empty, or `off` without Realtime |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | yes | web push public key (see below) |
+| `VAPID_PRIVATE_KEY` | no | web push private key, keep secret |
+| `VAPID_SUBJECT` | no | `mailto:contact@liinky.app` (push services contact you there if something is wrong) |
 | `NEXT_PUBLIC_SUPPORT_PHONE` | yes | support line for /aide, E.164 (`+213…`); empty hides the buttons |
 | `SUPABASE_SERVICE_ROLE_KEY` | no | service role key (server only, never exposed) |
 | `ANTHROPIC_API_KEY` | no | for AI menu import and auto-translation |
@@ -42,6 +45,17 @@ with a hosted Supabase project (or self-hosted Supabase) for Postgres, Auth, Sto
 
 `NEXT_PUBLIC_*` values are inlined into the browser bundle at build time: in Coolify, tick
 "Build Variable" for them. The others are runtime only.
+
+### Web push keys
+
+Generate the pair once and keep it: changing it invalidates every phone's subscription.
+
+```bash
+npx web-push generate-vapid-keys
+```
+
+Without these variables push is simply off (the switch in the app says so).
+`PUSH_ALLOW_LOCAL_ENDPOINTS` is for local E2E only and is ignored in production.
 
 ## 3. Coolify
 
@@ -61,7 +75,7 @@ Coolify → the application → Scheduled Tasks → add:
 
 It moves subscriptions (trial → grace → expired, renewal reminders), expires stale phone
 codes, purges old rate-limit rows, deletes AI import sources older than 30 days and the
-photos of dishes deleted more than 30 days ago. It is idempotent; the response is a JSON
+photos of dishes deleted more than 30 days ago. It also sends any push that was not sent right away. It is idempotent; the response is a JSON
 summary. Owners never wait for it: the app re-checks the subscription on each request.
 
 ## 4. First admin

@@ -3,7 +3,7 @@
 import { ShoppingBag, Trash2 } from "lucide-react";
 import * as React from "react";
 import { APP_NAME } from "@/lib/config";
-import { sessionId, trafficSource } from "@/lib/menu/beacon";
+import { pingPushDispatch, sessionId, trafficSource } from "@/lib/menu/beacon";
 import { count as cartCount, setQty, subtotal, unitPrice, validLines, type CartLine } from "@/lib/menu/cart";
 import { comboAsItem, tx, type Lang, type MenuItem, type PublicMenu } from "@/lib/menu/types";
 import { formatPrice } from "@/lib/price";
@@ -283,6 +283,7 @@ function Checkout({
         return;
       }
       const placed = body as PlacedOrder;
+      pingPushDispatch();
       const text = buildOrderMessage(placed, { name: c.name.trim(), phone, address: c.mode === "delivery" ? c.address.trim() : null, note: c.note.trim() || null }, lang, labels.orderMessage, APP_NAME);
       onSent({ id: placed.public_id, link: whatsappLink(placed.whatsapp, text) });
     } catch {

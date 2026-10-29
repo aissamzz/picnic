@@ -2,7 +2,7 @@
 
 import { BellRing, Check, Droplet, Receipt, UserRound } from "lucide-react";
 import * as React from "react";
-import { sessionId } from "@/lib/menu/beacon";
+import { pingPushDispatch, sessionId } from "@/lib/menu/beacon";
 import { cx } from "@/lib/utils/cx";
 import { fmt, type MenuLabels } from "../labels";
 import { Sheet } from "../sheet";
@@ -39,6 +39,7 @@ export default function WaiterCall({ restaurantId, tableCode, labels }: { restau
       const body = (await res.json()) as { status: string; retry_after: number };
       setUntil((u) => ({ ...u, [kind]: Date.now() + body.retry_after * 1000 }));
       setStatus({ kind, ok: true });
+      if (body.status !== "cooldown") pingPushDispatch();
       navigator.vibrate?.(30);
     } catch {
       setStatus({ kind, ok: false });

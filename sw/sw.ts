@@ -68,3 +68,51 @@ const serwist = new Serwist({
 });
 
 serwist.addEventListeners();
+
+// ---------------------------------------------------------------------------
+// Web push (owner app): waiter calls, orders, billing notices.
+// The payload is built by lib/push/payload.ts.
+// ---------------------------------------------------------------------------
+type PushBody = { title: string; body: string; url: string; tag: string; requireInteraction: boolean; lang: "fr" | "ar" };
+
+self.addEventListener("push", (event) => {
+  let data: PushBody | null = null;
+  try {
+    data = event.data?.json() as PushBody;
+  } catch {
+    data = null;
+  }
+  if (!data?.title) return;
+  event.waitUntil(
+    self.registration.showNotification(data.title, {
+      body: data.body,
+      tag: data.tag,
+      // Same tag again (a new call from the same table) still rings.
+      renotify: true,
+      requireInteraction: data.requireInteraction,
+      icon: "/icon-192.png",
+      badge: "/badge-96.png",
+      lang: data.lang,
+      dir: data.lang === "ar" ? "rtl" : "ltr",
+      data: { url: data.url },
+    } as NotificationOptions),
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const target = new URL((event.notification.data as { url?: string } | null)?.url ?? "/app", self.location.origin).href;
+  event.waitUntil(
+    (async () => {
+      const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+      // Reuse an open owner-app window when there is one.
+      const app = windows.find((w) => new URL(w.url).pathname.startsWith("/app"));
+      if (app) {
+        await app.focus();
+        await app.navigate(target);
+        return;
+      }
+      await self.clients.openWindow(target);
+    })(),
+  );
+});

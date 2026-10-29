@@ -2,12 +2,14 @@
 
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { fail, type ActionResult } from "@/lib/actions/result";
 import { requireSuperAdmin } from "@/lib/auth/session";
 import { VIEW_AS_COOKIE } from "@/lib/config";
+import { dispatchPush } from "@/lib/push/send";
 import { createClient, createServiceClient } from "@/lib/supabase/server";
 
 const id = z.guid();
@@ -27,6 +29,8 @@ function rpcFail(error: { message: string; code?: string } | null, fallback = "e
 function refresh(...paths: string[]) {
   for (const p of paths) revalidatePath(p);
   revalidatePath("/admin", "layout");
+  // Payment and kit decisions notify the owner: push it once the response is sent.
+  after(() => dispatchPush());
 }
 
 // ---------------------------------------------------------------------------

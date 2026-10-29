@@ -1,4 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
+import { dispatchPush } from "@/lib/push/send";
 import { PUBLIC_BUCKET } from "@/lib/storage";
 import { createServiceClient } from "@/lib/supabase/server";
 
@@ -37,8 +38,12 @@ export async function POST(request: Request) {
   await remove("imports", report.import_paths);
   await remove(PUBLIC_BUCKET, report.photo_paths);
 
+  // Reminders created by the tick (trial ending, renewal due…).
+  const pushes = await dispatchPush(200);
+
   return Response.json({
     ok: true,
+    pushes,
     restaurants,
     codes: report.codes,
     rateLimits: report.rate_limits,

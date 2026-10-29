@@ -1258,6 +1258,22 @@
       "removed": "C'est fait.",
       "alreadyMember": "Ce numéro fait déjà partie de l'équipe.",
       "full": "Équipe complète (20 serveurs)."
+    },
+    "push": {
+      "title": "Notifications sur ce téléphone",
+      "body": "Recevez les appels de table et les commandes, même application fermée.",
+      "enable": "Activer les notifications",
+      "disable": "Désactiver sur ce téléphone",
+      "on": "Activées sur ce téléphone : appels de table et commandes (et, pour le propriétaire, l'abonnement et le kit).",
+      "enabled": "Notifications activées.",
+      "test": "Envoyer un test",
+      "testSent": "Test envoyé : il arrive dans quelques secondes.",
+      "testNone": "Aucun téléphone abonné n'a reçu le test. Réactivez les notifications.",
+      "denied": "Les notifications sont bloquées. Autorisez-les dans les réglages du navigateur pour ce site, puis revenez ici.",
+      "iosInstall": "Sur iPhone, ajoutez d'abord Liinky à l'écran d'accueil (Partager › Sur l'écran d'accueil), ouvrez-le depuis l'icône, puis activez les notifications.",
+      "unsupported": "Ce navigateur ne prend pas en charge les notifications. Sur Android, utilisez Chrome ; sur iPhone, l'application installée.",
+      "error": "Impossible d'activer les notifications. Réessayez.",
+      "unavailable": "Les notifications ne sont pas encore configurées sur le serveur."
     }
   },
   "import": {
@@ -1714,5 +1730,13 @@
       "open": "Ouvrir le menu {name}",
       "cta": "Créer le mien"
     }
+  },
+  "push": {
+    "waiter": "{table} : appel serveur",
+    "bill": "{table} : demande l'addition",
+    "noTable": "Une table",
+    "order": "Nouvelle commande {code} · {total}",
+    "delivery": "Livraison",
+    "takeaway": "À emporter"
   }
 }

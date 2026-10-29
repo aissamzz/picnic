@@ -15,7 +15,7 @@
 - [ ] Replace `lib/supabase/types.ts` with `supabase gen types` output once a Supabase stack is running.
 - [ ] Partition `menu_events` by month if volume requires.
 - [ ] If the < 100 KB JS target for table mode is a hard requirement: render table mode as static HTML with a small vanilla script (see DECISIONS 39).
-- [ ] Waiter-call notifications when the owner app is closed: web push on top of the service worker (not built; the calls screen must be open today).
+- [ ] Web push: generate the VAPID keys for production (DEPLOY.md) and try it on a real Android phone and an iPhone with the app installed (headless browsers here cannot register with Google's push service, so the browser-side subscribe step was only checked up to the permission prompt).
 - [ ] Optional per-restaurant setting to accept orders while closed (pre-orders), if owners ask.
 - [ ] Order statuses beyond "sent" (accepted / delivered) only if owners want to track them in the app; today WhatsApp is the source of truth.
 - [ ] Confirm the production Supabase project has Realtime enabled for `waiter_calls` (the migration adds it to the `supabase_realtime` publication when that publication exists).

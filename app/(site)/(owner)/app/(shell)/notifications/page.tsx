@@ -1,6 +1,7 @@
 import { Bell } from "lucide-react";
 import Link from "next/link";
 import { getFormatter, getTranslations } from "next-intl/server";
+import { PushSettings } from "@/components/owner/push-settings";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/states";
 import { requireRestaurant } from "@/lib/auth/session";
@@ -27,6 +28,7 @@ export default async function NotificationsPage() {
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">{t("title")}</h1>
+      {!r.viewAs && <PushSettings />}
       {unread && <MarkRead label={t("markAll")} />}
       {!visible.length ? (
         <EmptyState icon={<Bell />} title={t("empty")} />

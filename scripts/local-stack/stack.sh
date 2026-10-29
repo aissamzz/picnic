@@ -120,6 +120,10 @@ CRON_SECRET=local-cron-secret
 ENV
     echo "wrote .env.local"
   fi
+  # Web push keys (VAPID), added once.
+  if ! grep -q '^VAPID_PRIVATE_KEY=' "$ROOT/.env.local"; then
+    (cd "$ROOT" && node -e "const k=require('web-push').generateVAPIDKeys();console.log('NEXT_PUBLIC_VAPID_PUBLIC_KEY='+k.publicKey+'\\nVAPID_PRIVATE_KEY='+k.privateKey+'\\nVAPID_SUBJECT=mailto:dev@localhost\\n# Local E2E: lets the dispatcher post to a mock push service on localhost.\\nPUSH_ALLOW_LOCAL_ENDPOINTS=1')") >> "$ROOT/.env.local"
+  fi
 }
 
 cmd_setup() {

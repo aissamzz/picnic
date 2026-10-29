@@ -29,6 +29,7 @@ create trigger combos_updated_at before update on public.combos for each row exe
 
 alter table public.combos enable row level security;
 grant select, insert, update, delete on public.combos to authenticated;
+grant all on public.combos to service_role;
 create policy combos_select on public.combos for select to authenticated using (public.is_member(restaurant_id));
 create policy combos_insert on public.combos for insert to authenticated with check (public.can_edit_menu(restaurant_id));
 create policy combos_update on public.combos for update to authenticated using (public.can_edit_menu(restaurant_id)) with check (public.can_edit_menu(restaurant_id));

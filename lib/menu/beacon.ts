@@ -59,3 +59,10 @@ export function logMenuEvent(e: {
     }),
   }).catch(() => {});
 }
+
+/** Asks the app to send the push for what was just written (waiter call, order). Fire and forget. */
+export function pingPushDispatch() {
+  try {
+    void fetch("/api/push/dispatch", { method: "POST", keepalive: true }).catch(() => {});
+  } catch {}
+}
