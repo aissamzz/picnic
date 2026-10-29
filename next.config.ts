@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
   // react-pdf/fontkit must run unbundled; its fonts ship with the route.
   serverExternalPackages: ["@react-pdf/renderer"],
   outputFileTracingIncludes: { "/app/tables/pdf": ["./lib/pdf/fonts/**"] },
-  experimental: { serverActions: { bodySizeLimit: "6mb" }, globalNotFound: true },
+  experimental: { serverActions: { bodySizeLimit: "22mb" }, globalNotFound: true },
   images: {
     remotePatterns: supabaseUrl
       ? [{ protocol: new URL(supabaseUrl).protocol.replace(":", "") as "http" | "https", hostname: new URL(supabaseUrl).hostname, pathname: "/storage/v1/**" }]

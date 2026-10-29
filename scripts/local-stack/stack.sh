@@ -114,6 +114,8 @@ SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY
 ENABLE_DEV_UI=true
 # The local stack has no Realtime server: screens poll instead.
 NEXT_PUBLIC_REALTIME=off
+# No API key locally: canned AI menu imports.
+AI_PROVIDER=fixture
 ENV
     echo "wrote .env.local"
   fi

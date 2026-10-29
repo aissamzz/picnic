@@ -5,6 +5,7 @@ import * as React from "react";
 import { FormAlert } from "@/components/forms/form-alert";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { TranslateButton } from "@/components/owner/translate-button";
 import { Toggle } from "@/components/ui/toggle";
 import type { Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils/cn";
@@ -94,6 +95,12 @@ export function LanguagesStep({ enabled: initialEnabled, defaultLocale: initialD
         ) : (
           <>
             <p className="text-sm text-muted">{t("missingHint")}</p>
+            <TranslateButton
+              entries={missing
+                .filter((m) => !drafts[`${m.id}:${m.locale}`])
+                .map((m) => ({ id: `${m.id}:${m.locale}`, text: m.source, from: m.locale === "fr" ? "ar" : "fr", to: m.locale, kind: m.kind }))}
+              onResult={(found) => setDrafts((d) => ({ ...found, ...d }))}
+            />
             <Card className="flex flex-col divide-y divide-line">
               {missing.map((m) => {
                 const key = `${m.id}:${m.locale}`;

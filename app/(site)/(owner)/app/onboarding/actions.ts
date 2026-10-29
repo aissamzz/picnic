@@ -20,7 +20,7 @@ import {
   templateSchema,
 } from "@/lib/validation/onboarding";
 
-/** Next step after `step` (4 = AI review arrives in phase 6, so 3 goes to 5). */
+/** Next step after `step`. Step 4 (AI review) is only reached from an import in step 3. */
 function nextStep(step: number) {
   return step === 3 ? 5 : step + 1;
 }

@@ -78,7 +78,7 @@ select pg_temp.as_user('44444444-0000-4000-8000-00000000000b');
 set local role authenticated;
 create temp table o3 as select id from public.orders where customer_phone = '+213661000003' order by created_at limit 2;
 grant select on o3 to authenticated, anon;
-select is(public.flag_order((select id from o3 limit 1), true), 'flagged_fake', 'staff flags a fake order');
+select is(public.flag_order((select id from o3 order by id limit 1), true), 'flagged_fake', 'staff flags a fake order');
 select is(public.flag_order((select id from o3 order by id desc limit 1), true), 'flagged_fake', 'second report');
 select is((select (public.restaurant_stats('00000000-0000-4000-a000-000000000001') -> 'orders' ->> 'flagged')::int), 2, 'stats count flagged orders');
 reset role;

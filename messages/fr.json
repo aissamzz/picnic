@@ -331,16 +331,7 @@
     "import": {
       "title": "Ajoutez votre menu",
       "subtitle": "Commencez par quelques plats, vous compléterez plus tard.",
-      "tipsTitle": "Pour une bonne photo",
-      "tips": [
-        "Menu à plat, bien éclairé, sans reflet.",
-        "Une page par photo, cadrée en entier.",
-        "Prix lisibles : approchez-vous si besoin."
-      ],
-      "photo": "Prendre en photo",
-      "pdf": "Importer un PDF",
       "manual": "Saisir à la main",
-      "soon": "Bientôt",
       "categories": "Catégories",
       "addCategory": "Ajouter une catégorie",
       "categoryName": "Nom en français",
@@ -364,7 +355,7 @@
       "default": "Langue par défaut",
       "missingTitle": "Traductions manquantes",
       "missingNone": "Tout est traduit.",
-      "missingHint": "Remplissez les noms manquants. La traduction automatique arrive bientôt.",
+      "missingHint": "Remplissez les noms manquants, ou laissez la traduction automatique les proposer.",
       "atLeastOne": "Gardez au moins une langue."
     },
     "tables": {
@@ -724,7 +715,7 @@
     },
     "translations": {
       "title": "Traductions",
-      "subtitle": "Chaque nom en français et en arabe. La traduction automatique arrive bientôt.",
+      "subtitle": "Chaque nom en français et en arabe.",
       "onlyMissing": "Seulement les manquantes",
       "missingCount": "{count, plural, =0 {Tout est traduit} one {# traduction manquante} other {# traductions manquantes}}",
       "fr": "Français",
@@ -921,5 +912,76 @@
       },
       "noData": "Pas encore de données sur la période."
     }
+  },
+  "import": {
+    "title": "Importer votre menu",
+    "subtitle": "Prenez votre menu en photo ou envoyez un PDF : on le lit pour vous, vous vérifiez avant d'ajouter.",
+    "photo": "Prendre en photo",
+    "gallery": "Choisir des photos",
+    "pdf": "Importer un PDF",
+    "photosHint": "Jusqu'à 5 photos, une par page.",
+    "pdfHint": "Un seul PDF, 20 Mo maximum.",
+    "remove": "Retirer {name}",
+    "photoAlt": "Photo {n}",
+    "start": "Lire mon menu",
+    "reading": "Lecture du menu…",
+    "readingHint": "Cela prend en général moins d'une minute. Gardez cette page ouverte.",
+    "left": "{count, plural, =0 {Plus d'import disponible pendant l'essai} one {# import restant pendant l'essai} other {# imports restants pendant l'essai}}",
+    "failedTitle": "Nous n'avons pas pu lire ce menu",
+    "retry": "Réessayer",
+    "manual": "Saisir à la main",
+    "tipsTitle": "Pour une photo lisible",
+    "tips": [
+      "Posez le menu à plat, près d'une fenêtre.",
+      "Évitez le flash et les reflets.",
+      "Une page entière par photo, bien nette."
+    ],
+    "errors": {
+      "files": "Choisissez jusqu'à 5 photos (JPG, PNG, WebP) ou un seul PDF de 20 Mo maximum.",
+      "quota": "Vous avez utilisé les imports de l'essai. Saisissez le menu à la main ou activez votre abonnement.",
+      "rate_limited": "Trop de demandes en peu de temps. Réessayez dans une heure.",
+      "locked": "Votre menu est verrouillé : renouvelez l'abonnement pour le modifier.",
+      "unreadable": "La photo est trop floue ou trop sombre pour être lue.",
+      "not_menu": "Nous ne voyons pas de menu sur ce fichier.",
+      "unavailable": "La lecture automatique est indisponible pour le moment. Réessayez plus tard ou saisissez le menu à la main.",
+      "failed": "La lecture a échoué. Réessayez.",
+      "applied": "Cet import a déjà été ajouté au menu.",
+      "translateFailed": "La traduction automatique a échoué. Réessayez."
+    },
+    "review": {
+      "title": "Vérifiez votre menu",
+      "subtitle": "Corrigez ce qui est en orange, puis ajoutez au menu.",
+      "partial": "Une partie du menu n'a pas pu être lue. Vous pourrez ajouter les plats manquants ensuite.",
+      "checkCount": "{count, plural, =0 {Tout semble correct} one {# champ à vérifier} other {# champs à vérifier}}",
+      "toCheck": "À vérifier",
+      "category": "Catégorie",
+      "nameFr": "Nom en français",
+      "nameAr": "Nom en arabe",
+      "price": "Prix (DA)",
+      "sizes": "Formats",
+      "sizeName": "Format",
+      "sizePrice": "Prix",
+      "removeItem": "Retirer {name}",
+      "removeCategory": "Retirer la catégorie {name}",
+      "duplicate": "Doublon possible de « {name} »",
+      "merge": "Fusionner",
+      "keepBoth": "Garder les deux",
+      "apply": "{count, plural, one {Ajouter # plat au menu} other {Ajouter # plats au menu}}",
+      "applied": "{count, plural, one {# plat ajouté à votre menu} other {# plats ajoutés à votre menu}}",
+      "empty": "Plus aucun plat à ajouter.",
+      "restart": "Recommencer avec d'autres photos",
+      "noPrice": "Sans prix",
+      "unnamed": "Sans nom",
+      "notFound": "Cet import n'existe plus ou a déjà été ajouté."
+    },
+    "translate": {
+      "button": "Traduire automatiquement",
+      "running": "Traduction…",
+      "done": "{count, plural, one {# traduction proposée : vérifiez, puis enregistrez.} other {# traductions proposées : vérifiez, puis enregistrez.}}",
+      "none": "Rien à traduire.",
+      "suggested": "Proposé"
+    },
+    "menuLink": "Importer depuis une photo",
+    "menuLinkHint": "Ajoutez des plats en photographiant votre menu."
   }
 }

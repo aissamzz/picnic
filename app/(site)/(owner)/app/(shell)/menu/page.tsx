@@ -1,4 +1,4 @@
-import { CalendarClock, Coins, Languages } from "lucide-react";
+import { CalendarClock, ChevronRight, Coins, Languages, ScanText } from "lucide-react";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { canEditMenu, LockedNotice } from "@/components/owner/locked-notice";
@@ -10,6 +10,7 @@ import { CategoriesBoard } from "./categories-board";
 export default async function MenuPage() {
   const restaurant = await requireRestaurant();
   const t = await getTranslations("menuAdmin");
+  const ti = await getTranslations("import");
   const categories = await adminCategories(restaurant.id);
   const editable = canEditMenu(restaurant.status);
   const tools = [
@@ -29,6 +30,16 @@ export default async function MenuPage() {
           </Link>
         ))}
       </nav>
+      {editable && (
+        <Link href="/app/menu/importer" className="flex min-h-14 items-center gap-3 rounded-lg border border-line bg-surface px-4 hover:bg-sand">
+          <ScanText className="size-5 text-primary" aria-hidden />
+          <span className="flex-1">
+            <span className="block font-semibold">{ti("menuLink")}</span>
+            <span className="block text-sm text-muted">{ti("menuLinkHint")}</span>
+          </span>
+          <ChevronRight className="size-5 text-muted rtl:rotate-180" aria-hidden />
+        </Link>
+      )}
       <CategoriesBoard categories={categories} editable={editable} locale={(await getLocale()) as Locale} />
     </div>
   );

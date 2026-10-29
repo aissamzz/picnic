@@ -14,8 +14,10 @@
 - [ ] Phase 9: offline cached menu (Serwist) + offline banner on public menus.
 - [ ] If the < 100 KB JS target for table mode is a hard requirement: render table mode as static HTML with a small vanilla script (see DECISIONS 39).
 - [ ] Purge job: Storage objects of soft-deleted items and photos uploaded but never saved (phase 7 cron).
-- [ ] Phase 6: "Traduire automatiquement" button on the translations screen.
 - [ ] Waiter-call notifications when the owner app is closed (web push, phase 9 PWA).
 - [ ] Optional per-restaurant setting to accept orders while closed (pre-orders), if owners ask.
 - [ ] Order statuses beyond "sent" (accepted / delivered) only if owners want to track them in the app; today WhatsApp is the source of truth.
 - [ ] Confirm the production Supabase project has Realtime enabled for `waiter_calls` (the migration adds it to the `supabase_realtime` publication when that publication exists).
+- [ ] AI import: run a real-menu evaluation with an API key (handwritten, Arabic-only, chalkboard, multi-page PDF) before launch; the extractor has only been exercised with the fixture provider here (no key in this environment).
+- [ ] AI import: purge `imports/` sources after 30 days (phase 7 cron).
+- [ ] AI import: HEIC photos are converted by iOS Safari on upload; other browsers may send HEIC, which is refused with the "files" message.

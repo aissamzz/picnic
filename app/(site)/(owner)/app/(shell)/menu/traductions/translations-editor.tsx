@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { FormAlert } from "@/components/forms/form-alert";
+import { TranslateButton } from "@/components/owner/translate-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -62,6 +63,30 @@ export function TranslationsEditor({
           <Toggle checked={onlyMissing} onCheckedChange={setOnlyMissing} />
         </label>
       </div>
+      {editable && (
+        <TranslateButton
+          entries={missing.flatMap((r) => {
+            const v = value(r);
+            if (v.fr && v.ar) return [];
+            const from = v.fr ? "fr" : "ar";
+            const text = v.fr || v.ar;
+            const kind = r.field === "description" ? "description" : r.kind === "category" ? "category" : "item";
+            return text ? [{ id: keyOf(r), text, from, to: from === "fr" ? "ar" : "fr", kind } as const] : [];
+          })}
+          onResult={(found) =>
+            setDrafts((d) => {
+              const next = { ...d };
+              for (const r of rows) {
+                const text = found[keyOf(r)];
+                if (!text) continue;
+                const v = value(r);
+                next[keyOf(r)] = { fr: v.fr || text, ar: v.ar || text };
+              }
+              return next;
+            })
+          }
+        />
+      )}
       <FormAlert>{error && tr(error as never)}</FormAlert>
       {shown.length > 0 && (
         <Card className="divide-y divide-line">

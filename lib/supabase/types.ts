@@ -94,6 +94,7 @@ export type Database = {
           created_by: string | null;
           created_at: string;
           updated_at: string;
+          applied_at: string | null;
         };
         Insert: {
           id?: string;
@@ -105,6 +106,7 @@ export type Database = {
           created_by?: string | null;
           created_at?: string;
           updated_at?: string;
+          applied_at?: string | null;
         };
         Update: {
           id?: string;
@@ -116,6 +118,7 @@ export type Database = {
           created_by?: string | null;
           created_at?: string;
           updated_at?: string;
+          applied_at?: string | null;
         };
         Relationships: [
           {
@@ -1484,9 +1487,21 @@ export type Database = {
         Args: { p_request_id: string };
         Returns: { code: string; expires_at: string }[];
       };
+      ai_imports_left: {
+        Args: { p_restaurant_id: string };
+        Returns: number;
+      };
+      apply_ai_import: {
+        Args: { p_import_id: string; p_draft: Json };
+        Returns: number;
+      };
       assert_can_edit_menu: {
         Args: { p_restaurant_id: string };
         Returns: undefined;
+      };
+      begin_ai_import: {
+        Args: { p_restaurant_id: string; p_paths: string[] };
+        Returns: string;
       };
       bump_prices: {
         Args: { p_restaurant_id: string; p_delta: number; p_category_id?: string };

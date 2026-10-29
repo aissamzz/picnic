@@ -9,7 +9,7 @@ import { requireRestaurant, requireSession } from "@/lib/auth/session";
 import { menuLinks } from "@/lib/links";
 import { bannerFor } from "@/lib/subscription/banner";
 
-/** Onboarding steps shown in the checklist (4 = AI review, added in phase 6). */
+/** Onboarding steps shown in the checklist (4 = AI review is part of the menu step). */
 const CHECKLIST = [1, 2, 3, 5, 6, 7] as const;
 
 export default async function OwnerHome() {

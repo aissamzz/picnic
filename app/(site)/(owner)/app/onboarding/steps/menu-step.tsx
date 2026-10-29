@@ -1,11 +1,11 @@
 "use client";
 
-import { Camera, FileText, Keyboard, Lightbulb, Plus, Trash2, UtensilsCrossed } from "lucide-react";
+import { Keyboard, Plus, Trash2, UtensilsCrossed } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 import { FormAlert } from "@/components/forms/form-alert";
-import { Badge } from "@/components/ui/badge";
+import { MenuImporter, Tips } from "@/components/owner/import/menu-importer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Field } from "@/components/ui/field";
@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Price } from "@/components/ui/price";
 import { EmptyState } from "@/components/ui/states";
 import type { Locale } from "@/lib/i18n/config";
+import { cn } from "@/lib/utils/cn";
 import { addCategory, addItem, deleteCategory, deleteItem, skipStep } from "../actions";
 import { StepHeader } from "./step-header";
 
@@ -25,7 +26,7 @@ function pick(v: unknown, locale: Locale): string {
   return o[locale] || o.fr || o.ar || "";
 }
 
-export function MenuStep({ categories }: { categories: Category[] }) {
+export function MenuStep({ categories, importsLeft }: { categories: Category[]; importsLeft: number | null }) {
   const t = useTranslations("onboarding.import");
   const to = useTranslations("onboarding");
   const locale = useLocale() as Locale;
@@ -36,44 +37,24 @@ export function MenuStep({ categories }: { categories: Category[] }) {
     <div className="flex flex-col gap-5">
       <StepHeader title={t("title")} subtitle={t("subtitle")} />
 
-      <Card className="flex gap-3 bg-info-soft/60 p-4">
-        <Lightbulb className="mt-0.5 size-5 shrink-0 text-info" aria-hidden />
-        <div>
-          <p className="text-sm font-semibold">{t("tipsTitle")}</p>
-          <ul className="mt-1 list-disc ps-4 text-sm text-muted">
-            {(t.raw("tips") as string[]).map((tip) => (
-              <li key={tip}>{tip}</li>
-            ))}
-          </ul>
-        </div>
+      <Card className="flex flex-col gap-3 p-4">
+        <Tips />
       </Card>
 
-      <div className="grid gap-2 sm:grid-cols-3">
-        {[
-          { icon: Camera, label: t("photo") },
-          { icon: FileText, label: t("pdf") },
-        ].map(({ icon: Icon, label }) => (
-          <button
-            key={label}
-            type="button"
-            disabled
-            className="flex min-h-14 items-center gap-3 rounded-lg border border-line bg-surface px-4 text-start opacity-60"
-          >
-            <Icon className="size-5" aria-hidden />
-            <span className="flex-1 font-medium">{label}</span>
-            <Badge>{t("soon")}</Badge>
-          </button>
-        ))}
-        <button
-          type="button"
-          onClick={() => setManual(true)}
-          aria-pressed={manual}
-          className="flex min-h-14 items-center gap-3 rounded-lg border-2 border-primary bg-primary-soft px-4 text-start font-semibold text-primary"
-        >
-          <Keyboard className="size-5" aria-hidden />
-          {t("manual")}
-        </button>
-      </div>
+      <MenuImporter reviewPrefix="/app/onboarding/4?import=" importsLeft={importsLeft} onManual={() => setManual(true)} />
+
+      <button
+        type="button"
+        onClick={() => setManual(true)}
+        aria-pressed={manual}
+        className={cn(
+          "flex min-h-14 items-center gap-3 rounded-lg border px-4 text-start font-semibold",
+          manual ? "border-2 border-primary bg-primary-soft text-primary" : "border-line bg-surface hover:bg-sand",
+        )}
+      >
+        <Keyboard className="size-5" aria-hidden />
+        {t("manual")}
+      </button>
 
       {manual && (
         <section aria-labelledby="cats-title" className="flex flex-col gap-3">
