@@ -250,7 +250,7 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
         )}
       </footer>
 
-      <Sheet open={!!selected} onClose={() => setSelected(null)} title={selected ? tx(selected.name, lang) : ""} closeLabel={labels.close}>
+      <Sheet name="item" open={!!selected} onClose={() => setSelected(null)} title={selected ? tx(selected.name, lang) : ""} closeLabel={labels.close}>
         {selected && (
           <parts.ItemSheet
             item={selected}
@@ -276,7 +276,7 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
       </Sheet>
       {ordering && <OrderLayer menu={menu} lang={lang} labels={labels} closedNotice={closedNotice} />}
       {waiter && <WaiterCall restaurantId={r.id} tableCode={table!.code} labels={labels} />}
-      <Sheet open={infoOpen} onClose={() => setInfoOpen(false)} title={r.name} closeLabel={labels.close}>
+      <Sheet name="info" open={infoOpen} onClose={() => setInfoOpen(false)} title={r.name} closeLabel={labels.close}>
         <InfoSheetBody menu={menu} labels={labels} />
       </Sheet>
     </div>

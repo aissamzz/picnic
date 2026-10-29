@@ -57,7 +57,7 @@ export function BaseItemSheet({
                 <span>{tx(x.name, lang)}</span>
                 {x.price > 0 && (
                   <span className="text-m-muted">
-                    +<MenuPrice amount={x.price} lang={lang} hideCurrency={hideCurrency} />
+                    <MenuPrice amount={x.price} lang={lang} hideCurrency={hideCurrency} plus />
                   </span>
                 )}
               </li>

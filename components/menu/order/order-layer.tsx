@@ -78,7 +78,7 @@ export default function OrderLayer({ menu, lang, labels, closedNotice }: { menu:
         </div>
       )}
 
-      <Sheet open={step === "cart"} onClose={() => setStep("closed")} title={o.cart} closeLabel={labels.close} footer={cartFooter()}>
+      <Sheet name="cart" open={step === "cart"} onClose={() => setStep("closed")} title={o.cart} closeLabel={labels.close} footer={cartFooter()}>
         {cart.length === 0 ? (
           <p className="py-8 text-center text-m-muted">{o.emptyCart}</p>
         ) : (
@@ -113,6 +113,7 @@ export default function OrderLayer({ menu, lang, labels, closedNotice }: { menu:
       )}
 
       <Sheet
+        name="sent"
         open={step === "sent" && !!sent}
         onClose={() => {
           setStep("closed");
@@ -178,8 +179,8 @@ function CartRow({ line, item, lang, labels, onQty }: { line: CartLine; item: Me
       <div className="min-w-0 flex-1">
         <p className="font-semibold">
           {name}
-          {variant && <span className="font-normal text-m-muted"> · {tx(variant.name, lang)}</span>}
         </p>
+        {variant && <p className="text-sm text-m-muted">{tx(variant.name, lang)}</p>}
         {extras.length > 0 && <p className="text-sm text-m-muted">+ {extras.map((x) => tx(x.name, lang)).join(", ")}</p>}
         <MenuPrice amount={unit * line.qty} lang={lang} className="text-sm font-semibold" />
       </div>
@@ -275,7 +276,7 @@ function Checkout({
         return;
       }
       const placed = body as PlacedOrder;
-      const text = buildOrderMessage(placed, { name: c.name.trim(), phone, address: c.mode === "delivery" ? c.address.trim() : null, note: c.note.trim() || null }, lang, labels.whatsapp, APP_NAME);
+      const text = buildOrderMessage(placed, { name: c.name.trim(), phone, address: c.mode === "delivery" ? c.address.trim() : null, note: c.note.trim() || null }, lang, labels.orderMessage, APP_NAME);
       onSent({ id: placed.public_id, link: whatsappLink(placed.whatsapp, text) });
     } catch {
       setError("generic");
@@ -287,6 +288,7 @@ function Checkout({
   const field = "min-h-11 w-full rounded-m border border-m-line bg-m-surface px-3 text-[16px] text-m-fg focus:border-m-accent focus:outline-none";
   return (
     <Sheet
+      name="checkout"
       open
       onClose={onClose}
       title={o.checkout}

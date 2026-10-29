@@ -3,9 +3,23 @@ import { formatPrice } from "@/lib/price";
 import { cx as cn } from "@/lib/utils/cx";
 
 /** Price isolated as LTR (reads right inside Arabic). */
-export function MenuPrice({ amount, lang, hideCurrency, className }: { amount: number; lang: Lang; hideCurrency?: boolean; className?: string }) {
+export function MenuPrice({
+  amount,
+  lang,
+  hideCurrency,
+  plus,
+  className,
+}: {
+  amount: number;
+  lang: Lang;
+  hideCurrency?: boolean;
+  /** "+100 DA" for extras; the sign sits inside the LTR run so Arabic keeps it in front. */
+  plus?: boolean;
+  className?: string;
+}) {
   return (
     <bdi dir="ltr" className={cn("tabular whitespace-nowrap", className)}>
+      {plus && "+"}
       {formatPrice(amount, lang, { hideCurrency })}
     </bdi>
   );

@@ -508,7 +508,8 @@
     "directions": "الاتجاهات",
     "review": "اترك تقييمًا على غوغل",
     "follow": "تابعونا",
-    "whatsapp": {
+    "whatsapp": "واتساب",
+    "orderMessage": {
       "newOrder": "طلب جديد",
       "mode": "الطريقة",
       "delivery": "توصيل",

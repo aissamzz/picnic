@@ -9,6 +9,7 @@ import { cx as cn } from "@/lib/utils/cx";
  * for free, a few hundred bytes instead of a dialog library.
  */
 export function Sheet({
+  name,
   open,
   onClose,
   title,
@@ -18,6 +19,9 @@ export function Sheet({
   footer,
   className,
 }: {
+  /** Unique per page. Not useId: next/dynamic renders an extra server-only
+   * sibling above the templates, so generated ids differ at hydration. */
+  name: string;
   open: boolean;
   onClose: () => void;
   title: string;
@@ -28,7 +32,11 @@ export function Sheet({
   className?: string;
 }) {
   const ref = React.useRef<HTMLDialogElement>(null);
-  const id = React.useId();
+  const id = `sheet-${name}-title`;
+  // close() from our own effect also fires "close": only a user dismissal
+  // (Esc) should reach onClose, or switching sheets would cancel itself.
+  const openRef = React.useRef(open);
+  openRef.current = open;
 
   React.useEffect(() => {
     const d = ref.current;
@@ -51,7 +59,7 @@ export function Sheet({
       className={cn("m-sheet", className)}
       onClose={() => {
         document.documentElement.style.overflow = "";
-        onClose();
+        if (openRef.current) onClose();
       }}
       onClick={(e) => {
         if (e.target === ref.current) onClose();

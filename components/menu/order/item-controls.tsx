@@ -74,7 +74,7 @@ export default function ItemControls({
               <span className="flex-1">{tx(x.name, lang)}</span>
               {x.price > 0 && (
                 <span className="text-sm text-m-muted">
-                  +<MenuPrice amount={x.price} lang={lang} />
+                  <MenuPrice amount={x.price} lang={lang} plus />
                 </span>
               )}
             </label>

@@ -508,7 +508,8 @@
     "directions": "Itinéraire",
     "review": "Laisser un avis Google",
     "follow": "Suivez-nous",
-    "whatsapp": {
+    "whatsapp": "WhatsApp",
+    "orderMessage": {
       "newOrder": "Nouvelle commande",
       "mode": "Mode",
       "delivery": "Livraison",

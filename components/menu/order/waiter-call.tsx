@@ -60,7 +60,7 @@ export default function WaiterCall({ restaurantId, tableCode, labels }: { restau
         <BellRing className="size-5" aria-hidden />
         {w.button}
       </button>
-      <Sheet open={open} onClose={() => setOpen(false)} title={w.title} closeLabel={labels.close}>
+      <Sheet name="waiter" open={open} onClose={() => setOpen(false)} title={w.title} closeLabel={labels.close}>
         <div className="flex flex-col gap-2 pt-1">
           {(["waiter", "bill", "water"] as const).map((k) => {
             const Icon = ICONS[k];

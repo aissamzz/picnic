@@ -30,7 +30,7 @@ const customer = { name: "Yacine", phone: "+213661000001", address: "Cité 100 l
 
 describe("buildOrderMessage", () => {
   it("writes the French order", () => {
-    const m = buildOrderMessage(order, customer, "fr", fr.menu.whatsapp, "Liinky");
+    const m = buildOrderMessage(order, customer, "fr", fr.menu.orderMessage, "Liinky");
     expect(m).toBe(
       [
         "*Nouvelle commande #K7M2QX*",
@@ -57,7 +57,7 @@ describe("buildOrderMessage", () => {
   });
 
   it("writes Arabic with Arabic names and Western digits", () => {
-    const m = buildOrderMessage({ ...order, mode: "takeaway", delivery_fee: 0, total: 3750 }, { ...customer, note: null }, "ar", ar.menu.whatsapp, "Liinky");
+    const m = buildOrderMessage({ ...order, mode: "takeaway", delivery_fee: 0, total: 3750 }, { ...customer, note: null }, "ar", ar.menu.orderMessage, "Liinky");
     expect(m).toContain("2 × بيتزا الفصول الأربعة (كبيرة): 3200 دج");
     expect(m).toContain("*الطريقة:* استلام من المحل");
     expect(m).toContain("*المجموع: 3750 دج*");
