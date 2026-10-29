@@ -6,7 +6,7 @@ import { fail, zodFieldErrors, type ActionResult } from "@/lib/actions/result";
 import { phoneToAuthEmail } from "@/lib/auth/phone-identity";
 import { clientIp, isIpLimited } from "@/lib/http/client-ip";
 import { resolveLocale } from "@/lib/i18n/request";
-import { rateLimit } from "@/lib/rate-limit";
+import { rateLimit, rateLimitExceeded } from "@/lib/rate-limit";
 import { createClient, createServiceClient } from "@/lib/supabase/server";
 import { loginSchema, phoneSchema, resetSchema, signupSchema } from "@/lib/validation/auth";
 
@@ -55,13 +55,18 @@ export async function signIn(input: z.input<typeof loginSchema>, next?: string):
   const { phone, password } = parsed.data;
 
   const ip = await clientIp();
-  if (!(await rateLimit(`login:${phone}`, 10, 900)) || (isIpLimited(ip) && !(await rateLimit(`login-ip:${ip}`, 100, 900)))) {
+  // Only failed attempts count: 10 per phone and 100 per IP every 15 minutes.
+  if ((await rateLimitExceeded(`login-fail:${phone}`, 10, 900)) || (isIpLimited(ip) && (await rateLimitExceeded(`login-fail-ip:${ip}`, 100, 900)))) {
     return fail("errors.rateLimited");
   }
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email: phoneToAuthEmail(phone), password });
-  if (error) return fail("errors.invalidCredentials");
+  if (error) {
+    await rateLimit(`login-fail:${phone}`, 10, 900);
+    if (isIpLimited(ip)) await rateLimit(`login-fail-ip:${ip}`, 100, 900);
+    return fail("errors.invalidCredentials");
+  }
   redirect(safeNext(next));
 }
 

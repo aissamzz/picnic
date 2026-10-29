@@ -1490,6 +1490,10 @@ export type Database = {
         Args: { k: string; p_stage: Database["public"]["Enums"]["kit_stage"]; p_extra?: Json };
         Returns: Json;
       };
+      _require_admin: {
+        Args: never;
+        Returns: undefined;
+      };
       _reward_referral: {
         Args: { p_restaurant_id: string };
         Returns: undefined;
@@ -1501,6 +1505,18 @@ export type Database = {
       accept_invite: {
         Args: { p_token: string };
         Returns: string;
+      };
+      admin_activate_until: {
+        Args: { p_restaurant_id: string; p_until: string; p_plan: Database["public"]["Enums"]["subscription_plan"] };
+        Returns: undefined;
+      };
+      admin_add_note: {
+        Args: { p_restaurant_id: string; p_body: string };
+        Returns: string;
+      };
+      admin_call_list: {
+        Args: never;
+        Returns: { id: string; name: string; slug: string; status: Database["public"]["Enums"]["restaurant_status"]; ends_at: string; owner_name: string; owner_phone: string; visits_7d: number; items: number; called_today: boolean; last_outcome: Database["public"]["Enums"]["admin_call_outcome"] }[];
       };
       admin_cancel_code: {
         Args: { p_request_id: string };
@@ -1514,9 +1530,49 @@ export type Database = {
         Args: { p_phone: string; p_purpose: Database["public"]["Enums"]["code_purpose"] };
         Returns: { request_id: string; code: string; expires_at: string }[];
       };
+      admin_extend_trial: {
+        Args: { p_restaurant_id: string; p_days: number };
+        Returns: string;
+      };
       admin_issue_code: {
         Args: { p_request_id: string };
         Returns: { code: string; expires_at: string }[];
+      };
+      admin_log_call: {
+        Args: { p_restaurant_id: string; p_outcome: Database["public"]["Enums"]["admin_call_outcome"]; p_note?: string; p_next_action_at?: string };
+        Returns: string;
+      };
+      admin_log_impersonation: {
+        Args: { p_restaurant_id: string };
+        Returns: undefined;
+      };
+      admin_overview: {
+        Args: never;
+        Returns: Json;
+      };
+      admin_renewals: {
+        Args: never;
+        Returns: { id: string; name: string; slug: string; status: Database["public"]["Enums"]["restaurant_status"]; plan: Database["public"]["Enums"]["subscription_plan"]; paid_until: string; owner_name: string; owner_phone: string; reminded_at: string; pending_payment: boolean; last_call_at: string; last_outcome: Database["public"]["Enums"]["admin_call_outcome"] }[];
+      };
+      admin_reserve_slug: {
+        Args: { p_slug: string; p_reserved: boolean };
+        Returns: undefined;
+      };
+      admin_restaurants: {
+        Args: never;
+        Returns: { id: string; slug: string; name: string; type: Database["public"]["Enums"]["restaurant_type"]; wilaya_code: number; commune: string; status: Database["public"]["Enums"]["restaurant_status"]; plan: Database["public"]["Enums"]["subscription_plan"]; trial_ends_at: string; paid_until: string; created_at: string; went_live_at: string; owner_name: string; owner_phone: string; items: number; visits_7d: number; visits_30d: number; last_call_at: string; last_call_outcome: Database["public"]["Enums"]["admin_call_outcome"] }[];
+      };
+      admin_set_suspended: {
+        Args: { p_restaurant_id: string; p_suspended: boolean; p_reason?: string };
+        Returns: Database["public"]["Enums"]["restaurant_status"];
+      };
+      admin_set_template_active: {
+        Args: { p_key: string; p_active: boolean };
+        Returns: undefined;
+      };
+      admin_update_settings: {
+        Args: { p: Json };
+        Returns: undefined;
       };
       ai_imports_left: {
         Args: { p_restaurant_id: string };
@@ -1614,6 +1670,10 @@ export type Database = {
         Args: { p_key: string; p_max: number; p_window_seconds: number };
         Returns: boolean;
       };
+      is_admin_account: {
+        Args: never;
+        Returns: boolean;
+      };
       is_i18n_text: {
         Args: { v: Json };
         Returns: boolean;
@@ -1697,6 +1757,10 @@ export type Database = {
       random_digits6: {
         Args: never;
         Returns: string;
+      };
+      rate_limit_exceeded: {
+        Args: { p_key: string; p_max: number; p_window_seconds: number };
+        Returns: boolean;
       };
       reject_payment: {
         Args: { p_payment_id: string; p_reason: string };

@@ -6,38 +6,78 @@ import { OWNER_NOTIFICATIONS } from "@/lib/notifications";
 import { createClient } from "@/lib/supabase/server";
 import { getTranslations } from "next-intl/server";
 import { BottomNav } from "./bottom-nav";
+import { ReadOnlyProvider } from "@/components/owner/read-only";
 import { CallsChip } from "./calls-chip";
 import { NotificationsBell } from "./notifications-bell";
 
-export default async function ShellLayout({ children }: { children: React.ReactNode }) {
+export default async function ShellLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const restaurant = await requireRestaurant();
   // Staff see the lock (LockedNotice) but not billing.
   const banner = restaurant.role === "owner" ? bannerFor(restaurant) : null;
   const tn = await getTranslations("notifications");
+  const tv = await getTranslations("admin.viewAs");
   let unreadQuery = (await createClient())
     .from("notifications")
     .select("id", { count: "exact", head: true })
     .eq("restaurant_id", restaurant.id)
     .is("read_at", null);
-  if (restaurant.role !== "owner") unreadQuery = unreadQuery.not("kind", "in", `(${Object.keys(OWNER_NOTIFICATIONS).join(",")})`);
+  if (restaurant.role !== "owner")
+    unreadQuery = unreadQuery.not(
+      "kind",
+      "in",
+      `(${Object.keys(OWNER_NOTIFICATIONS).join(",")})`,
+    );
   const { count: unread } = await unreadQuery;
   return (
     <div className="flex min-h-dvh flex-col">
       <OfflineBanner />
+      {restaurant.viewAs && (
+        <form
+          method="post"
+          action="/admin/vue/sortir"
+          className="flex items-center justify-between gap-3 bg-ink px-4 py-2 text-sm text-white"
+        >
+          <span>
+            <strong>{tv("readOnly")}</strong> ·{" "}
+            {tv("viewing", { name: restaurant.name })}
+          </span>
+          <button
+            type="submit"
+            className="min-h-9 rounded-full bg-white px-3 font-semibold text-ink"
+          >
+            {tv("exit")}
+          </button>
+        </form>
+      )}
       <header className="sticky top-0 z-30 border-b border-line bg-sand/95 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-3xl items-center justify-between gap-3 px-4">
           <p className="truncate font-semibold">{restaurant.name}</p>
           <div className="flex items-center gap-2">
             <CallsChip restaurantId={restaurant.id} />
-            <NotificationsBell count={unread ?? 0} label={tn("bell", { count: unread ?? 0 })} />
+            <NotificationsBell
+              count={unread ?? 0}
+              label={tn("bell", { count: unread ?? 0 })}
+            />
             <LanguagePicker />
           </div>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-3xl flex-1 px-4 pt-4 pb-28">
-        {banner && <SubscriptionBanner {...banner} href="/app/abonnement" className="mb-4" />}
-        {children}
-      </main>
+      <ReadOnlyProvider value={!!restaurant.viewAs}>
+        <main className="mx-auto w-full max-w-3xl flex-1 px-4 pt-4 pb-28">
+          {banner && (
+            <SubscriptionBanner
+              {...banner}
+              href="/app/abonnement"
+              className="mb-4"
+            />
+          )}
+          {children}
+        </main>
+      </ReadOnlyProvider>
       <BottomNav />
     </div>
   );

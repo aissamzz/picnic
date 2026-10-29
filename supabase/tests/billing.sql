@@ -5,7 +5,7 @@ select plan(38);
 
 create function pg_temp.as_user(p_sub uuid) returns void language plpgsql as $f$
 begin
-  perform set_config('request.jwt.claims', json_build_object('sub', p_sub, 'role', 'authenticated')::text, true);
+  perform set_config('request.jwt.claims', json_build_object('sub', p_sub, 'role', 'authenticated', 'aal', 'aal2')::text, true);
 end $f$;
 create function pg_temp.err(p_sql text) returns text language plpgsql as $f$
 begin

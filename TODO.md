@@ -5,7 +5,6 @@
 - [ ] Real BaridiMob RIP / CCP details before launch (seed keeps fake values on purpose).
 
 ## Deferred
-- [ ] Phase 8: admin MFA (TOTP) enforcement in middleware and `requireSuperAdmin()`.
 - [ ] Phase 4: `/app/equipe` to create staff invites (accept page `/invitation/[token]` exists).
 - [ ] Old open code requests are only hidden after 24 h; a cleanup job can expire them (add to the nightly cron).
 - [ ] Replace `lib/supabase/types.ts` with `supabase gen types` output once a Supabase stack is running.
@@ -21,6 +20,7 @@
 - [ ] AI import: run a real-menu evaluation with an API key (handwritten, Arabic-only, chalkboard, multi-page PDF) before launch; the extractor has only been exercised with the fixture provider here (no key in this environment).
 - [ ] AI import: purge `imports/` sources after 30 days (phase 7 cron).
 - [ ] AI import: HEIC photos are converted by iOS Safari on upload; other browsers may send HEIC, which is refused with the "files" message.
-- [ ] Phase 8 admin screens: payment queue (approve/reject with preset reasons), kit kanban with mockup upload, renewals list (the RPCs exist).
 - [ ] Phase 9 DEPLOY.md: schedule `POST /api/cron/subscriptions` nightly when pg_cron is unavailable; set CRON_SECRET.
 - [ ] Owner SMS/WhatsApp messages for payment approval if an SMS provider is added later (in-app notifications only for now).
+- [ ] Admin MFA recovery: if the admin loses the authenticator phone, remove the factor with the service key (`auth.admin.mfa.deleteFactor`) and enroll again; document in DEPLOY.md (phase 9). Consider a second admin account.
+- [ ] Restaurants list loads up to 2 000 rows and filters in the browser; switch to server-side paging past that.

@@ -1,4 +1,6 @@
 import { expect, type Browser, type Page } from "@playwright/test";
+import { adminTotpSecret } from "./db";
+import { totp } from "./totp";
 
 export const ADMIN = {
   phone: process.env.E2E_ADMIN_PHONE ?? "0555000009",
@@ -43,8 +45,10 @@ export async function createRestaurant(page: Page, name: string) {
 export async function adminPage(browser: Browser): Promise<Page> {
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
   const page = await ctx.newPage();
+  await adminTotpSecret(); // before logging in: resetting factors signs the admin out
   await logIn(page, ADMIN.phone, ADMIN.password);
   await expect(page).not.toHaveURL(/\/connexion/);
+  await adminSecondFactor(page);
   await page.goto("/admin/codes");
   await expect(page.getByRole("heading", { name: "Codes de vérification" })).toBeVisible();
   return page;
@@ -61,4 +65,14 @@ export async function adminIssueCode(admin: Page, phoneDisplay: string): Promise
 
 export function displayPhone(local: string): string {
   return `${local.slice(0, 4)} ${local.slice(4, 6)} ${local.slice(6, 8)} ${local.slice(8)}`;
+}
+
+/** On /admin/mfa, types the current TOTP code of the E2E admin. */
+export async function adminSecondFactor(page: Page) {
+  const secret = await adminTotpSecret();
+  await page.goto("/admin");
+  await expect(page).toHaveURL(/\/admin\/mfa$/);
+  await page.getByLabel("Code à 6 chiffres").fill(totp(secret));
+  await page.getByRole("button", { name: "Valider" }).click();
+  await expect(page).toHaveURL(/\/admin$/);
 }

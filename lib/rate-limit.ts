@@ -14,3 +14,14 @@ export async function rateLimit(key: string, max: number, windowSeconds: number)
   if (error) throw error;
   return data === true;
 }
+
+/** True when `key` already reached `max` in the current window (does not count a hit). */
+export async function rateLimitExceeded(key: string, max: number, windowSeconds: number): Promise<boolean> {
+  const { data, error } = await createServiceClient().rpc("rate_limit_exceeded", {
+    p_key: key,
+    p_max: max,
+    p_window_seconds: windowSeconds,
+  });
+  if (error) throw error;
+  return data === true;
+}

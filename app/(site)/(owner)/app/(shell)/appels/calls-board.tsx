@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "@/components/ui/toast";
 import { useWaiterCalls, type WaiterCall } from "@/components/owner/use-waiter-calls";
+import { useReadOnly } from "@/components/owner/read-only";
 import { createClient } from "@/lib/supabase/client";
 
 const ICONS = { waiter: HandPlatter, bill: Receipt, water: Droplets } as const;
@@ -33,6 +34,7 @@ function beep() {
 
 export function CallsBoard({ restaurantId }: { restaurantId: string }) {
   const t = useTranslations("owner.calls");
+  const readOnly = useReadOnly();
   const tr = useTranslations();
   const format = useFormatter();
   const now = useNow({ updateInterval: 15_000 });
@@ -102,7 +104,7 @@ export function CallsBoard({ restaurantId }: { restaurantId: string }) {
                   {t(`kinds.${c.kind}`)} · {ago(c.created_at)}
                 </p>
               </div>
-              <Button onClick={() => void handle(c)} aria-label={`${t("going")} · ${tableName(c)}`}>
+              <Button disabled={readOnly} onClick={() => void handle(c)} aria-label={`${t("going")} · ${tableName(c)}`}>
                 <Check aria-hidden />
                 {t("going")}
               </Button>

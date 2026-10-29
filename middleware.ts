@@ -1,9 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { REFERRAL_COOKIE, TABLE_SLUG_SUFFIX } from "@/lib/config";
+import { REFERRAL_COOKIE, TABLE_SLUG_SUFFIX, VIEW_AS_COOKIE } from "@/lib/config";
 import { isLocale, LOCALE_COOKIE, negotiateLocale } from "@/lib/i18n/config";
 import { MENU_ROUTE_PREFIX, menuSegment } from "@/lib/routes";
 import { parseMenuSegment } from "@/lib/slug";
 import { refreshSession } from "@/lib/supabase/middleware";
+import { sessionAal } from "@/lib/auth/aal";
 
 // Old slug -> current slug, cached per instance for a minute.
 const slugCache = new Map<string, { to: string | null; exp: number }>();
@@ -76,7 +77,7 @@ export async function middleware(request: NextRequest) {
   }
   if (!SESSION_PATHS.test(pathname)) return response;
 
-  const { user } = await refreshSession(request, response);
+  const { user, supabase } = await refreshSession(request, response);
 
   const redirectTo = (path: string) => {
     const res = NextResponse.redirect(new URL(path, request.url));
@@ -89,7 +90,15 @@ export async function middleware(request: NextRequest) {
   if (user && GUEST_ONLY.test(pathname)) {
     return redirectTo(searchParams.get("next")?.startsWith("/") ? searchParams.get("next")! : "/app");
   }
-  // Admin role and MFA are checked server-side in the admin layout (phase 8 adds AAL2 here).
+  // Admin pages need a two-factor session; /admin/mfa enrolls or verifies it.
+  // (The admin role itself is checked server-side; the database requires aal2 as well.)
+  if (user && supabase && /^\/admin(\/|$)/.test(pathname) && !pathname.startsWith("/admin/mfa")) {
+    if ((await sessionAal(supabase)) !== "aal2") return redirectTo("/admin/mfa");
+  }
+  // Read-only "view as owner": nothing but page loads under /app.
+  if (request.cookies.has(VIEW_AS_COOKIE) && /^\/app(\/|$)/.test(pathname) && request.method !== "GET" && request.method !== "HEAD") {
+    return new NextResponse("Read-only session", { status: 403 });
+  }
   return response;
 }
 

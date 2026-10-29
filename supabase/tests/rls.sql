@@ -143,7 +143,7 @@ reset role;
 -- ---------------------------------------------------------------------------
 -- Super admin
 -- ---------------------------------------------------------------------------
-select set_config('request.jwt.claims', '{"sub":"11111111-0000-4000-8000-00000000000d","role":"authenticated"}', true);
+select set_config('request.jwt.claims', '{"sub":"11111111-0000-4000-8000-00000000000d","role":"authenticated","aal":"aal2"}', true);
 set local role authenticated;
 select is((select count(*) from public.payments), 2::bigint, 'super admin reads all payments');
 select is((select count(*) from public.restaurant_billing), 2::bigint, 'super admin reads all billing');

@@ -12,3 +12,6 @@ export const TABLE_SLUG_SUFFIX = "-menu";
 
 /** Referral code from a /inscription?ref= link (httpOnly, 30 days). */
 export const REFERRAL_COOKIE = "liinky_ref";
+
+/** Super admin viewing an owner dashboard read-only (restaurant id, httpOnly). */
+export const VIEW_AS_COOKIE = "liinky_view_as";

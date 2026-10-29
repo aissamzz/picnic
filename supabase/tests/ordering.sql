@@ -5,7 +5,7 @@ select plan(24);
 
 create function pg_temp.as_user(p_sub uuid, p_role text default 'authenticated') returns void language plpgsql as $f$
 begin
-  perform set_config('request.jwt.claims', json_build_object('sub', p_sub, 'role', p_role)::text, true);
+  perform set_config('request.jwt.claims', json_build_object('sub', p_sub, 'role', p_role, 'aal', 'aal2')::text, true);
 end $f$;
 -- Runs an order as anon and returns the error message, or 'ok'.
 create function pg_temp.try_order(p jsonb) returns text language plpgsql as $f$

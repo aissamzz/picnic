@@ -54,3 +54,8 @@ export function savingPercent(price: number, monthly: number, plan: Plan): numbe
   const full = monthly * PLAN_MONTHS[plan];
   return full > 0 ? Math.round((1 - price / full) * 100) : 0;
 }
+
+/** Colour of a restaurant status in lists and pills. */
+export function statusTone(s: SubscriptionStatus): "success" | "warning" | "danger" | "info" | "neutral" {
+  return s === "active" ? "success" : s === "trial" ? "info" : s === "grace" ? "warning" : s === "paused" ? "neutral" : "danger";
+}

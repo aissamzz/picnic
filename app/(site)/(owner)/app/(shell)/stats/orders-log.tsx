@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "@/components/ui/toast";
+import { useReadOnly } from "@/components/owner/read-only";
 import { createClient } from "@/lib/supabase/client";
 import type { Locale } from "@/lib/i18n/config";
 import { formatPrice } from "@/lib/price";
@@ -28,6 +29,7 @@ export type OrderRow = {
 
 export function OrdersLog({ orders }: { orders: OrderRow[] }) {
   const t = useTranslations("owner.stats");
+  const readOnly = useReadOnly();
   const tr = useTranslations();
   const format = useFormatter();
   const locale = useLocale();
@@ -73,7 +75,7 @@ export function OrdersLog({ orders }: { orders: OrderRow[] }) {
                       <Badge>{t(`mode.${o.mode}`)}</Badge>
                       {flagged && <Badge tone="danger">{t("flagged")}</Badge>}
                     </div>
-                    <Button variant="ghost" size="sm" loading={busy === o.id} onClick={() => void flag(o)} aria-label={`${t(flagged ? "unflag" : "flag")} #${o.public_id}`}>
+                    <Button variant="ghost" size="sm" disabled={readOnly} loading={busy === o.id} onClick={() => void flag(o)} aria-label={`${t(flagged ? "unflag" : "flag")} #${o.public_id}`}>
                       {flagged ? <FlagOff aria-hidden /> : <Flag aria-hidden />}
                       {t(flagged ? "unflag" : "flag")}
                     </Button>

@@ -5,7 +5,7 @@ select plan(20);
 
 create function pg_temp.as_user(p_sub uuid, p_role text default 'authenticated') returns void language plpgsql as $f$
 begin
-  perform set_config('request.jwt.claims', json_build_object('sub', p_sub, 'role', p_role)::text, true);
+  perform set_config('request.jwt.claims', json_build_object('sub', p_sub, 'role', p_role, 'aal', 'aal2')::text, true);
 end $f$;
 
 insert into auth.users (id, phone, raw_user_meta_data) values
