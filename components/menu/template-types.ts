@@ -46,6 +46,8 @@ export type ItemSheetProps = {
   isFavorite: boolean;
   onToggleFavorite: () => void;
   hideCurrency: boolean;
+  /** Order link: sizes and extras become choices below the sheet, so don't list them. */
+  orderable?: boolean;
 };
 
 export type SectionHeaderProps = { title: string; count: number; index: number; labels: MenuLabels };

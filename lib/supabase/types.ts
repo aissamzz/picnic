@@ -1492,6 +1492,10 @@ export type Database = {
         Args: { p_restaurant_id: string; p_delta: number; p_category_id?: string };
         Returns: number;
       };
+      call_waiter: {
+        Args: { p_restaurant_id: string; p_table_code: string; p_kind: Database["public"]["Enums"]["waiter_call_kind"]; p_session_id: string };
+        Returns: Json;
+      };
       can_edit_menu: {
         Args: { rid: string };
         Returns: boolean;
@@ -1532,6 +1536,10 @@ export type Database = {
         Args: { p_type: Database["public"]["Enums"]["restaurant_type"] };
         Returns: string;
       };
+      flag_order: {
+        Args: { p_order_id: string; p_fake: boolean };
+        Returns: string;
+      };
       get_billing_settings: {
         Args: never;
         Returns: Json;
@@ -1547,6 +1555,10 @@ export type Database = {
       get_public_menu: {
         Args: { p_slug: string };
         Returns: Json;
+      };
+      handle_waiter_call: {
+        Args: { p_call_id: string };
+        Returns: boolean;
       };
       hit_rate_limit: {
         Args: { p_key: string; p_max: number; p_window_seconds: number };
@@ -1624,6 +1636,10 @@ export type Database = {
         Args: { p_slug: string };
         Returns: { slug: string; redirect: boolean }[];
       };
+      restaurant_stats: {
+        Args: { p_restaurant_id: string; p_days?: number };
+        Returns: Json;
+      };
       save_item: {
         Args: { p_restaurant_id: string; p_item: Json };
         Returns: string;
@@ -1643,6 +1659,10 @@ export type Database = {
       storage_restaurant_id: {
         Args: { p_name: string };
         Returns: string;
+      };
+      submit_order: {
+        Args: { p_restaurant_id: string; p_order: Json };
+        Returns: Json;
       };
       suggest_restaurants: {
         Args: { p_query: string };

@@ -20,7 +20,8 @@ export function trafficSource(mode: MenuMode, src: string | null): string {
   return SOURCES[(src ?? "").toLowerCase()] ?? "direct";
 }
 
-function sessionId(): string {
+/** Per-tab anonymous session id (analytics, order and call rate limits). */
+export function sessionId(): string {
   try {
     let id = sessionStorage.getItem("liinky:sid");
     if (!id) {

@@ -16,6 +16,7 @@ export function BaseItemSheet({
   hideCurrency,
   photoClassName,
   priceClassName,
+  orderable,
 }: ItemSheetProps & { photoClassName?: string; priceClassName?: string }) {
   const name = tx(item.name, lang);
   const description = tx(item.description, lang);
@@ -31,7 +32,7 @@ export function BaseItemSheet({
       </div>
       {description && <p className="text-m-muted">{description}</p>}
 
-      {item.variants.length > 0 ? (
+      {orderable && !item.is_sold_out ? null : item.variants.length > 0 ? (
         <section aria-label={labels.variants} className="flex flex-col">
           <h3 className="mb-1 text-sm font-semibold text-m-muted">{labels.variants}</h3>
           <ul className="divide-y divide-m-line rounded-m border border-m-line">
@@ -47,7 +48,7 @@ export function BaseItemSheet({
         item.base_price != null && <MenuPrice amount={item.base_price} lang={lang} className={cn("text-2xl font-bold text-m-price", priceClassName)} />
       )}
 
-      {item.extras.length > 0 && (
+      {item.extras.length > 0 && !(orderable && !item.is_sold_out) && (
         <section aria-label={labels.extras}>
           <h3 className="mb-1 text-sm font-semibold text-m-muted">{labels.extras}</h3>
           <ul className="divide-y divide-m-line rounded-m border border-m-line">

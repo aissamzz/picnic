@@ -112,6 +112,8 @@ NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
 NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY
 ENABLE_DEV_UI=true
+# The local stack has no Realtime server: screens poll instead.
+NEXT_PUBLIC_REALTIME=off
 ENV
     echo "wrote .env.local"
   fi

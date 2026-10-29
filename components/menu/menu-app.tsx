@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Search, X } from "lucide-react";
+import dynamic from "next/dynamic";
 import * as React from "react";
 import { APP_NAME } from "@/lib/config";
 import { logMenuEvent, trafficSource } from "@/lib/menu/beacon";
@@ -15,6 +16,11 @@ import { fmt, type MenuLabels } from "./labels";
 import { LangSwitch } from "./lang-switch";
 import { Sheet } from "./sheet";
 import type { TemplateParts } from "./template-types";
+
+// Loaded only where needed: table links never download the cart, order links never the waiter call.
+const OrderLayer = dynamic(() => import("./order/order-layer"));
+const ItemControls = dynamic(() => import("./order/item-controls"));
+const WaiterCall = dynamic(() => import("./order/waiter-call"));
 
 export type MenuAppProps = {
   menu: PublicMenu;
@@ -62,7 +68,8 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
   const [infoOpen, setInfoOpen] = React.useState(false);
   const [active, setActive] = React.useState<string | null>(null);
   const [open, setOpen] = React.useState<OpenState | null>(null);
-  const [tableLabel, setTableLabel] = React.useState<string | null>(null);
+  const [table, setTable] = React.useState<{ code: string; label: string } | null>(null);
+  const tableLabel = table?.label ?? null;
   const [inactiveSchedules, setInactiveSchedules] = React.useState<Set<string>>(new Set());
   const viewed = React.useRef(new Set<string>());
 
@@ -71,7 +78,7 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
     const params = new URLSearchParams(window.location.search);
     const code = params.get("t");
     const table = mode === "table" && code ? menu.tables.find((t) => t.code.toLowerCase() === code.toLowerCase()) : undefined;
-    setTableLabel(table?.label ?? null);
+    setTable(table ? { code: table.code, label: table.label } : null);
     const tick = () => {
       setOpen(openState(menu.hours, menu.exceptions, r.timezone));
       setInactiveSchedules(new Set(menu.schedules.filter((s) => !isScheduleActive(s, r.timezone)).map((s) => s.id)));
@@ -129,6 +136,10 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
   };
 
   const hideCurrency = !!parts.hideCurrencyOnItems;
+  const ordering = mode === "order" && r.ordering_available && !r.is_paused && !preview;
+  const waiter = mode === "table" && !!table && !r.is_paused && !preview;
+  const closedNotice =
+    open && open.hasHours && !open.open ? (open.opensAt ? fmt(labels.order.closedNow, { time: open.opensAt }) : labels.order.closedNoTime) : null;
   const card = (item: MenuItem, index: number) => (
     <parts.ItemCard
       key={item.id}
@@ -149,7 +160,7 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
   const themeStyle = { ...parts.theme, ...(r.primary_color ? { "--m-accent": r.primary_color, "--m-on-accent": "#FFFFFF" } : {}) } as React.CSSProperties;
 
   return (
-    <div className={cn("menu-root min-h-dvh pb-10", parts.rootClass)} style={themeStyle} data-template={r.template_key} data-mode={mode}>
+    <div className={cn("menu-root min-h-dvh", ordering || waiter ? "pb-28" : "pb-10", parts.rootClass)} style={themeStyle} data-template={r.template_key} data-mode={mode}>
       <parts.Header
         restaurant={r}
         lang={lang}
@@ -248,9 +259,23 @@ export function MenuApp({ menu, lang, mode, labels, preview, parts }: MenuAppPro
             isFavorite={favs.includes(selected.id)}
             onToggleFavorite={() => toggle(selected.id)}
             hideCurrency={hideCurrency}
+            orderable={ordering}
+          />
+        )}
+        {selected && ordering && (
+          <ItemControls
+            key={selected.id}
+            item={selected}
+            restaurantId={r.id}
+            lang={lang}
+            labels={labels}
+            closedNotice={closedNotice}
+            onAdded={() => setSelected(null)}
           />
         )}
       </Sheet>
+      {ordering && <OrderLayer menu={menu} lang={lang} labels={labels} closedNotice={closedNotice} />}
+      {waiter && <WaiterCall restaurantId={r.id} tableCode={table!.code} labels={labels} />}
       <Sheet open={infoOpen} onClose={() => setInfoOpen(false)} title={r.name} closeLabel={labels.close}>
         <InfoSheetBody menu={menu} labels={labels} />
       </Sheet>
