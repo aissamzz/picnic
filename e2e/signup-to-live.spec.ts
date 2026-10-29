@@ -27,13 +27,16 @@ test("new owner signs up and reaches the live screen with a working slug", async
   const slug = await page.getByLabel("Votre lien").inputValue();
   expect(slug).toMatch(/^grill-test-[a-z0-9]+$/);
   await page.locator('input[type="file"]').setInputFiles(path.join(__dirname, "fixtures", "logo.png"));
-  await page.getByRole("button", { name: "Utiliser ce logo" }).click();
+  // Logos upload whole (no crop): the preview shows it right away.
+  await expect(page.locator('img[src^="blob:"]')).toBeVisible();
   await page.getByRole("button", { name: "Continuer" }).click();
 
   // Step 2: template (grill suggested for a grill).
   await expect(page).toHaveURL(/\/onboarding\/2$/);
   await expect(page.getByText("Suggéré")).toBeVisible();
-  await page.getByText("Fruits de mer", { exact: true }).first().click();
+  await expect(page.locator('input[name="template"][value="grill"]')).toBeChecked();
+  await page.locator('label:has(input[name="template"][value="mer"])').click();
+  await expect(page.locator('input[name="template"][value="mer"]')).toBeChecked();
   await page.getByRole("button", { name: "Continuer" }).click();
 
   // Step 3: manual entry, FR + AR, messy price.
