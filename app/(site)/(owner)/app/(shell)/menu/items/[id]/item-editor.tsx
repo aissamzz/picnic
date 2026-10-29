@@ -281,7 +281,8 @@ function OptionList({
   );
 }
 
-function Photos({ photos, onChange, onError }: { photos: string[]; onChange: (p: string[]) => void; onError: (e: string) => void }) {
+/** Photo list with crop-on-add (also used by the combo editor with `max` 1). */
+export function Photos({ photos, onChange, onError, max = 4 }: { photos: string[]; onChange: (p: string[]) => void; onError: (e: string) => void; max?: number }) {
   const t = useTranslations("menuAdmin.item");
   const fileRef = React.useRef<HTMLInputElement>(null);
   const [src, setSrc] = React.useState<string | null>(null);
@@ -341,7 +342,7 @@ function Photos({ photos, onChange, onError }: { photos: string[]; onChange: (p:
             </div>
           </li>
         ))}
-        {photos.length < 4 && (
+        {photos.length < max && (
           <li>
             <button
               type="button"

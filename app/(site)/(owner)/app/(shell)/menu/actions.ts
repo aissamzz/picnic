@@ -9,7 +9,7 @@ import { revalidateMenu } from "@/lib/menu/revalidate";
 import { PUBLIC_BUCKET } from "@/lib/storage";
 import { toWebp } from "@/lib/storage/images";
 import { createClient, createServiceClient } from "@/lib/supabase/server";
-import { bilingualName } from "@/lib/validation/onboarding";
+import { bilingualName, priceInput } from "@/lib/validation/onboarding";
 import { categorySchema, itemSchema } from "@/lib/validation/menu";
 
 /** Owner or staff of the current restaurant (menu editing is open to both). */
@@ -306,5 +306,81 @@ export async function deleteSchedule(scheduleId: string): Promise<ActionResult> 
   const { restaurant, supabase } = await ctx();
   if (!id.safeParse(scheduleId).success) return fail("errors.generic");
   const { error } = await supabase.from("menu_schedules").delete().eq("id", scheduleId).eq("restaurant_id", restaurant.id);
+  return error ? dbError(error) : done(restaurant.slug);
+}
+
+// ---------------------------------------------------------------------------
+// Best sellers and combos
+// ---------------------------------------------------------------------------
+
+/** Adds or removes the "best seller" tag (shown in its own row on the menu). */
+export async function setBestSeller(itemId: string, on: boolean): Promise<ActionResult> {
+  const { restaurant, supabase } = await ctx();
+  if (!id.safeParse(itemId).success) return fail("errors.generic");
+  const { data: item } = await supabase.from("items").select("tags").eq("id", itemId).eq("restaurant_id", restaurant.id).single();
+  if (!item) return fail("errors.generic");
+  const tags = item.tags.filter((t) => t !== "best_seller");
+  const { error } = await supabase
+    .from("items")
+    .update({ tags: on ? [...tags, "best_seller"] : tags })
+    .eq("id", itemId)
+    .eq("restaurant_id", restaurant.id);
+  return error ? dbError(error) : done(restaurant.slug);
+}
+
+const comboSchema = z.object({
+  id: id.optional(),
+  name: bilingualName,
+  description: z
+    .object({ fr: z.string().trim().max(300).optional().default(""), ar: z.string().trim().max(300).optional().default("") })
+    .transform((v) => ({ ...(v.fr ? { fr: v.fr } : {}), ...(v.ar ? { ar: v.ar } : {}) })),
+  price: priceInput.refine((v) => v !== null, "errors.priceInvalid"),
+  photo: z.string().max(300).nullable(),
+  itemIds: z.array(id).max(12),
+  isVisible: z.boolean(),
+  isSoldOut: z.boolean(),
+});
+export type ComboInput = z.input<typeof comboSchema>;
+
+export async function saveCombo(input: ComboInput): Promise<ActionResult<{ id: string }>> {
+  const { restaurant, supabase } = await ctx();
+  const parsed = comboSchema.safeParse(input);
+  if (!parsed.success) return fail("errors.generic", zodFieldErrors(parsed.error.issues));
+  const v = parsed.data;
+  // Photos come from our own upload action: they must live in this restaurant's folder.
+  if (v.photo && !v.photo.startsWith(`${restaurant.id}/`)) return fail("errors.imageInvalid");
+  const row = {
+    restaurant_id: restaurant.id,
+    name: v.name,
+    description: v.description,
+    price: v.price!,
+    photo: v.photo,
+    item_ids: v.itemIds,
+    is_visible: v.isVisible,
+    is_sold_out: v.isSoldOut,
+  };
+  if (v.id) {
+    const { data: before } = await supabase.from("combos").select("photo").eq("id", v.id).eq("restaurant_id", restaurant.id).single();
+    const { error } = await supabase.from("combos").update(row).eq("id", v.id).eq("restaurant_id", restaurant.id);
+    if (error) return dbError(error);
+    if (before?.photo && before.photo !== v.photo) await createServiceClient().storage.from(PUBLIC_BUCKET).remove([before.photo]);
+    done(restaurant.slug);
+    return { ok: true, data: { id: v.id } };
+  }
+  const { count } = await supabase.from("combos").select("id", { count: "exact", head: true }).eq("restaurant_id", restaurant.id).is("deleted_at", null);
+  const { data, error } = await supabase
+    .from("combos")
+    .insert({ ...row, position: count ?? 0 })
+    .select("id")
+    .single();
+  if (error || !data) return dbError(error);
+  done(restaurant.slug);
+  return { ok: true, data: { id: data.id } };
+}
+
+export async function deleteCombo(comboId: string): Promise<ActionResult> {
+  const { restaurant, supabase } = await ctx();
+  if (!id.safeParse(comboId).success) return fail("errors.generic");
+  const { error } = await supabase.from("combos").update({ deleted_at: new Date().toISOString() }).eq("id", comboId).eq("restaurant_id", restaurant.id);
   return error ? dbError(error) : done(restaurant.slug);
 }

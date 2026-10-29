@@ -22,6 +22,33 @@ export type MenuCategory = {
   items: MenuItem[];
 };
 
+/** A fixed-price combo built by the owner (e.g. burger + fries + drink). */
+export type MenuCombo = {
+  id: string;
+  name: I18nText;
+  description: I18nText;
+  price: number;
+  photo: string | null;
+  is_sold_out: boolean;
+  /** Names of the dishes it contains, in order. */
+  includes: I18nText[];
+};
+
+/** A combo seen as a dish (cart, item sheet): fixed price, no sizes or extras. */
+export function comboAsItem(c: MenuCombo): MenuItem {
+  return {
+    id: c.id,
+    name: c.name,
+    description: c.description,
+    base_price: c.price,
+    photos: c.photo ? [c.photo] : [],
+    tags: [],
+    is_sold_out: c.is_sold_out,
+    variants: [],
+    extras: [],
+  };
+}
+
 export type OpeningHour = { weekday: number; opens: string; closes: string };
 export type OpeningException = { date: string; closed: boolean; note: string | null };
 export type MenuSchedule = { id: string; starts: string; ends: string; weekdays: number[] };
@@ -70,6 +97,8 @@ export type PublicMenu = {
   delivery_zones: { id: string; name: string; fee: number }[];
   tables: { id: string; code: string; label: string }[];
   categories: MenuCategory[];
+  /** Older cached payloads have none. */
+  combos?: MenuCombo[];
 };
 
 export type MenuMode = "table" | "order";

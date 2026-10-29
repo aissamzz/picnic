@@ -1,4 +1,4 @@
-import { CalendarClock, ChevronRight, Coins, Languages, ScanText } from "lucide-react";
+import { CalendarClock, ChevronRight, Coins, Languages, Layers, ScanText, Star } from "lucide-react";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { canEditMenu, LockedNotice } from "@/components/owner/locked-notice";
@@ -17,12 +17,14 @@ export default async function MenuPage() {
     { href: "/app/menu/prix", label: t("tools.prices"), icon: Coins },
     { href: "/app/menu/traductions", label: t("tools.translations"), icon: Languages },
     { href: "/app/menu/horaires", label: t("tools.schedules"), icon: CalendarClock },
+    { href: "/app/menu/meilleures-ventes", label: t("tools.bestSellers"), icon: Star },
+    { href: "/app/menu/combos", label: t("tools.combos"), icon: Layers },
   ];
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">{t("title")}</h1>
       {!editable && <LockedNotice />}
-      <nav aria-label={t("title")} className="grid grid-cols-3 gap-2">
+      <nav aria-label={t("title")} className="grid grid-cols-3 gap-2 sm:grid-cols-5">
         {tools.map(({ href, label, icon: Icon }) => (
           <Link key={href} href={href} className="flex min-h-16 flex-col items-center justify-center gap-1 rounded-lg border border-line bg-surface px-2 text-center text-sm font-medium hover:bg-sand">
             <Icon className="size-5 text-primary" aria-hidden />

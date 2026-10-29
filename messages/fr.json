@@ -855,7 +855,9 @@
     "tools": {
       "prices": "Prix",
       "translations": "Traductions",
-      "schedules": "Horaires du menu"
+      "schedules": "Horaires du menu",
+      "bestSellers": "Meilleures ventes",
+      "combos": "Combos"
     },
     "categories": "Catégories",
     "addCategory": "Ajouter une catégorie",
@@ -985,7 +987,41 @@
       ]
     },
     "noItemsTitle": "Pas encore de plat ici",
-    "noItemsBody": "Ajoutez le premier plat de cette catégorie."
+    "noItemsBody": "Ajoutez le premier plat de cette catégorie.",
+    "bestSellers": {
+      "title": "Meilleures ventes",
+      "subtitle": "Touchez l'étoile des plats à mettre en avant : ils s'affichent en haut de votre menu.",
+      "count": "{count, plural, =0 {Aucun plat choisi} one {# plat en avant} other {# plats en avant}}",
+      "on": "en avant",
+      "off": "pas en avant",
+      "emptyTitle": "Pas encore de plat",
+      "emptyBody": "Ajoutez vos plats, puis choisissez vos meilleures ventes."
+    },
+    "combos": {
+      "title": "Combos",
+      "subtitle": "Des formules à prix fixe (burger + frites + boisson…), dans leur propre rubrique du menu.",
+      "add": "Ajouter un combo",
+      "newTitle": "Nouveau combo",
+      "editTitle": "Modifier le combo",
+      "edit": "Modifier {name}",
+      "nameFr": "Nom en français",
+      "nameAr": "Nom en arabe",
+      "namePlaceholder": "Menu étudiant",
+      "price": "Prix du combo (DA)",
+      "descriptionFr": "Description en français (facultatif)",
+      "descriptionAr": "Description en arabe (facultatif)",
+      "contains": "Ce qu'il contient",
+      "containsHint": "Cochez les plats du combo. Le prix reste celui du combo.",
+      "visible": "Visible sur le menu",
+      "soldOut": "Épuisé",
+      "hidden": "Masqué",
+      "save": "Enregistrer",
+      "saved": "Combo enregistré.",
+      "delete": "Supprimer",
+      "deleted": "Combo supprimé.",
+      "emptyTitle": "Pas encore de combo",
+      "emptyBody": "Créez une formule pour faire monter le panier moyen."
+    }
   },
   "owner": {
     "appearance": {

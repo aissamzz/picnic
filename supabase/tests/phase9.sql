@@ -1,7 +1,7 @@
 -- Phase 9: team invites and the hours/links settings.
 begin;
 
-select plan(18);
+select plan(24);
 
 create function pg_temp.as_user(p_sub uuid) returns void language plpgsql as $f$
 begin
@@ -59,6 +59,36 @@ select lives_ok($$select public.save_hours_and_links('00000000-0000-4000-a000-00
   '{"instagram": "@roma", "maps_url": "https://maps.app.goo.gl/x"}')$$, 'hours and links saved');
 select is((select count(*)::text || '/' || (select instagram from public.social_links where restaurant_id = '00000000-0000-4000-a000-000000000001')
   from public.opening_hours where restaurant_id = '00000000-0000-4000-a000-000000000001'), '2/@roma', 'replaced in one go');
+reset role;
+
+-- ---------------------------------------------------------------------------
+-- Combos
+-- ---------------------------------------------------------------------------
+update public.restaurants set orders_enabled = true, whatsapp_order_phone = '+213555900101', takeaway_enabled = true
+where id = '00000000-0000-4000-a000-000000000001';
+select pg_temp.as_user('99999999-0000-4000-8000-00000000000a');
+set local role authenticated;
+select lives_ok($$insert into public.combos (restaurant_id, name, price, item_ids)
+  select '00000000-0000-4000-a000-000000000001', '{"fr": "Menu Midi"}', 1200, array_agg(id order by id)
+  from (select id from public.items where restaurant_id = '00000000-0000-4000-a000-000000000001' and deleted_at is null order by id limit 2) x$$,
+  'owner creates a combo');
+reset role;
+select pg_temp.as_user('99999999-0000-4000-8000-00000000000b');
+set local role authenticated;
+select is(pg_temp.err($$insert into public.combos (restaurant_id, name, price) values ('00000000-0000-4000-a000-000000000002', '{"fr": "X"}', 1)$$),
+  'new row violates row-level security policy for table "combos"', 'other restaurants cannot add combos');
+reset role;
+
+create temp table cid as select id from public.combos where restaurant_id = '00000000-0000-4000-a000-000000000001';
+grant select on cid to anon;
+set local role anon;
+select is((select jsonb_array_length(public.get_public_menu('pizzeria-roma') -> 'combos')), 1, 'public menu lists the combo');
+select is((select jsonb_array_length(public.get_public_menu('pizzeria-roma') #> '{combos,0,includes}')), 2, 'with the dishes it contains');
+select ok(public.get_public_menu('pizzeria-roma') ? 'categories', 'the rest of the payload is unchanged');
+select is((public.submit_order('00000000-0000-4000-a000-000000000001', jsonb_build_object(
+  'mode', 'takeaway', 'customer_phone', '+213555900199', 'customer_name', 'Nadia', 'session_id', 'combo-session-1',
+  'items', jsonb_build_array(jsonb_build_object('item_id', (select id from cid), 'qty', 2)))) ->> 'subtotal')::int,
+  2400, 'a combo can be ordered at its own price');
 reset role;
 
 -- ---------------------------------------------------------------------------

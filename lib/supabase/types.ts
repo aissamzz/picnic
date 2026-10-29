@@ -246,6 +246,62 @@ export type Database = {
           },
         ];
       };
+      combos: {
+        Row: {
+          id: string;
+          restaurant_id: string;
+          name: Json;
+          description: Json;
+          price: number;
+          photo: string | null;
+          item_ids: string[];
+          is_visible: boolean;
+          is_sold_out: boolean;
+          position: number;
+          deleted_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          restaurant_id: string;
+          name: Json;
+          description?: Json;
+          price: number;
+          photo?: string | null;
+          item_ids?: string[];
+          is_visible?: boolean;
+          is_sold_out?: boolean;
+          position?: number;
+          deleted_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          restaurant_id?: string;
+          name?: Json;
+          description?: Json;
+          price?: number;
+          photo?: string | null;
+          item_ids?: string[];
+          is_visible?: boolean;
+          is_sold_out?: boolean;
+          position?: number;
+          deleted_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "combos_restaurant_id_fkey";
+            columns: ["restaurant_id"];
+            isOneToOne: false;
+            referencedRelation: "restaurants";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       delivery_zones: {
         Row: {
           id: string;
@@ -1488,6 +1544,10 @@ export type Database = {
       };
       _kit_step: {
         Args: { k: string; p_stage: Database["public"]["Enums"]["kit_stage"]; p_extra?: Json };
+        Returns: Json;
+      };
+      _public_menu_core: {
+        Args: { p_slug: string };
         Returns: Json;
       };
       _require_admin: {

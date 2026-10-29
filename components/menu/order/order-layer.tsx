@@ -5,7 +5,7 @@ import * as React from "react";
 import { APP_NAME } from "@/lib/config";
 import { sessionId, trafficSource } from "@/lib/menu/beacon";
 import { count as cartCount, setQty, subtotal, unitPrice, validLines, type CartLine } from "@/lib/menu/cart";
-import { tx, type Lang, type MenuItem, type PublicMenu } from "@/lib/menu/types";
+import { comboAsItem, tx, type Lang, type MenuItem, type PublicMenu } from "@/lib/menu/types";
 import { formatPrice } from "@/lib/price";
 import { cx } from "@/lib/utils/cx";
 import { normalizeDzPhone } from "@/lib/utils/phone";
@@ -34,7 +34,14 @@ function loadCustomer(): Partial<Customer> {
 export default function OrderLayer({ menu, lang, labels, closedNotice }: { menu: PublicMenu; lang: Lang; labels: MenuLabels; closedNotice: string | null }) {
   const r = menu.restaurant;
   const o = labels.order;
-  const items = React.useMemo(() => new Map<string, MenuItem>(menu.categories.flatMap((c) => c.items.map((i) => [i.id, i] as const))), [menu.categories]);
+  const items = React.useMemo(
+    () =>
+      new Map<string, MenuItem>([
+        ...menu.categories.flatMap((c) => c.items.map((i) => [i.id, i] as const)),
+        ...(menu.combos ?? []).map((c) => [c.id, comboAsItem(c)] as const),
+      ]),
+    [menu.categories, menu.combos],
+  );
   const [rawCart, setCart] = useCart(r.id);
   const cart = React.useMemo(() => validLines(rawCart, items), [rawCart, items]);
   const [step, setStep] = React.useState<Step>("closed");
