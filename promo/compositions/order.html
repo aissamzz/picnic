@@ -1,0 +1,76 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: #fff5ec; font-family: Nunito, sans-serif; overflow: hidden; }
+    #ord-slab { position: absolute; left: 120px; top: 720px; width: 840px; height: 1400px; border-radius: 72px; background: #e5245e; }
+    #ord-card { position: absolute; left: 168px; top: 378px; width: 744px; height: 948px; border: 12px solid #1c1433; border-radius: 64px; background: #1c1433; overflow: hidden; }
+    .shot { position: absolute; left: 0; top: 0; width: 720px; height: 924px; overflow: hidden; }
+    .shot img { position: absolute; left: 0; top: -618.5px; width: 720px; }
+    .cap { position: absolute; left: 60px; right: 60px; top: 170px; height: 190px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; text-align: center; font-weight: 900; font-size: 76px; line-height: 1.05; color: #1c1433; letter-spacing: -0.02em; }
+    .cap b { color: #e5245e; }
+    #ord-finger { position: absolute; left: 0; top: 0; width: 76px; height: 76px; border-radius: 50%; background: rgba(28, 20, 51, 0.32); border: 5px solid #fff; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); opacity: 0; }
+    #ord-dim { position: absolute; inset: 0; background: rgba(28, 20, 51, 0.6); opacity: 0; }
+    #ord-msg { position: absolute; left: 36px; right: 36px; bottom: 48px; padding: 30px 34px 26px; border-radius: 32px 32px 32px 8px; background: #e9fbe0; color: #1c1433; font-size: 30px; font-weight: 600; line-height: 1.38; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35); opacity: 0; }
+    #ord-msg strong { font-weight: 900; }
+    #ord-msg .muted { color: #5f5873; }
+    #ord-msg .gap { height: 14px; }
+  </style>
+  <div id="root" data-composition-id="order" data-width="1080" data-height="1920">
+    <div id="ord-slab" data-layout-ignore></div>
+    <div id="ord-card">
+      <div id="ord-list" class="shot clip" data-start="0" data-duration="0.65"><img id="ord-list-img" src="assets/screens/o1b-list.webp" alt="" /></div>
+      <div id="ord-sheet" class="shot clip" data-start="0.65" data-duration="0.8"><img src="assets/screens/o3-sheet-size.webp" alt="" /></div>
+      <div id="ord-bar" class="shot clip" data-start="1.45" data-duration="0.7"><img src="assets/screens/o5-cartbar2.webp" alt="" /></div>
+      <div id="ord-cart" class="shot clip" data-start="2.15" data-duration="0.7"><img src="assets/screens/o6-cart.webp" alt="" /></div>
+      <div id="ord-checkout" class="shot clip" data-start="2.85" data-duration="3.35"><img src="assets/screens/o7-checkout.webp" alt="" /></div>
+      <div id="ord-dim"></div>
+      <div id="ord-msg">
+        <div><strong>Nouvelle commande #JZP8CR</strong></div>
+        <div>Pizzeria Roma</div>
+        <div class="gap"></div>
+        <div>1 × Pizza 4 Saisons (Large) : 1 500 DA</div>
+        <div>1 × Pizza Margherita : 800 DA</div>
+        <div class="gap"></div>
+        <div><strong>Mode :</strong> À emporter</div>
+        <div><strong>Total : 2 300 DA</strong></div>
+        <div><strong>Client :</strong> Karim · 0661 00 00 01</div>
+        <div class="muted">Envoyé depuis Liinky</div>
+      </div>
+      <div id="ord-finger"></div>
+    </div>
+    <div id="ord-cap1" class="cap clip" data-start="0" data-duration="3.7"><div id="ord-cap1-t">Vos clients <b>commandent</b>…</div></div>
+    <div id="ord-cap2" class="cap clip" data-start="3.7" data-duration="2.5"><div id="ord-cap2-t">…sur votre <b>WhatsApp</b>.</div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ord-list-img", { y: 380, filter: "blur(10px)" }, { y: 0, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 0);
+    tl.fromTo("#ord-cap1-t", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.05);
+
+    // One finger, five taps; each screen changes on the frame after the press.
+    const press = (t) => {
+      tl.to("#ord-finger", { scale: 0.82, duration: 0.05, ease: "power2.in" }, t - 0.05);
+      tl.to("#ord-finger", { scale: 1, duration: 0.12, ease: "power2.out" }, t);
+    };
+    tl.fromTo("#ord-finger", { x: 560, y: 700, opacity: 0, scale: 1 }, { x: 322, y: 123, opacity: 1, duration: 0.4, ease: "power3.out" }, 0.12);
+    press(0.6); // Pizza 4 Saisons
+    tl.to("#ord-finger", { x: 446, y: 820, duration: 0.38, ease: "power3.inOut" }, 0.85);
+    press(1.4); // Ajouter · 1 500 DA
+    tl.to("#ord-finger", { x: 322, y: 820, duration: 0.3, ease: "power3.inOut" }, 1.65);
+    press(2.1); // Voir le panier
+    tl.to("#ord-finger", { y: 828, duration: 0.2, ease: "power2.inOut" }, 2.45);
+    press(2.8); // Commander
+    tl.to("#ord-finger", { x: 405, duration: 0.3, ease: "power3.inOut" }, 3.1);
+    press(3.6); // Envoyer sur WhatsApp
+    tl.to("#ord-finger", { opacity: 0, duration: 0.15, ease: "power1.in" }, 3.68);
+
+    ["#ord-sheet", "#ord-bar", "#ord-cart", "#ord-checkout"].forEach((id, i) => {
+      tl.fromTo(id + " img", { scale: 1.02 }, { scale: 1, duration: 0.18, ease: "power3.out" }, [0.65, 1.45, 2.15, 2.85][i]);
+    });
+
+    // The message the app writes lands on the restaurant's phone.
+    tl.to("#ord-cap1-t", { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in" }, 3.55);
+    tl.fromTo("#ord-dim", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" }, 3.65);
+    tl.fromTo("#ord-msg", { opacity: 0, y: 140, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "expo.out" }, 3.7);
+    tl.fromTo("#ord-cap2-t", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 3.72);
+    window.__timelines["order"] = tl;
+  </script>
+</template>

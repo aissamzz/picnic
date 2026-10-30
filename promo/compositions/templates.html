@@ -1,0 +1,39 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: #fff5ec; font-family: Nunito, sans-serif; overflow: hidden; }
+    #tpl-slab { position: absolute; left: 120px; top: 720px; width: 840px; height: 1400px; border-radius: 72px; background: #e5245e; }
+    #tpl-card { position: absolute; left: 168px; top: 378px; width: 744px; height: 948px; border: 12px solid #1c1433; border-radius: 64px; background: #1c1433; overflow: hidden; }
+    .shot { position: absolute; left: 0; top: 0; width: 720px; height: 924px; overflow: hidden; }
+    .shot img { position: absolute; left: 0; top: 0; width: 720px; }
+    .cap { position: absolute; left: 60px; right: 60px; top: 170px; height: 190px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; text-align: center; font-weight: 900; font-size: 76px; line-height: 1.05; color: #1c1433; letter-spacing: -0.02em; }
+    .cap b { color: #e5245e; }
+  </style>
+  <div id="root" data-composition-id="templates" data-width="1080" data-height="1920">
+    <div id="tpl-slab" data-layout-ignore></div>
+    <div id="tpl-card">
+      <div id="tpl-2" class="shot clip" data-start="0" data-duration="0.36"><img src="assets/screens/demo2.webp" alt="Café El Bahia" /></div>
+      <div id="tpl-3" class="shot clip" data-start="0.36" data-duration="0.36"><img src="assets/screens/demo3.webp" alt="Dar El Djeddi" /></div>
+      <div id="tpl-4" class="shot clip" data-start="0.72" data-duration="0.36"><img src="assets/screens/demo4.webp" alt="Maison Lumière" /></div>
+      <div id="tpl-5" class="shot clip" data-start="1.08" data-duration="0.36"><img src="assets/screens/demo5.webp" alt="Douceurs de Lalla" /></div>
+      <div id="tpl-6" class="shot clip" data-start="1.44" data-duration="0.36"><img src="assets/screens/demo6.webp" alt="Le Feu de Bois" /></div>
+      <div id="tpl-7" class="shot clip" data-start="1.8" data-duration="0.36"><img src="assets/screens/demo7.webp" alt="Fresh Bar" /></div>
+      <div id="tpl-8" class="shot clip" data-start="2.16" data-duration="0.36"><img src="assets/screens/demo8.webp" alt="La Sardine d'Or" /></div>
+      <div id="tpl-9" class="shot clip" data-start="2.52" data-duration="0.36"><img src="assets/screens/demo9.webp" alt="Grain Coffee" /></div>
+      <div id="tpl-1" class="shot clip" data-start="2.88" data-duration="0.72"><img id="tpl-1-img" src="assets/screens/demo1.webp" alt="Pizzeria Roma" /></div>
+    </div>
+    <div id="tpl-cap" class="cap clip" data-start="0" data-duration="3.6"><div id="tpl-cap-t"><b>9</b> modèles au choix.</div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Whip in from below, then a hard-cut montage of the real templates.
+    tl.fromTo("#tpl-2 img", { y: 420, filter: "blur(14px)" }, { y: 0, filter: "blur(0px)", duration: 0.28, ease: "expo.out" }, 0);
+    tl.fromTo("#tpl-cap-t", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.05);
+    ["#tpl-3", "#tpl-4", "#tpl-5", "#tpl-6", "#tpl-7", "#tpl-8", "#tpl-9", "#tpl-1"].forEach((id, i) => {
+      tl.fromTo(id + " img", { scale: 1.04 }, { scale: 1, duration: 0.2, ease: "power3.out" }, 0.36 * (i + 1));
+    });
+    // Pizzeria Roma scrolls down its menu into the ordering scene.
+    tl.to("#tpl-1-img", { y: -560, filter: "blur(10px)", duration: 0.3, ease: "power3.in" }, 3.3);
+    tl.to("#tpl-cap-t", { opacity: 0, filter: "blur(8px)", duration: 0.18, ease: "power2.in" }, 3.38);
+    window.__timelines["templates"] = tl;
+  </script>
+</template>

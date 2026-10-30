@@ -1,0 +1,32 @@
+<template>
+  <style>
+    @font-face { font-family: "Cairo"; src: url("assets/fonts/cairo.woff2") format("woff2"); font-weight: 200 1000; }
+    #root { position: absolute; inset: 0; background: #fff5ec; font-family: Nunito, sans-serif; overflow: hidden; }
+    #bil-slab { position: absolute; left: 120px; top: 720px; width: 840px; height: 1400px; border-radius: 72px; background: #e5245e; }
+    #bil-card { position: absolute; left: 168px; top: 378px; width: 744px; height: 948px; border: 12px solid #1c1433; border-radius: 64px; background: #1c1433; overflow: hidden; }
+    .shot { position: absolute; left: 0; top: 0; width: 720px; height: 924px; overflow: hidden; }
+    .shot img { position: absolute; left: 0; top: 0; width: 720px; }
+    .cap { position: absolute; left: 60px; right: 60px; top: 170px; height: 190px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; text-align: center; font-weight: 900; font-size: 76px; line-height: 1.05; color: #1c1433; letter-spacing: -0.02em; }
+    .cap b { color: #e5245e; }
+    .ar { font-family: Cairo, sans-serif; font-weight: 800; }
+  </style>
+  <div id="root" data-composition-id="bilingual" data-width="1080" data-height="1920">
+    <div id="bil-slab" data-layout-ignore></div>
+    <div id="bil-card">
+      <div id="bil-fr" class="shot"><img id="bil-fr-img" src="assets/screens/demo1.webp" alt="Menu en français" /></div>
+      <div id="bil-ar" class="shot"><img src="assets/screens/demo1-ar.webp" alt="Menu en arabe" /></div>
+    </div>
+    <div id="bil-cap" class="cap clip" data-start="0" data-duration="2.6">
+      <div><span id="bil-cap-fr">Français</span> <span id="bil-cap-ar"><b>·</b> <b class="ar">العربية</b></span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#bil-fr-img", { filter: "blur(10px)", scale: 1.04 }, { filter: "blur(0px)", scale: 1, duration: 0.2, ease: "power3.out" }, 0);
+    tl.fromTo("#bil-cap-fr", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.05);
+    tl.fromTo("#bil-cap-ar", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 1.1);
+    // Right-to-left wipe: the same menu in Arabic.
+    tl.fromTo("#bil-ar", { clipPath: "inset(0% 0% 0% 100%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "power2.inOut" }, 1.0);
+    window.__timelines["bilingual"] = tl;
+  </script>
+</template>

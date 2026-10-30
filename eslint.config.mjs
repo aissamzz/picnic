@@ -22,6 +22,7 @@ const eslintConfig = [
       ".local/**",
       "test-results/**",
       "playwright-report/**",
+      "promo/**",
     ],
   },
 ];

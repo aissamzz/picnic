@@ -1,0 +1,46 @@
+<template>
+  <style>
+    @font-face { font-family: "Cairo"; src: url("assets/fonts/cairo.woff2") format("woff2"); font-weight: 200 1000; }
+    #root { position: absolute; inset: 0; background: #fff5ec; font-family: Nunito, sans-serif; overflow: hidden; }
+    #imp-slab { position: absolute; left: 120px; top: 720px; width: 840px; height: 1400px; border-radius: 72px; background: #e5245e; }
+    #imp-card { position: absolute; left: 168px; top: 378px; width: 744px; height: 948px; border: 12px solid #1c1433; border-radius: 64px; background: #fff5ec; overflow: hidden; }
+    #imp-cam { position: absolute; inset: 0; }
+    .shot { position: absolute; left: 0; top: 0; width: 720px; height: 924px; overflow: hidden; }
+    .shot img { position: absolute; left: 0; width: 720px; }
+    .cap { position: absolute; left: 60px; right: 60px; top: 170px; height: 190px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; text-align: center; font-weight: 900; font-size: 76px; line-height: 1.05; color: #1c1433; letter-spacing: -0.02em; }
+    .cap b { color: #e5245e; }
+    .ar { font-family: Cairo, sans-serif; font-weight: 800; }
+    #imp-finger { position: absolute; left: 0; top: 0; width: 76px; height: 76px; border-radius: 50%; background: rgba(28, 20, 51, 0.32); border: 5px solid #fff; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); }
+  </style>
+  <div id="root" data-composition-id="import" data-width="1080" data-height="1920">
+    <div id="imp-slab" data-layout-ignore></div>
+    <div id="imp-card">
+      <div id="imp-cam">
+        <div id="imp-upload" class="shot clip" data-start="0" data-duration="1"><img src="assets/screens/a3-upload-photos.webp" alt="" style="top: -461.5px" /></div>
+        <div id="imp-reading" class="shot clip" data-start="1" data-duration="1"><img id="imp-reading-img" src="assets/screens/a4-reading.webp" alt="" style="top: -461.5px" /></div>
+        <div id="imp-review" class="shot clip" data-start="2" data-duration="2.2"><img id="imp-review-img" src="assets/screens/a5-review.webp" alt="" style="top: 0" /></div>
+      </div>
+      <div id="imp-finger"></div>
+    </div>
+    <div id="imp-cap1" class="cap clip" data-start="0" data-duration="2"><div id="imp-cap1-t">Une <b>photo</b> de la carte.</div></div>
+    <div id="imp-cap2" class="cap clip" data-start="2" data-duration="2.2">
+      <div id="imp-cap2-a">L'IA recopie tout,</div>
+      <div id="imp-cap2-b">en FR + <b class="ar">عربي</b></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#imp-cap1-t", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.05);
+    // Tap "Lire mon menu".
+    tl.fromTo("#imp-finger", { x: 560, y: 1000, opacity: 0, scale: 1 }, { x: 322, y: 831, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.35);
+    tl.to("#imp-finger", { scale: 0.82, duration: 0.06, ease: "power2.in" }, 0.9);
+    tl.to("#imp-finger", { scale: 1, duration: 0.12, ease: "power2.out" }, 0.96);
+    tl.to("#imp-finger", { opacity: 0, duration: 0.15, ease: "power1.in" }, 1.15);
+    tl.fromTo("#imp-reading-img", { scale: 1.02 }, { scale: 1, duration: 0.2, ease: "power3.out" }, 1);
+    // The AI's result arrives; punch in on the French + Arabic fields.
+    tl.fromTo("#imp-review-img", { scale: 1.03, filter: "blur(4px)" }, { scale: 1, filter: "blur(0px)", duration: 0.22, ease: "power3.out" }, 2);
+    tl.fromTo("#imp-cap2 > div", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, stagger: 0.12, ease: "power4.out" }, 2.02);
+    tl.fromTo("#imp-cam", { scale: 1, transformOrigin: "360px 560px" }, { scale: 1.32, duration: 0.55, ease: "power2.inOut" }, 2.55);
+    window.__timelines["import"] = tl;
+  </script>
+</template>

@@ -1,0 +1,49 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: #fff5ec; font-family: Nunito, sans-serif; overflow: hidden; }
+    #end-slab { position: absolute; left: 120px; top: 720px; width: 840px; height: 1400px; border-radius: 72px; background: #e5245e; }
+    #end-card { position: absolute; left: 168px; top: 378px; width: 744px; height: 948px; border: 12px solid #1c1433; border-radius: 64px; background: #1c1433; overflow: hidden; }
+    #end-card img { position: absolute; left: 0; top: 0; width: 720px; }
+    #end-logo { position: absolute; left: 270px; top: 470px; width: 540px; height: 194px; }
+    #end-logo img, #end-logo svg { position: absolute; inset: 0; width: 540px; height: 194px; }
+    #end-word { clip-path: inset(0% 100% 0% 24%); }
+    #end-title { position: absolute; left: 80px; right: 80px; top: 760px; text-align: center; font-weight: 900; font-size: 74px; line-height: 1.08; color: #1c1433; letter-spacing: -0.02em; }
+    #end-title b { color: #e5245e; }
+    #end-title span { display: inline-block; }
+    #end-cta { position: absolute; left: 0; right: 0; top: 1010px; display: flex; justify-content: center; }
+    #end-cta-pill { padding: 30px 60px; border-radius: 999px; background: #e5245e; color: #fff; font-weight: 900; font-size: 54px; box-shadow: 0 18px 40px rgba(229, 36, 94, 0.35); }
+    #end-sub { position: absolute; left: 0; right: 0; top: 1170px; text-align: center; font-weight: 700; font-size: 38px; color: #5f5873; }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1080" data-height="1920">
+    <div id="end-slab" data-layout-ignore></div>
+    <div id="end-card"><img src="assets/screens/demo1-ar.webp" alt="" /></div>
+    <div id="end-logo">
+      <img id="end-word" src="assets/brand/liinky-horizontal.svg" alt="Liinky" />
+      <svg viewBox="0 0 696 250" aria-hidden="true">
+        <g transform="translate(-19.20 3.40) scale(0.8)" fill="#E5245E">
+          <circle id="end-dot1" cx="88" cy="56" r="24" />
+          <circle id="end-dot2" cx="168" cy="56" r="24" />
+          <path id="end-cup" d="M66 118 A22 22 0 0 1 110 118 V160 A18 18 0 0 0 146 160 V118 A22 22 0 0 1 190 118 V160 A62 62 0 0 1 66 160 Z" />
+        </g>
+      </svg>
+    </div>
+    <div id="end-title"><span>Votre</span> <span>menu</span> <span><b>QR</b></span><br /><span>en</span> <span>5</span> <span>minutes.</span></div>
+    <div id="end-cta"><div id="end-cta-pill">Essai gratuit 14 jours</div></div>
+    <div id="end-sub">Sans carte bancaire</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // The phone leaves, the stage clears.
+    tl.fromTo("#end-card", { y: 0, opacity: 1 }, { y: 260, opacity: 0, duration: 0.32, ease: "power3.in" }, 0);
+    tl.fromTo("#end-slab", { y: 0 }, { y: 1300, duration: 0.45, ease: "power3.in" }, 0.05);
+    // The mark is built: the cup fills, then both dots drop in.
+    tl.fromTo("#end-cup", { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.4, ease: "power3.out" }, 0.5);
+    tl.fromTo("#end-dot1", { y: -260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "back.out(1.6)" }, 0.6);
+    tl.fromTo("#end-dot2", { y: -260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "back.out(1.6)" }, 0.68);
+    tl.fromTo("#end-word", { clipPath: "inset(0% 100% 0% 24%)" }, { clipPath: "inset(0% 0% 0% 24%)", duration: 0.45, ease: "power3.out" }, 1.0);
+    tl.fromTo("#end-title span", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.07, ease: "power4.out" }, 1.45);
+    tl.fromTo("#end-cta-pill", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.5)" }, 2.0);
+    tl.fromTo("#end-sub", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" }, 2.25);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>
